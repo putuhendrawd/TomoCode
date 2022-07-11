@@ -1,5 +1,5 @@
 '''
-Coding: PYTHON utf-8
+Coding: PYTHON UTF-8
 Created On: 2022-07-11 13:26:14
 Author: Putu Hendra Widyadharma
 === define function for tomocode repository
