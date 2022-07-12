@@ -16,26 +16,28 @@ pd.options.mode.chained_assignment = None
 #%%
 # =============================================================================
 # Filter Absolute based on
-# selected station, phase, total station report, rms value
+# selected station, phase, total station report, rms value, magnitude value
 # =============================================================================
 
-path = 'E:\\My Drive\\Tomography\\070722\\'
-fname = 'convert_indoburma-isc-ehb-1964-2020.txt'
+path = 'D:\\BMKG Putu\\Tomography\\120722\\'
+fname = 'phase_sul5.dat'
 staname = 'sta-usul-2-filter.txt'
 # baca data stasiun ==============================================
 
-stafile = pd.read_csv(path+staname, delim_whitespace = True,names = [i for i in range(12)])
-stafile.set_index(0, inplace = True)
+# stafile = pd.read_csv(path+staname, delim_whitespace = True,names = [i for i in range(12)])
+# stafile.set_index(0, inplace = True)
 
 # baca data =======================================================
 df= readabsolute(path+fname)
 
-# filter data =====================================================
-
-# filter rms 
+# filter data by rms / magnitude ==============================================
 dfhead = df[df[0] == '#']
-dfhead[13] = dfhead[13].apply(pd.to_numeric)
-dfhead = dfhead[abs(dfhead[13]) <= 3] #nonaktifkan untuk tidak menggunakan filter rms
+#rms filter
+# dfhead[13] = dfhead[13].apply(pd.to_numeric)
+# dfhead = dfhead[abs(dfhead[13]) <= 3] 
+#magnitude filter
+dfhead[10] = dfhead[10].apply(pd.to_numeric)
+dfhead = dfhead[abs(dfhead[10]) >= 4.5] 
 
 #header index
 idx = df[df[0] == '#'].index
@@ -64,12 +66,12 @@ for a in range (len(idx)):
     tempdf.drop(idx[a], inplace = True)
     
     #seleksi data berdasarkan stasiun
-    tempdf = tempdf[tempdf[0].isin(stafile.index)]
+    # tempdf = tempdf[tempdf[0].isin(stafile.index)]
     #clean hanya data fasa P dan S
-    temodf = tempdf[(tempdf[3] == 'P') | (tempdf[3] == 'S')]
+    tempdf = tempdf[(tempdf[3] == 'P') | (tempdf[3] == 'S')]
     
     #seleksi data berdasarkan jumlah laporan stasiun
-    if (len(tempdf.index) >= 5): #isi batas jumlah laporan
+    if (len(tempdf.index) >= 1): #isi batas jumlah laporan
         tempdf[2] = pd.to_numeric(df[2])
         tempdf[2] = tempdf[2].map(lambda x: '%2.1f' % x)
         tempdata = pd.concat([tempdata,tempdf])
@@ -83,7 +85,7 @@ df.sort_index(inplace = True)
 df.reset_index(inplace = True, drop = True)
 
 #output df
-df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_filter5sta.dat')
+df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_filtermagnitude45.dat')
 
 #%%
 # ==================================================================
