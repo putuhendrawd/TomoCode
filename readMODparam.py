@@ -2,8 +2,8 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-path = 'D:\\BMKG Putu\\Tomography\\LatestData\\' 
-filemod = path+'MOD-indoburma'
+path = 'E:\\My Drive\\Tomography\\120722\\res1-cek-sul-damp70-iter2-vellest-12072022-output\\' 
+filemod = path+'MOD'
 
 #auto column count ==================================================
 largest_column_count = 0
@@ -38,3 +38,5 @@ depth = dfmod.iloc[3,:]
 
 res = [lon,lat,depth,velo]
 
+dfres = pd.DataFrame(res)
+dfres.to_csv(path+"MODparam.txt",header=None)
