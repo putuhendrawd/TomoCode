@@ -14,8 +14,6 @@ from localfunction import *
 path = "E:\\My Drive\\Tomography\\130722\\Velest33-indoburma\\output\\"
 # input from mod
 df = pd.read_csv(path+"vp_extract.txt")
-
-#manual input 
 depth = df['depth'].to_list()
 vp = df.iloc[:,1:12].values.transpose().tolist()
 
@@ -52,6 +50,7 @@ custom_lines = [Line2D([0], [0], color='blue', linestyle='--', lw=1),
                 Line2D([0], [0], color='blue', lw=1)]
 ax.legend(custom_lines, ['Input Model', 'Interation', 'Updated Model'],prop={'size': 5})
 
+#image parameter
 ax.set_xlim([5.5,10.3])
 ax.set_ylim([-5,max(depth)])
 ax.xaxis.set_minor_locator(AutoMinorLocator())
