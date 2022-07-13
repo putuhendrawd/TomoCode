@@ -25,6 +25,7 @@ initial = initial[1::]
 initial = [float(i) for i in initial]
 fin.close()
 
+#initial dataframe to store result
 result = pd.DataFrame([],columns=["depth","init"])
 result["depth"] = depth
 result['init'] = initial
@@ -50,16 +51,14 @@ for i in range(len(readl)):
     
     if len(spl) == 12 and spl[0] == "nlay":
         start = 2
-        iter = 0
+        iter = 'updated'
     
     try:   
-        if (float(spl[1].split('.')[0]) in depth) and start == 2:
+        if (float(spl[1].split('.')[0]) in depth) and start == 'updated':
             if len(readl[i].split()) == 13:
                 result.loc[float(spl[1].split('.')[0]),iter] = spl[4]
-                # result.append([spl[1].split('.')[0],spl[4]])
             else: 
                 result.loc[float(spl[1].split('.')[0]),iter] = spl[3]
-                # result.append([spl[1].split('.')[0],spl[3]])
     except:
         continue
     
