@@ -1,3 +1,12 @@
+from email import header
+
+
+'''
+Coding: PYTHON UTF-8
+Created On: 2022-07-13 21:50:08
+Author: Putu Hendra Widyadharma
+=== reading MOD parameter lat,lon,depth,vp value
+'''
 import pandas as pd
 import numpy as np
 from pathlib import Path
