@@ -54,7 +54,7 @@ for i in range(len(readl)):
         iter = 'updated'
     
     try:   
-        if (float(spl[1].split('.')[0]) in depth) and start == 'updated':
+        if (float(spl[1].split('.')[0]) in depth) and start == 2:
             if len(readl[i].split()) == 13:
                 result.loc[float(spl[1].split('.')[0]),iter] = spl[4]
             else: 
