@@ -11,7 +11,7 @@ from matplotlib.ticker import MultipleLocator, FormatStrFormatter, AutoMinorLoca
 from matplotlib.lines import Line2D
 from localfunction import *
 
-path = "E:\\My Drive\\Tomography\\130722\\Velest33-indoburma\\output\\"
+path = "E:\\My Drive\\Tomography\\130722\\Velest33-sul5_filtermagnitude45\\"
 # input from mod
 df = pd.read_csv(path+"vp_extract.txt")
 depth = df['depth'].to_list()
@@ -51,7 +51,7 @@ custom_lines = [Line2D([0], [0], color='blue', linestyle='--', lw=1),
 ax.legend(custom_lines, ['Input Model', 'Interation', 'Updated Model'],prop={'size': 5})
 
 #image parameter
-ax.set_xlim([5.5,10.3])
+ax.set_xlim([6.7,10.3])
 ax.set_ylim([-5,max(depth)])
 ax.xaxis.set_minor_locator(AutoMinorLocator())
 ax.xaxis.set_tick_params(top=True, direction='in',which = 'both')
