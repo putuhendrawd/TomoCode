@@ -10,21 +10,6 @@ from localfunction import *
 path = "E:\\My Drive\\Tomography\\130722\\Velest33-sul5_filtermagnitude45\\"
 fname = "325VELEST_sulawesi_mag45_all_vthet300.OUT"
 
-# #input parameter
-# fin = open(path+'MODparam.txt')
-# readl = fin.readlines()
-# #depth
-# depth = readl[2].split(",")
-# depth = ' '.join(depth).split()
-# depth = depth[1::]
-# depth = [float(i) for i in depth]
-# #initial vp
-# initial = readl[3].split(",")
-# initial = ' '.join(initial).split()
-# initial = initial[1::]
-# initial = [float(i) for i in initial]
-# fin.close()
-
 depth = []
 initial = []
 
