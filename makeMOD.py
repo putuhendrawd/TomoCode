@@ -44,4 +44,4 @@ for x in range (len(df.index)-4):
     df = df.append(temp2series, ignore_index=True)
     temp2 = []
   
-df.to_csv('E:\\My Drive\\Tomography\\140722\\MOD_Sumatera_damp300', header = False, index = False, sep = '\t', float_format = '%.3f')
+df.to_csv('E:\\My Drive\\Tomography\\140722\\MOD_sulawesi_damp300', header = False, index = False, sep = '\t', float_format = '%.3f')
