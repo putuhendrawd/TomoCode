@@ -7,23 +7,44 @@ Author: Putu Hendra Widyadharma
 import pandas as pd
 from localfunction import *
 
-path = "E:\\My Drive\\Tomography\\130722\\Velest33-indoburma\\"
-fname = "VELEST_OUT.OUT"
+path = "E:\\My Drive\\Tomography\\130722\\Velest33-sul5_filtermagnitude45\\"
+fname = "325VELEST_sulawesi_mag45_all_vthet300.OUT"
 
-#input parameter
-fin = open(path+'inputreformat\\MODparam.txt')
+# #input parameter
+# fin = open(path+'MODparam.txt')
+# readl = fin.readlines()
+# #depth
+# depth = readl[2].split(",")
+# depth = ' '.join(depth).split()
+# depth = depth[1::]
+# depth = [float(i) for i in depth]
+# #initial vp
+# initial = readl[3].split(",")
+# initial = ' '.join(initial).split()
+# initial = initial[1::]
+# initial = [float(i) for i in initial]
+# fin.close()
+
+depth = []
+initial = []
+
+fin = open(path+'sulawesi2rev.mod')
+#skip row 1 and 2
 readl = fin.readlines()
-#depth
-depth = readl[2].split(",")
-depth = ' '.join(depth).split()
-depth = depth[1::]
-depth = [float(i) for i in depth]
-#initial vp
-initial = readl[3].split(",")
-initial = ' '.join(initial).split()
-initial = initial[1::]
-initial = [float(i) for i in initial]
+#read
+for i in range(len(readl)):
+    spl = readl[i].split()
+    try:
+        depth.append(spl[1])
+        initial.append(spl[0])
+    except:
+        continue
 fin.close()
+
+depth = depth[2::]
+initial = initial[2::]
+depth = [float(i) for i in depth]
+initial = [float(i) for i in initial]
 
 #initial dataframe to store result
 result = pd.DataFrame([],columns=["depth","init"])
@@ -63,4 +84,7 @@ for i in range(len(readl)):
         continue
     
 #export
-result.to_csv(path+'\\output\\vp_extract.txt',index="depth")
+result.to_csv(path+'vp_extract.txt',index="depth")
+#export transpose
+tresult = result.transpose()
+tresult.to_csv(path+'vp_extract_transpose.txt')
