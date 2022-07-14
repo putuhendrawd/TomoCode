@@ -8,8 +8,8 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-path = 'E:\\My Drive\\Tomography\\130722\\' 
-filemod = path+'MOD-indoburma'
+path = 'E:\\My Drive\\Tomography\\LatestData\\' 
+filemod = path+'MOD-sulawesi'
 
 #auto column count ==================================================
 largest_column_count = 0
