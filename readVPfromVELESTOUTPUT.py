@@ -7,13 +7,13 @@ Author: Putu Hendra Widyadharma
 import pandas as pd
 from localfunction import *
 
-path = "E:\\My Drive\\Tomography\\130722\\Velest33-sul5_filtermagnitude45\\"
-fname = "325VELEST_sulawesi_mag45_all_vthet300.OUT"
+path = "E:\\My Drive\\Tomography\\140722\\Velest33-indoburma-ehb\\"
+fname = "VELEST_OUT_e500_damp200.OUT"
 
 depth = []
 initial = []
 
-fin = open(path+'sulawesi2rev.mod')
+fin = open(path+'input.mod')
 #skip row 1 and 2
 readl = fin.readlines()
 #read

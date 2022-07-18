@@ -17,10 +17,10 @@ from pathlib import Path
 #maxlat = 3
 
 #### SET THE FOLDER FOR WRITING OUTPUT FILES ################
-outdir = 'E:\\My Drive\\Tomography\\130722\\Velest33-indoburma\\Input before reformat\\'
+outdir = 'E:\\My Drive\\Tomography\\180722\\Velest33-indoburma-2016TC004375\\inputreformat\\'
 
 #### SEARCH INPUT FILE FOR GIVEN FOLDER PATH ################
-sfiles = glob.glob(outdir+'*.dat')
+sfiles = [outdir+'convert_indoburma-isc-ehb-1964-2020_filter10sta_rms3.dat']
 
 #### READ EACH FILE #########################################
 for sfile in sfiles:
