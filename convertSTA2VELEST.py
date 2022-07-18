@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from localfunction import *
 from pathlib import Path
 
-path = "E:\\My Drive\\Tomography\\130722\\Velest33-indoburma\\Input before reformat\\"
+path = "E:\\My Drive\\Tomography\\140722\\Velest33-indoburma-ehb\\inputreformat\\"
 inname = "station-indoburma.dat"
 
 fin = open(path+inname) 
@@ -39,5 +39,5 @@ for z in range(len(baris)):
     if baris[z][0] != 'out':
         fout.write("{0: >4}{1: >8}{2: >10}{3: >6}{4: ^3}{5:0>3}{6: >6}{7: >7}{8: >4}\n".format(baris[z][0],baris[z][1],baris[z][2]\
             ,baris[z][3], "1",z+1,"0.00","0.00","1"))
-        fout.write("   ")
+fout.write("   ")
 fout.close()
