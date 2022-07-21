@@ -134,23 +134,22 @@ dfdata = df[df[0] != "#"]
 dfdata = dfdata[dfdata[4] != "#NA"]
 dfdata[7] = dfdata[7].astype(float)
 
-#statistic before cleaning
-print("==(data-calculated) (s) before cleaning")
-print("min : {} s ".format(dfdata[7].min()))
-print("max : {} s ".format(dfdata[7].max()))
-print("median : {} s ".format(dfdata[7].median()))
-print("std : {} s ".format(dfdata[7].std()))
-
 #param
 z = 6
 cleaned = dfdata[(dfdata[7] >= -z) & (dfdata[7] <= z)]
 
-#statistic after cleaning
-print("==(data-calculated) (s) after cleaning")
-print("==min : {} s ".format(cleaned[7].min()))
-print("==max : {} s ".format(cleaned[7].max()))
-print("==median : {} s ".format(cleaned[7].median()))
-print("==std : {} s ".format(cleaned[7].std()))
+#statistic output
+print("==(data-calculated) sebelum seleksi")
+print("min : {:.2f} s ".format(dfdata[7].min()))
+print("max : {:.2f} s ".format(dfdata[7].max()))
+print("median : {:.2f} s ".format(dfdata[7].median()))
+print("std : {:.2f} s ".format(dfdata[7].std()))
+print("\n")
+print("==(data-calculated) setelah seleksi")
+print("min : {:.2f} s ".format(cleaned[7].min()))
+print("max : {:.2f} s ".format(cleaned[7].max()))
+print("median : {:.2f} s ".format(cleaned[7].median()))
+print("std : {:.2f} s ".format(cleaned[7].std()))
 
 #apply
 cleaned = cleaned.iloc[:,0:4]
