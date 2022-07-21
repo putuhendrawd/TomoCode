@@ -16,14 +16,14 @@ pd.options.mode.chained_assignment = None
 
 import obspy
 from obspy.taup import TauPyModel
-model = TauPyModel(model='iasp91')
+mod = "ak135"
+model = TauPyModel(model=mod)
 
 
-path = 'E:\\My Drive\\Tomography\\190722\\TaupyRUN\\'
-outputpath = 'E:\\My Drive\\Tomography\\190722\\TaupyRUN\\'
-fname = 'phase-indoburma-3-fixed-plus-filter510-rms3.dat'
-staname = 'station-indoburma.dat'
-daerah = 'Indoburma510'
+path = 'D:\\BMKG Putu\\Tomography\\210722\\taupy-sulawesi\\'
+fname = 'phase-sulawesi.dat'
+staname = 'station-sulawesi.dat'
+daerah = 'Sulawesi'
 
 # =============================================================================
 # baca data dan cleaning
@@ -116,32 +116,35 @@ for i in df.index:
 del(i,originlat,originlon,temporigin,tempsta,x)
 
 #save data to csv
-df.to_csv(outputpath+"output_data_ak135.csv")
+df.to_csv(path+"output_data_{}.csv".format(mod))
 
 #make plot of diff time
 diffdf = df[df[0] != '#']
-diffdfhead = df[df[0] == '#']
+diffdf = diffdf[diffdf[4] != "#NA"]
 
 fig, ax = plt.subplots(dpi = 300)
 count, edges, bar = ax.hist(diffdf[7], bins = np.arange(-10, 10, 0.5), align = 'mid',edgecolor='black',facecolor ='grey')
-#ax.bar_label(bar)
 ax.set_xlabel('(data - calculated) arrival (s)')
 ax.set_ylabel('Number of Data')
-fig.savefig(outputpath+'Arrival difference {} _ ak135.jpg'.format(daerah),bbox_inches = 'tight')
+fig.savefig(path+'Arrival difference {} - ak135.jpg'.format(daerah,mod),bbox_inches = 'tight')
 
-#filter
-diffdf = diffdf[diffdf[7] <= 6]
-diffdf = diffdf[diffdf[7] >= -6]
+#filter start
+dfhead = df[df[0] == "#"]
+dfdata = df[df[0] != "#"]
+dfdata = dfdata[dfdata[4] != "#NA"]
+dfdata[7] = dfdata[7].astype(float)
 
-#filter result
-resultindex = diffdf.index
-dfoutput= readabsolute(path+fname)
-dfoutputdata = dfoutput[dfoutput[0] != '#']
-dfoutputheader = dfoutput[dfoutput[0] == '#']
-dfoutputdata = dfoutputdata[dfoutputdata.index.isin(resultindex)]
-result=pd.concat([dfoutputheader,dfoutputdata])
+#param
+z = 6
+cleaned = dfdata[dfdata[7] >= -z]
+cleaned = dfdata[dfdata[7] <= z]
+cleaned = cleaned.iloc[:,0:4]
+
+result = pd.concat([dfhead,cleaned])
 result.sort_index(inplace = True)
 result.reset_index(inplace = True, drop = True)
 
+# df2dat(result,evnum = 0,path = path,fname = 'filter_output_data_ak135.dat')
+
 #output result
-df2dat(result,evnum = 1,path = path,fname = 'output_filter_5s.dat')
+df2dat(result,evnum = 1,path = path,fname = 'output_data_{}_filter_{}s.dat'.format(mod,z))
