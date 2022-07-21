@@ -94,3 +94,9 @@ def dfaz2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat'):
             files.write(tempdata)
     files.close()  
     return print("Output finish: {} at {}".format(fname,path))
+
+def readeventphase(x):
+    df = readabsolute(x)
+    data = df[df[0] != "#"]
+    head = df[df[0] == "#"]
+    print("{} event \n{} fasa".format(len(head),len(data)))
