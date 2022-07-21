@@ -1,9 +1,15 @@
+'''
+Coding: PYTHON UTF-8
+Created On: 2022-07-13 21:50:08
+Author: Putu Hendra Widyadharma
+=== reading MOD parameter lat,lon,depth,vp value
+'''
 import pandas as pd
 import numpy as np
 from pathlib import Path
 
-path = 'D:\\BMKG Putu\\Tomography\\LatestData\\' 
-filemod = path+'MOD-indoburma'
+path = 'E:\\My Drive\\Tomography\\LatestData\\' 
+filemod = path+'MOD-sulawesi'
 
 #auto column count ==================================================
 largest_column_count = 0
@@ -38,3 +44,5 @@ depth = dfmod.iloc[3,:]
 
 res = [lon,lat,depth,velo]
 
+dfres = pd.DataFrame(res, index=['lon','lat','depth','vp'])
+dfres.to_csv(path+"MODparam.txt",header=None)
