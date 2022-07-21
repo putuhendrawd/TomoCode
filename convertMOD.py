@@ -7,7 +7,7 @@ import numpy as np
 from pathlib import Path
 
 n = 1 #grid yang dipotong || tidak bisa n = 0 / tidak dipotong
-path = 'D:\\BMKG Putu\\Tomography\\120722\\res3-cek-sul-damp200-iter4-vellinerak135-11072022-output\\' 
+path = 'D:\\BMKG Putu\\Tomography\\210722\\tes1-cek-indoburma-20072022-output\\' 
 filemod = path+'MOD' #deklarasi file MOD
 
 #convert model vp vs dwp dws? True: vpvsdwpdws False: vpvs
