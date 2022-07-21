@@ -145,4 +145,4 @@ result.sort_index(inplace = True)
 result.reset_index(inplace = True, drop = True)
 
 #output result
-df2dat(result,evnum = 1,path = path,fname = 'output_data_{}_difffilter_{}s.dat'.format(mod,z))
+df2dat(result,evnum = 1,path = path,fname = '{}_output_data_{}_difffilter_{}s.dat'.format(daerah,mod,z))
