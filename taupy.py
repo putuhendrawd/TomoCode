@@ -134,15 +134,30 @@ dfdata = df[df[0] != "#"]
 dfdata = dfdata[dfdata[4] != "#NA"]
 dfdata[7] = dfdata[7].astype(float)
 
+#statistic before cleaning
+print("==(data-calculated) (s) before cleaning")
+print("min : {} s ".format(dfdata[7].min()))
+print("max : {} s ".format(dfdata[7].max()))
+print("median : {} s ".format(dfdata[7].median()))
+print("std : {} s ".format(dfdata[7].std()))
+
 #param
 z = 6
-cleaned = dfdata[dfdata[7] >= -z]
-cleaned = dfdata[dfdata[7] <= z]
-cleaned = cleaned.iloc[:,0:4]
+cleaned = dfdata[(dfdata[7] >= -z) & (dfdata[7] <= z)]
 
+#statistic after cleaning
+print("==(data-calculated) (s) after cleaning")
+print("==min : {} s ".format(cleaned[7].min()))
+print("==max : {} s ".format(cleaned[7].max()))
+print("==median : {} s ".format(cleaned[7].median()))
+print("==std : {} s ".format(cleaned[7].std()))
+
+#apply
+cleaned = cleaned.iloc[:,0:4]
 result = pd.concat([dfhead,cleaned])
 result.sort_index(inplace = True)
 result.reset_index(inplace = True, drop = True)
 
 #output result
 df2dat(result,evnum = 1,path = path,fname = '{}_output_data_{}_difffilter_{}s.dat'.format(daerah,mod,z))
+
