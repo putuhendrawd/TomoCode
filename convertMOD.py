@@ -7,11 +7,11 @@ import numpy as np
 from pathlib import Path
 
 n = 1 #grid yang dipotong || tidak bisa n = 0 / tidak dipotong
-path = 'E:\\My Drive\\Tomography\\150722\\res1-real-damp200-iter2-velest-15072022-output\\' 
+path = 'E:\\My Drive\\Tomography\\190722\\tes1-cek-indoburma-26TC-19072022-output\\' 
 filemod = path+'MOD' #deklarasi file MOD
 
 #convert model vp vs dwp dws? True: vpvsdwpdws False: vpvs
-vdws = 1
+vdws = 0
 
 #auto column count ==================================================
 largest_column_count = 0

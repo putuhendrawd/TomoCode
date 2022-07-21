@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from localfunction import *
 from pathlib import Path
 
-path = "E:\\My Drive\\Tomography\\140722\\Velest33-indoburma-ehb\\inputreformat\\"
+path = "E:\\My Drive\\Tomography\\190722\\Velest33-indoburma-bandung\\inputreformat\\"
 inname = "station-indoburma.dat"
 
 fin = open(path+inname) 

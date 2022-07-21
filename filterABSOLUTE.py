@@ -19,9 +19,9 @@ pd.options.mode.chained_assignment = None
 # selected station, phase, total station report, rms value, magnitude value
 # =============================================================================
 
-path = 'D:\\BMKG Putu\\Tomography\\120722\\'
-fname = 'phase_sul5.dat'
-staname = 'sta-usul-2-filter.txt'
+path = 'E:\\My Drive\\Tomography\\190722\\TaupyRUN\\'
+fname = 'filter_output_data_ak135.dat'
+staname = 'station-indoburma.dat'
 # baca data stasiun ==============================================
 
 # stafile = pd.read_csv(path+staname, delim_whitespace = True,names = [i for i in range(12)])
@@ -36,8 +36,8 @@ dfhead = df[df[0] == '#']
 # dfhead[13] = dfhead[13].apply(pd.to_numeric)
 # dfhead = dfhead[abs(dfhead[13]) <= 3] 
 #magnitude filter
-dfhead[10] = dfhead[10].apply(pd.to_numeric)
-dfhead = dfhead[abs(dfhead[10]) >= 4.5] 
+# dfhead[10] = dfhead[10].apply(pd.to_numeric)
+# dfhead = dfhead[abs(dfhead[10]) >= 4.5] 
 
 #header index
 idx = df[df[0] == '#'].index
@@ -71,7 +71,7 @@ for a in range (len(idx)):
     tempdf = tempdf[(tempdf[3] == 'P') | (tempdf[3] == 'S')]
     
     #seleksi data berdasarkan jumlah laporan stasiun
-    if (len(tempdf.index) >= 1): #isi batas jumlah laporan
+    if (len(tempdf.index) >= 8): #isi batas jumlah laporan
         tempdf[2] = pd.to_numeric(df[2])
         tempdf[2] = tempdf[2].map(lambda x: '%2.1f' % x)
         tempdata = pd.concat([tempdata,tempdf])
@@ -85,7 +85,7 @@ df.sort_index(inplace = True)
 df.reset_index(inplace = True, drop = True)
 
 #output df
-df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_filtermagnitude45.dat')
+df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_filtertotalphase5.dat')
 
 #%%
 # ==================================================================

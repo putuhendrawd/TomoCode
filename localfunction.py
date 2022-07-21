@@ -53,8 +53,8 @@ def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat'):
             ,float(df.iloc[i][12]),float(df.iloc[i][13]),float(df.iloc[i][14]))
             files.write(tempheader)
         else:
-            tempdata = "\t{}\t{:.2f}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}{}\n".\
-            format(str(df.iloc[i][0]),(df.iloc[i][1]),float(df.iloc[i][2]),(df.iloc[i][3])\
+            tempdata = "\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}{}\n".\
+            format(str(df.iloc[i][0]),float(df.iloc[i][1]),float(df.iloc[i][2]),(df.iloc[i][3])\
             ,((df.iloc[i][4])),(df.iloc[i][5]),(df.iloc[i][6]),(df.iloc[i][7])\
             ,(df.iloc[i][8]),(df.iloc[i][9]),(df.iloc[i][10]),(df.iloc[i][11])\
             ,(df.iloc[i][12]),(df.iloc[i][13]),(df.iloc[i][14]))
@@ -89,7 +89,7 @@ def dfaz2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat'):
             files.write(tempheader)
         else:
             tempdata = "\t{}\t{:.2f}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".\
-            format(str(df.iloc[i][0]),(df.iloc[i][1]),float(df.iloc[i][2]),(df.iloc[i][3])\
+            format(str(df.iloc[i][0]),float(df.iloc[i][1]),float(df.iloc[i][2]),(df.iloc[i][3])\
             ,((df.iloc[i][4])),(df.iloc[i][5]),(df.iloc[i][6]),(df.iloc[i][7])\
             ,(df.iloc[i][8]),(df.iloc[i][9]),(df.iloc[i][10]),(df.iloc[i][11])\
             ,(df.iloc[i][12]),(df.iloc[i][13]),(df.iloc[i][14]),(df.iloc[i][15]))

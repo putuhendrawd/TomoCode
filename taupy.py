@@ -70,18 +70,6 @@ del(tempdf,tempdata,tempheader,a)
 idx = df[df[0] == '#'].index
 
 # =============================================================================
-# baca database stasiun inatews
-# =============================================================================
-# stafile = pd.read_csv(path+'sumatera_phase_data/stations_new_inatews.txt', sep ='\t',names = [0,1,2,3,4])
-# stafilenantrue = stafile[stafile[2].isnull() == true].index.to_list()
-# stafile.iloc[stafilenantrue,2::] = stafile.iloc[stafilenantrue,2::].shift(periods = -1, axis = 1)
-# stafile.drop(columns = 4, inplace = true)
-# stafile.set_index(1, inplace = true)
-# stafile = stafile[~stafile.index.duplicated(keep = 'first')]
-
-# del(stafilenantrue)
-
-# =============================================================================
 # baca database stasiun indoburma
 # =============================================================================
 stafile = pd.read_csv(path+staname, delim_whitespace = True,names = [0,1,2,3])
@@ -128,7 +116,7 @@ for i in df.index:
 del(i,originlat,originlon,temporigin,tempsta,x)
 
 #save data to csv
-df.to_csv(outputpath+"output_data_iasp91.csv")
+df.to_csv(outputpath+"output_data_ak135.csv")
 
 #make plot of diff time
 diffdf = df[df[0] != '#']
@@ -139,11 +127,11 @@ count, edges, bar = ax.hist(diffdf[7], bins = np.arange(-10, 10, 0.5), align = '
 #ax.bar_label(bar)
 ax.set_xlabel('(data - calculated) arrival (s)')
 ax.set_ylabel('Number of Data')
-fig.savefig(outputpath+'Arrival difference {}.jpg'.format(daerah),bbox_inches = 'tight')
+fig.savefig(outputpath+'Arrival difference {} _ ak135.jpg'.format(daerah),bbox_inches = 'tight')
 
 #filter
-diffdf = diffdf[diffdf[7] <= 5]
-diffdf = diffdf[diffdf[7] >= -5]
+diffdf = diffdf[diffdf[7] <= 6]
+diffdf = diffdf[diffdf[7] >= -6]
 
 #filter result
 resultindex = diffdf.index

@@ -11,9 +11,9 @@ from localfunction import *
 import math
 pd.options.mode.chained_assignment = None
 
-path = 'E:\\My Drive\\Tomography\\LatestData\\'
-outputpath = 'E:\\My Drive\\Tomography\\290622\\Distance Histogram\\'
-fname = 'phase-indoburma-3-fixed-plus-510sta.dat'
+path = 'E:\\My Drive\\Tomography\\190722\\TaupyRUN\\'
+outputpath = 'E:\\My Drive\\Tomography\\190722\\TaupyRUN\\'
+fname = 'phase-indoburma-3-fixed-plus-filter510-rms3.dat'
 staname = 'station-indoburma.dat'
 daerah = 'Indoburma510'
 
@@ -106,6 +106,7 @@ for i in df.index:
         else:
             tempsta = (stafile.loc[x,1],stafile.loc[x,2]) #<<<< set lat and lon position
             df.iloc[i,4] = gd.distance(temporigin,tempsta).km
+            df.iloc[i,5] = df.iloc[i,4] / 111
 
 del(i,originlat,originlon,temporigin,tempsta,x)
 

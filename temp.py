@@ -1,56 +1,35 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Mar 22 20:46:12 2022
-
-@author: UX425IA
-"""
-# =============================================================================
-# reformat data dari ISC ke bentuk data bacaan hypodd
-# =============================================================================
-from email import header
-import numpy as np
-import pandas as pd
-import datetime as dt
-import matplotlib.pyplot as plt
 from localfunction import *
+import pandas as pd
 
-# =============================================================================
-# reading and cleaning data
-# =============================================================================
-path = 'D:\\BMKG Putu\\Tomography\\290622\\indoburma-isc-ehb\\'
-fname = 'indoburma-isc-ehb-1964-2020.txt'
+path = "E:\\My Drive\\Tomography\\190722\\TaupyRUN\\"
+fname = "output_data_ak135.csv"
 
-data = pd.read_csv(path+fname, skiprows=[0], low_memory=False)
-#change name column num 25
-data.rename(columns = {'TYPE  ':'TYPE.MAG'}, inplace=True)
-#space remover columns
-data.columns = data.columns.str.replace(' ','')
-#replace empty data represented with whitespace data with nan
-data = data.replace(r'^\s*$', np.nan, regex=True)
+fin = open(path+fname)
+baris = fin.readlines()
 
-#space remover in object-type columns
-for i in data.columns:
-    if data[i].dtypes == object:
-        data[i] = data[i].str.strip()
-    else:
-        pass
+x = []
 
-#remove nan magnitude data
-data = data[data['MAG'].notna()]
+for i in range(len(baris)):
+    x.append(baris[i].split(","))
 
-#filter
-#data = data[abs(data['RES']) < 3.25 ]
+#delete 
+x = x[1::]
+[j.pop(0) for j in x]
 
-#plot histogram
-fig, ax = plt.subplots(dpi = 1200)
-ax.hist(data["RES"], bins = np.arange(-15.75,15.75, 0.5),align = 'mid', edgecolor='black',facecolor ='grey')
-ax.set_xlim([-6.5,6.5])
-ax.set_ylim([0,10000])
-ax.set_xlabel('RMS (s)')
-ax.set_xticks(np.arange(-8,9,1))
-ax.set_ylabel('Counts')
-# ax.set_title('RMS {} {}'.format(a,b),y=1.03)
-fig.savefig('RMS Histogram.jpg', bbox_inches = 'tight')
+df = pd.DataFrame(x)
+dfhead = df[df[0] == "#"]
+dfdata = df[df[0] != "#"]
 
-print("data length : {}".format(len(data)))
-print("total event : {}".format(len(data['EVENTID'].unique())))
+dfdata[7] = dfdata[7].astype(float)
+
+cleaned = dfdata[dfdata[7] >= -6]
+cleaned = dfdata[dfdata[7] <= 6]
+cleaned = cleaned.iloc[:,0:4]
+
+result = pd.concat([dfhead,cleaned])
+result.sort_index(inplace = True)
+result.reset_index(inplace = True, drop = True)
+
+# df2dat(result,evnum = 0,path = path,fname = 'filter_output_data_ak135.dat')
+
+a = readabsolute("E:\\My Drive\\Tomography\\190722\\TaupyRUN\\phase-indoburma-3-fixed-plus-filter510-rms3.dat")
