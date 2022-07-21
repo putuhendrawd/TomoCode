@@ -144,13 +144,13 @@ print("(data-sintetik) sebelum seleksi")
 print("min : {:.2f} s ".format(dfdata[7].min()))
 print("max : {:.2f} s ".format(dfdata[7].max()))
 print("med : {:.2f} s ".format(dfdata[7].median()))
-print("stdev : {:.2f} s ".format(dfdata[7].std()))
+print("stdev : {:.2f} ".format(dfdata[7].std()))
 print("\n")
 print("(data-sintetik) setelah seleksi")
 print("min : {:.2f} s ".format(cleaned[7].min()))
 print("max : {:.2f} s ".format(cleaned[7].max()))
 print("med : {:.2f} s ".format(cleaned[7].median()))
-print("stdev : {:.2f} s ".format(cleaned[7].std()))
+print("stdev : {:.2f} ".format(cleaned[7].std()))
 
 #apply
 cleaned = cleaned.iloc[:,0:4]
