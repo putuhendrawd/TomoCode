@@ -126,7 +126,7 @@ fig, ax = plt.subplots(dpi = 300)
 count, edges, bar = ax.hist(diffdf[7], bins = np.arange(-10, 10, 0.5), align = 'mid',edgecolor='black',facecolor ='grey')
 ax.set_xlabel('(data - calculated) arrival (s)')
 ax.set_ylabel('Number of Data')
-fig.savefig(path+'Arrival difference {} - ak135.jpg'.format(daerah,mod),bbox_inches = 'tight')
+fig.savefig(path+'Arrival difference {} - {}.jpg'.format(daerah,mod),bbox_inches = 'tight')
 
 #filter start
 dfhead = df[df[0] == "#"]
@@ -144,7 +144,5 @@ result = pd.concat([dfhead,cleaned])
 result.sort_index(inplace = True)
 result.reset_index(inplace = True, drop = True)
 
-# df2dat(result,evnum = 0,path = path,fname = 'filter_output_data_ak135.dat')
-
 #output result
-df2dat(result,evnum = 1,path = path,fname = 'output_data_{}_filter_{}s.dat'.format(mod,z))
+df2dat(result,evnum = 1,path = path,fname = 'output_data_{}_difffilter_{}s.dat'.format(mod,z))
