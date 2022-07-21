@@ -8,6 +8,7 @@ from HypoDD to Velest Format
 
 
 import glob
+from pathlib import Path
 
 ## RECTANGLE AREA
 #minlon = 100.
@@ -16,17 +17,17 @@ import glob
 #maxlat = 3
 
 #### SET THE FOLDER FOR WRITING OUTPUT FILES ################
-outdir = 'D:\\BMKG Putu\\Tomography\\120722\\'
+outdir = 'E:\\My Drive\\Tomography\\130722\\Velest33-indoburma\\Input before reformat\\'
 
 #### SEARCH INPUT FILE FOR GIVEN FOLDER PATH ################
-sfiles = glob.glob('D:\\BMKG Putu\\Tomography\\120722\\*.dat')
+sfiles = glob.glob(outdir+'*.dat')
 
 #### READ EACH FILE #########################################
 for sfile in sfiles:
     fin = open(sfile,'r')
 #    print('Read Data from File:',sfile)
     baris = fin.readlines()
-    outfile = outdir+'/{0:s}.cnv'.format(sfile.split('\\')[4].split('.')[0])
+    outfile = outdir+'/{0:s}.cnv'.format(Path(sfile).stem)
     fout = open(outfile,'w')
     for i in range(len(baris)):
         spl = baris[i].split()
