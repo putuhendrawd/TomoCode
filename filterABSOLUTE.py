@@ -19,9 +19,9 @@ pd.options.mode.chained_assignment = None
 # selected station, phase, total station report, rms value, magnitude value
 # =============================================================================
 
-path = 'E:\\My Drive\\Tomography\\190722\\TaupyRUN\\'
-fname = 'filter_output_data_ak135.dat'
-staname = 'station-indoburma.dat'
+path = "D:\\BMKG Putu\\Tomography\\210722\\taupy-sulawesi\\"
+fname = 'Sulawesi_output_data_ak135_difffilter_6s.dat'
+staname = 'station-sulawesi.dat'
 # baca data stasiun ==============================================
 
 # stafile = pd.read_csv(path+staname, delim_whitespace = True,names = [i for i in range(12)])
@@ -85,7 +85,9 @@ df.sort_index(inplace = True)
 df.reset_index(inplace = True, drop = True)
 
 #output df
-df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_filtertotalphase5.dat')
+df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_phase8.dat')
+print("== data filter")
+readeventphase(path+Path(fname).stem+'_phase8.dat')
 
 #%%
 # ==================================================================

@@ -116,7 +116,7 @@ for i in df.index:
 del(i,originlat,originlon,temporigin,tempsta,x)
 
 #save data to csv
-df.to_csv(path+"output_data_{}.csv".format(mod))
+df.to_csv(path+"{}_output_data_{}.csv".format(daerah,mod))
 
 #make plot of diff time
 diffdf = df[df[0] != '#']
@@ -124,8 +124,8 @@ diffdf = diffdf[diffdf[4] != "#NA"]
 
 fig, ax = plt.subplots(dpi = 300)
 count, edges, bar = ax.hist(diffdf[7], bins = np.arange(-10, 10, 0.5), align = 'mid',edgecolor='black',facecolor ='grey')
-ax.set_xlabel('(data - calculated) arrival (s)')
-ax.set_ylabel('Number of Data')
+ax.set_xlabel('(data - sintetik) arrival (s)')
+ax.set_ylabel('Number of Arrival Data')
 fig.savefig(path+'Arrival difference {} - {}.jpg'.format(daerah,mod),bbox_inches = 'tight')
 
 #filter start
@@ -139,13 +139,14 @@ z = 6
 cleaned = dfdata[(dfdata[7] >= -z) & (dfdata[7] <= z)]
 
 #statistic output
-print("==(data-calculated) sebelum seleksi")
+print("== statistik")
+print("(data-sintetik) sebelum seleksi")
 print("min : {:.2f} s ".format(dfdata[7].min()))
 print("max : {:.2f} s ".format(dfdata[7].max()))
 print("median : {:.2f} s ".format(dfdata[7].median()))
 print("std : {:.2f} s ".format(dfdata[7].std()))
 print("\n")
-print("==(data-calculated) setelah seleksi")
+print("(data-sintetik) setelah seleksi")
 print("min : {:.2f} s ".format(cleaned[7].min()))
 print("max : {:.2f} s ".format(cleaned[7].max()))
 print("median : {:.2f} s ".format(cleaned[7].median()))
@@ -160,3 +161,8 @@ result.reset_index(inplace = True, drop = True)
 #output result
 df2dat(result,evnum = 1,path = path,fname = '{}_output_data_{}_difffilter_{}s.dat'.format(daerah,mod,z))
 
+#output awal akhir
+print('== data awal')
+readeventphase(path+fname)
+print('== data seleksi |data-sintetik| < {}s'.format(z))
+readeventphase(path+'{}_output_data_{}_difffilter_{}s.dat'.format(daerah,mod,z))
