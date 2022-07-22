@@ -54,8 +54,7 @@ def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat'):
             files.write(tempheader)
         else:
             tempdata = "     {: <7}{: >7.2f}{: >6}{: >4} \n".\
-            format(str(df.iloc[i][0]),float(df.iloc[i][1]),float(df.iloc[i][2]),(df.iloc[i][3])\
-            )
+            format(str(df.iloc[i][0]),float(df.iloc[i][1]),float(df.iloc[i][2]),(df.iloc[i][3]))
             files.write(tempdata)
     files.close()  
     return print("Output finish: {} at {}".format(fname,path))
