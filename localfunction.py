@@ -27,7 +27,7 @@ def pass_datetime(text):
             pass
     raise ValueError('no valid date format found')
 
-def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat'):
+def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat',mode='w'):
     df = x
     
     #if evnum != 0 then remake event number by the evnum input as first event number
@@ -43,7 +43,7 @@ def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat'):
         pass
     
     idx = df[df[0] == '#']
-    files = open(path+'/'+fname, 'a', newline='\n')
+    files = open(path+'/'+fname, str(mode), newline='\n')
     for i in range(len(df.index)):
         if i in idx.index:
             tempheader = "{} {: >4.0f} {: >2.0f} {: >2.0f} {: >2.0f} {: >2.0f} {: >4.2f} {: >8.4f} {: >8.4f} {: >3.0f} {: >4.2f} {: >3.0f} {: >3.0f} {: >6.3f} {: >6.0f}\n".\
