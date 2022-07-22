@@ -19,8 +19,8 @@ pd.options.mode.chained_assignment = None
 # selected station, phase, total station report, rms value, magnitude value
 # =============================================================================
 
-path = "D:\\BMKG Putu\\Tomography\\210722\\taupy-sulawesi\\"
-fname = 'Sulawesi_output_data_ak135_difffilter_6s.dat'
+path = 'D:\\BMKG Putu\\Tomography\\210722\\taupy-indoburma\\'
+fname = 'Indoburma_output_data_ak135_difffilter_6s.dat'
 staname = 'station-sulawesi.dat'
 # baca data stasiun ==============================================
 
