@@ -46,7 +46,7 @@ def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat'):
     files = open(path+'/'+fname, 'a', newline='\n')
     for i in range(len(df.index)):
         if i in idx.index:
-            tempheader = "{}\t{:.0f}\t{:.0f}\t{:.0f}\t{:.0f}\t{:.0f}\t{:.2f}\t{:.4f}\t{:.4f}\t{:.1f}\t{:.1f}\t{:.1f}\t{:.1f}\t{:.1f}\t{:.0f}\n".\
+            tempheader = "{} {: >4.0f} {: >2.0f} {: >2.0f} {: >2.0f} {: >2.0f} {: >4.2f} {: >8.4f} {:: >8.4f} {: >3.0f} {: >4.2f} {: >3.0f} {: >3.0f} {: >6.3f} {: >6.0f}\n".\
             format(str(df.iloc[i][0]),float(df.iloc[i][1]),float(df.iloc[i][2]),float(df.iloc[i][3])\
             ,float((df.iloc[i][4])),float(df.iloc[i][5]),float(df.iloc[i][6]),float(df.iloc[i][7])\
             ,float(df.iloc[i][8]),float(df.iloc[i][9]),float(df.iloc[i][10]),float(df.iloc[i][11])\
