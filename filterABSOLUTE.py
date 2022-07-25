@@ -1,4 +1,3 @@
-#%%
 # -*- coding: utf-8 -*-
 """
 Created on Wed Mar 30 09:20:20 2022
@@ -13,14 +12,13 @@ from pathlib import Path
 from localfunction import *
 pd.options.mode.chained_assignment = None
 
-#%%
 # =============================================================================
 # Filter Absolute based on
 # selected station, phase, total station report, rms value, magnitude value
 # =============================================================================
 
-path = "D:\\BMKG Putu\\Tomography\\210722\\taupy-sulawesi\\"
-fname = 'Sulawesi_output_data_ak135_difffilter_6s.dat'
+path = 'D:\\BMKG Putu\\Tomography\\210722\\taupy-indoburma\\'
+fname = 'Indoburma_output_data_ak135_difffilter_6s.dat'
 staname = 'station-sulawesi.dat'
 # baca data stasiun ==============================================
 
@@ -89,7 +87,6 @@ df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_phase8.dat')
 print("== data filter")
 readeventphase(path+Path(fname).stem+'_phase8.dat')
 
-#%%
 # ==================================================================
 # Filter Absolute based on
 # Latitude and Longitude
@@ -102,7 +99,6 @@ df = readabsolute(path+fname)
 dfhead = df[df[0] == '#'] #take header
 dfhead[[7,8]] = dfhead[[7,8]].apply(pd.to_numeric) #make lat and lon to float64
 
-#%%
 #detail batas lat dan lon untuk seleksi
 latmin = 12
 latmax = 30
@@ -160,4 +156,3 @@ dfres.reset_index(inplace = True, drop = True)
 
 #output df
 df2dat(dfres,evnum = 1, path = path, fname=Path(fname).stem+'_filterlatlon.dat')
-#%%

@@ -20,10 +20,11 @@ mod = "ak135"
 model = TauPyModel(model=mod)
 
 
-path = 'D:\\BMKG Putu\\Tomography\\210722\\taupy-sulawesi\\'
-fname = 'phase-sulawesi.dat'
-staname = 'station-sulawesi.dat'
-daerah = 'Sulawesi'
+path = 'D:\\BMKG Putu\\Tomography\\210722\\taupy-indoburma\\'
+fname = 'phase-indoburma-3-fixed-plus-filter510-rms3.dat'
+staname = 'station-indoburma.dat'
+daerah = 'Indoburma'
+z = 6 # batas |data-sintetik| < z
 
 # =============================================================================
 # baca data dan cleaning
@@ -135,7 +136,6 @@ dfdata = dfdata[dfdata[4] != "#NA"]
 dfdata[7] = dfdata[7].astype(float)
 
 #param
-z = 6
 cleaned = dfdata[(dfdata[7] >= -z) & (dfdata[7] <= z)]
 
 #statistic output
