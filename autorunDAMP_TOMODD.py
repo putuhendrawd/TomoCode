@@ -8,15 +8,15 @@ import os
 import time
 
 path = os.getcwd()
-cmd = '/home/bagus/tomo/bootstrap-sulawesi/tomoSPDR/tomoDD-SE tomoDD-SE.inp'
-damp=[1,2,3,4,500,600,700,1000]
+cmd = './tomoDD-SE tomoDD-SE.inp'
+damp=[10,20,40,70,100,150,200,300,500]
  
 print("=== now on {} ".format(os.getcwd()))
 print("=== total iteration: {} \n=== damping value: {} ".format(len(damp),damp))
 print("=========================")
 for i in range(len(damp)):
     print("=== run iteration {} ".format(i+1))
-    if not os.path.exist(path+"/Output_Files"):
+    if not os.path.exists(path+"/Output_Files"):
         os.mkdir(path+"/Output_Files")
     f = open(path+"/tomoDD-SE.inp", "w+")
     f.write('''\
@@ -122,7 +122,7 @@ Input_Files/absolute.dat
 #    for x in filesx:
 #        open(path+"/Output_Files/"+x,"w+").close()
     os.system(cmd)
-    time.sleep(4)
+    time.sleep(2)
 
     #backup output files
     print("=== backup files start ")
