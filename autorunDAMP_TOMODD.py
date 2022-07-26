@@ -10,13 +10,14 @@ import time
 path = os.getcwd()
 cmd = '/home/bagus/tomo/bootstrap-sulawesi/tomoSPDR/tomoDD-SE tomoDD-SE.inp'
 damp=[1,2,3,4,500,600,700,1000]
-
+ 
 print("=== now on {} ".format(os.getcwd()))
 print("=== total iteration: {} \n=== damping value: {} ".format(len(damp),damp))
 print("=========================")
 for i in range(len(damp)):
     print("=== run iteration {} ".format(i+1))
-    os.mkdir(path+"/Output_Files")
+    if not os.path.exist(path+"/Output_Files"):
+        os.mkdir(path+"/Output_Files")
     f = open(path+"/tomoDD-SE.inp", "w+")
     f.write('''\
 * RELOC.INP:
