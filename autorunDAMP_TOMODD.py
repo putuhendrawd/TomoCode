@@ -9,7 +9,7 @@ import time
 
 path = os.getcwd()
 cmd = './tomoDD-SE tomoDD-SE.inp'
-damp=[10,20,40,70,100,150,200,300,500]
+damp=[150]
  
 print("=== now on {} ".format(os.getcwd()))
 print("=== total iteration: {} \n=== damping value: {} ".format(len(damp),damp))
@@ -110,7 +110,6 @@ Input_Files/absolute.dat
 * CID    
     0      
 * ID
-
 '''.format(damp[i]))
     f.close()
 
