@@ -5,7 +5,6 @@ Author: Putu Hendra Widyadharma
 === autorun for tomodd with damping edit 
 '''
 import os
-import shutil
 import time
 
 path = os.getcwd()
@@ -126,7 +125,7 @@ Input_Files/absolute.dat
 
     #backup output files
     print("=== backup files start ")
-    shutil.copy2('./fort.10','./Output_Files/fort.10_damp_{}'.format(damp[i]))
+    os.system("cp ./fort.10 ./Output_Files/fort.10_damp_{}".format(damp[i]))
     os.rename("Output_Files","Output_Files_damp_{}".format(damp[i]))
     print("output folder saved as Output_Files_damp_{}".format(damp[i]))
     print("=== backup finish ")
