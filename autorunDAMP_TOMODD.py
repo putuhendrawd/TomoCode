@@ -5,11 +5,12 @@ Author: Putu Hendra Widyadharma
 === autorun for tomodd with damping edit 
 '''
 import os
+import shutil
 import time
 
 path = os.getcwd()
 cmd = './tomoDD-SE tomoDD-SE.inp'
-damp=[150]
+damp=[10,20,40]
  
 print("=== now on {} ".format(os.getcwd()))
 print("=== total iteration: {} \n=== damping value: {} ".format(len(damp),damp))
@@ -119,12 +120,13 @@ Input_Files/absolute.dat
 #    filesx = ["tomoDD.vel","Vp_model.dat","Vs_model.dat","tomoDD.loc",\
 #        "tomoDD.reloc","tomoDD.sta","tomoDDres","tomoDD.src","tomoDD.log"]
 #    for x in filesx:
-#        open(path+"/Output_Files/"+x,"w+").close()
+#        open(path+"/Output_Files/"+x+"_"+str(i),"w+").close()
     os.system(cmd)
     time.sleep(2)
 
     #backup output files
     print("=== backup files start ")
+    shutil.copy2('./fort.10','./Output_Files/fort.10_damp_{}'.format(damp[i]))
     os.rename("Output_Files","Output_Files_damp_{}".format(damp[i]))
     print("output folder saved as Output_Files_damp_{}".format(damp[i]))
     print("=== backup finish ")
