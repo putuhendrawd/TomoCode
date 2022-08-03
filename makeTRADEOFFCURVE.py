@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 from numpy import float64, math
 from pyparsing import lineStart
 from localfunction import *
+from matplotlib.ticker import FormatStrFormatter
 
 #initializaion
 df = pd.DataFrame([],columns=['model_var','data_var','damp'])
@@ -23,11 +24,14 @@ for z in damp:
     #load data
     filevp = path+'Vp_model.dat'
     data = np.loadtxt(filevp)
+    data = data[:-92]
+    #data = data / 1000
     #calculate model variance
     modelvar = np.var(data, dtype=np.float64)
 
     #load fort.10 data
     f = open(path+'fort.10_damp_{}'.format(z),encoding='utf8',errors='ignore')
+    print('open damp {}'.format(z))
     file = f.readlines()
     for i in range(len(file)):
         file[i] = file[i].split()
@@ -39,9 +43,9 @@ for z in damp:
         if (len(file[-i])>3) and (file[-i][0] == 'Iteration') and (file[-i][2] == 'finished') and (mark == False):
             print('Iteration end: {}'.format(file[-i][1]))
             mark = True
-        if (len(file[-i])>3) and mark and (file[-i][0] == 'absolute') and (file[-i][1] =='variance'):
+        if (len(file[-i])>3) and mark and (file[-i][0] == 'weighted') and (file[-i][1] =='variance'):
             datavar = file[-i][4]
-            print('absolute variance: {}'.format(datavar))
+            print('weighted variance: {}'.format(datavar))
             print('model variance: {}'.format(modelvar))
             done = True
         if done:
@@ -52,14 +56,30 @@ for z in damp:
 
 df.sort_values(by='data_var',inplace=True)
 df.reset_index(inplace=True)
+
 #make graph
 fig,ax = plt.subplots()
-ax.plot(df['data_var'],df['model_var'],marker='o',linestyle='dashed')
+ax.plot(df['model_var'],df['data_var'],marker='o',linestyle='dashed')
 c=0
-for x,y in zip(df['data_var'],df['model_var']):
+for x,y in zip(df['model_var'],df['data_var']):
     ax.annotate(df['damp'][c],(x,y),textcoords="offset points",xytext=(0,10),ha='center')
     c=c+1
-ax.set_ylim(min(df['model_var'])-0.005,max(df['model_var'])+0.005)
-ax.set_ylabel('model variance')
-ax.set_xlabel('data variance')
-fig.savefig(parent+'output.png')
+#ax.set_ylim(min(df['model_var'])-0.005,max(df['model_var'])+0.005)
+ax.set_ylabel('data variance')
+ax.set_xlabel('model variance')
+fig.savefig(parent+'output.jpg',bbox_inches = 'tight')
+
+#make graph dual y
+# fig,ax = plt.subplots()
+# ax.plot(df['damp'],df['model_var'],marker='o',linestyle='dashed', color='black')
+# ax2=ax.twinx()
+# ax2.plot(df['damp'],df['data_var'],marker='o',linestyle='dashed', color = 'blue')
+# ax.set_ylim(1,1.06)
+# ax.set_ylabel('model variance')
+# ax.set_xlabel('damping')
+# ax.tick_params(axis='y', color='black', labelcolor='black')
+# ax2.set_ylabel('data variance',color='blue')
+# ax2.tick_params(axis='y', color='blue', labelcolor='blue')
+# ax2.yaxis.set_major_formatter(FormatStrFormatter('%.0f'))
+# ax2.set_ylim(350,650)
+# fig.savefig(parent+'output2.jpg',bbox_inches = 'tight')
