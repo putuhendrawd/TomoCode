@@ -15,11 +15,11 @@ from localfunction import *
 
 #initializaion
 df = pd.DataFrame([],columns=['model_var','data_var','damp'])
-damp = [10,20,40,100]
-
+damp = [10,80,100,200,300,500]
+parent = 'E:\\My Drive\\Tomography\\030822\\multidamp-02082022\\'
 #read 
 for z in damp:
-    path = 'D:\\BMKG Putu\\Tomography\\290722\\multidamp2-29072022\\Output_Files_damp_{}\\'.format(z)
+    path = parent+'\\Output_Files_damp_{}\\'.format(z)
     #load data
     filevp = path+'Vp_model.dat'
     data = np.loadtxt(filevp)
@@ -27,7 +27,7 @@ for z in damp:
     modelvar = np.var(data, dtype=np.float64)
 
     #load fort.10 data
-    f = open(path+'fort.10_damp_{}'.format(z))
+    f = open(path+'fort.10_damp_{}'.format(z),encoding='utf8',errors='ignore')
     file = f.readlines()
     for i in range(len(file)):
         file[i] = file[i].split()
@@ -62,3 +62,4 @@ for x,y in zip(df['data_var'],df['model_var']):
 ax.set_ylim(min(df['model_var'])-0.005,max(df['model_var'])+0.005)
 ax.set_ylabel('model variance')
 ax.set_xlabel('data variance')
+fig.savefig(parent+'output.png')
