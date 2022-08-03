@@ -32,13 +32,26 @@ from localfunction import readabsolute
 # lat = np.append([12,15,16.5],lat)
 # lat = np.append(lat, [29.5,31,34])
 
+# #plot palu / sulawesi
+gr = 0.6
+#set longitude
+lon = np.arange(118,128,gr)
+lon = lon - 0.3
+lon = np.append(116, lon)
+lon = np.append(lon, 129)
+#set latitude
+lat = np.arange(-7,4,gr)
+lat=lat-0.3
+lat = np.append(-9, lat)
+lat = np.append(lat, 5)
+
 #lat lon grid dari MOD
-lon = np.array([80,82,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,108,110])
-lat = np.array([1,6,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,35,40])
+# lon = np.array([116.00,118.00,118.50,119.00,119.50,120.00,120.50,121.00,121.50,122.00,122.50,123.00,123.50,124.00,124.50,125.00,125.50,126.00,126.50,127.00,129.00])
+# lat = np.array([-9.00,-7.00,-6.50,-6.00,-5.50,-5.00,-4.50,-4.00,-3.50,-3.00,-2.50,-2.00,-1.50,-1.00,-0.50,0.00,0.50,1.00,1.50,2.00,2.50,3.00,5.00])
 
 #plot data gempa
-df = readabsolute('E:\\My Drive\\Tomography\\290622\\event - indoburma-isc-ehb.dat')
-df = df[df[0] == '#']
+# df = readabsolute('E:\\My Drive\\Tomography\\290622\\event - indoburma-isc-ehb.dat')
+# df = df[df[0] == '#']
 
 #buat pasangan lat dan lon
 lats,lons = [],[]
@@ -48,15 +61,15 @@ for lt in lat:
     lons.append(ln)
 
 fig = pygmt.Figure()
-fig.coast(region = [min(lon)-10,max(lon)+10,min(lat)-10,max(lat)+10],
+fig.coast(region = [min(lon)-5,max(lon)+5,min(lat)-5,max(lat)+5],
           frame = ["WSNE", "a"], 
           shorelines = "0.5")
-fig.plot(x=lons,y=lats, style='+0.1') 
-fig.plot(x=df[8].to_list(),y=df[7].to_list(), style='p0.05', color='red')
+fig.plot(x=lons,y=lats, style='+0.1', pen='blue') 
+#fig.plot(x=df[8].to_list(),y=df[7].to_list(), style='p0.05', color='red')
 # fig.plot(x=[109.487,80.681,80.543,80.702,92.743,109.843,108.921], y = [30.272,6.089,8.397,7.273,11.656,19.029,34.039],style='t0.3', color='red')
 # fig.plot(x=87.3687,y=28.6056, style='c0.3', color = 'blue') 
-fig.savefig("output.png")
+fig.savefig("outputs.png")
 
 #save lat dan lon
-# np.savetxt('lon',lon,newline=',',fmt='%2.1f')
-# np.savetxt('lat',lat,newline=',',fmt='%2.1f')
+np.savetxt('lon',lon,newline=',',fmt='%2.1f')
+np.savetxt('lat',lat,newline=',',fmt='%2.1f')
