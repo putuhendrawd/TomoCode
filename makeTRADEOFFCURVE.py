@@ -16,11 +16,11 @@ from matplotlib.ticker import FormatStrFormatter
 
 #initializaion
 df = pd.DataFrame([],columns=['model_var','data_var','damp'])
-damp = [10,80,100,200,300,500]
-parent = 'E:\\My Drive\\Tomography\\030822\\multidamp-02082022\\'
+damp = [10,20,40,70,100,120,150,200,300,500]
+parent = 'D:\\BMKG Putu\\Tomography\\040822\\multidamp-03082022\\'
 #read 
 for z in damp:
-    path = parent+'\\Output_Files_damp_{}\\'.format(z)
+    path = parent+'Output_Files_damp_{}\\'.format(z)
     #load data
     filevp = path+'Vp_model.dat'
     data = np.loadtxt(filevp)
