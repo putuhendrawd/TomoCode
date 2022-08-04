@@ -24,7 +24,7 @@ for z in damp:
     #load data
     filevp = path+'Vp_model.dat'
     data = np.loadtxt(filevp)
-    data = data[:-92]
+    data = data[:-105]
     #data = data / 1000
     #calculate model variance
     modelvar = np.var(data, dtype=np.float64)
@@ -54,6 +54,7 @@ for z in damp:
             break
     df = pd.concat([df,pd.Series([modelvar,datavar,z],index=df.columns).to_frame().transpose()])
 
+df = df.astype('float64')
 df.sort_values(by='data_var',inplace=True)
 df.reset_index(inplace=True)
 
