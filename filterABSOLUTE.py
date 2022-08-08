@@ -17,13 +17,13 @@ pd.options.mode.chained_assignment = None
 # selected station, phase, total station report, rms value, magnitude value
 # =============================================================================
 
-path = 'D:\\BMKG Putu\\Tomography\\210722\\taupy-indoburma\\'
-fname = 'Indoburma_output_data_ak135_difffilter_6s.dat'
-staname = 'station-sulawesi.dat'
+path = 'D:\\Local\\tes1-07072022-4phasemin\\'
+fname = 'phase_sul5.dat'
+staname = 'station.dat'
 # baca data stasiun ==============================================
 
-# stafile = pd.read_csv(path+staname, delim_whitespace = True,names = [i for i in range(12)])
-# stafile.set_index(0, inplace = True)
+stafile = pd.read_csv(path+staname, delim_whitespace = True,names = [i for i in range(12)])
+stafile.set_index(0, inplace = True)
 
 # baca data =======================================================
 df= readabsolute(path+fname)
@@ -64,12 +64,12 @@ for a in range (len(idx)):
     tempdf.drop(idx[a], inplace = True)
     
     #seleksi data berdasarkan stasiun
-    # tempdf = tempdf[tempdf[0].isin(stafile.index)]
+    tempdf = tempdf[tempdf[0].isin(stafile.index)]
     #clean hanya data fasa P dan S
     tempdf = tempdf[(tempdf[3] == 'P') | (tempdf[3] == 'S')]
     
     #seleksi data berdasarkan jumlah laporan stasiun
-    if (len(tempdf.index) >= 8): #isi batas jumlah laporan
+    if (len(tempdf.index) >= 1): #isi batas jumlah laporan
         tempdf[2] = pd.to_numeric(df[2])
         tempdf[2] = tempdf[2].map(lambda x: '%2.1f' % x)
         tempdata = pd.concat([tempdata,tempdf])
@@ -83,9 +83,9 @@ df.sort_index(inplace = True)
 df.reset_index(inplace = True, drop = True)
 
 #output df
-df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_phase8.dat')
+df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_filterstation.dat')
 print("== data filter")
-readeventphase(path+Path(fname).stem+'_phase8.dat')
+readeventphase(path+Path(fname).stem+'_filterstation.dat')
 
 # ==================================================================
 # Filter Absolute based on
