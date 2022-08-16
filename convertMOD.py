@@ -6,9 +6,9 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-#folder path
+# folder path
 path = 'E:\\My Drive\\Tomography\\160822\\tes2-cek-isc-ehb-ak135-15082022-output\\' 
-#convert model vp vs dwp dws? True: vpvsdwpdws False: vpvs
+# 1: vpvsdwpdws 0: vpvs
 vdws = 0
 
 # =============================================================================
