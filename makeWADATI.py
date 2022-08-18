@@ -17,7 +17,7 @@ pd.options.mode.chained_assignment = None
 
 path = 'E:\\My Drive\\Tomography\\LatestData\\'
 outputpath = 'E:\\My Drive\\Tomography\\290622\\Wadati Plot\\'
-fname = 'phase-sulawesi.dat'
+fname = 'Phase\\phase-sumatera.dat'
 staname = 'station-sulawesi.dat'
 daerah = 'Sulawesi'
 
@@ -162,7 +162,7 @@ print('VP/VS = ' + str(slope + 1))
 # buat grafik wadati
 # =============================================================================
 plt.rcParams.update({'font.size': 14})
-fig, ax = plt.subplots(dpi=1200)
+fig, ax = plt.subplots(figsize = (5,5), dpi=1200)
 ax.scatter(wadati['tp'],wadati['ts-tp'])
 ax.set_xlabel('tp (s)')
 ax.set_ylabel('ts-tp (s)')
