@@ -7,7 +7,7 @@ import numpy as np
 from pathlib import Path
 
 # folder path
-path = 'E:\\My Drive\\Tomography\\160822\\tes2-cek-isc-ehb-ak135-15082022-output\\' 
+path = 'E:\\My Drive\\Tomography\\180822\\res-cek-sul-18072022-output\\' 
 # 1: vpvsdwpdws 0: vpvs
 vdws = 0
 
