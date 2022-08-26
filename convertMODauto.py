@@ -7,10 +7,11 @@ import numpy as np
 import os
 from pathlib import Path
 
+print("Running Converter")
 # folder path
 path = os.getcwd() + '\\'
 # 1: vpvsdwpdws 0: vpvs
-vdws = 0
+vdws = int(input("Select Mode [0:vpvs | 1:all] = "))
 
 # =============================================================================
 filemod = path+'MOD' #deklarasi file MOD
@@ -132,3 +133,5 @@ if vdws == 1:
         #simpan hasil dalam format csv
         filename = path+Path(filevp).stem +'_output.csv'
         df.to_csv (filename, index = False, header=True)
+
+print("Convert Finish")
