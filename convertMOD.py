@@ -6,12 +6,18 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-n = 1 #grid yang dipotong || tidak bisa n = 0 / tidak dipotong
-path = 'D:\\BMKG Putu\\Tomography\\150822\\tes1-indoburma-ak135-newMOD-15082022\\' 
-filemod = path+'MOD' #deklarasi file MOD
-
-#convert model vp vs dwp dws? True: vpvsdwpdws False: vpvs
+# folder path
+path = 'E:\\My Drive\\Tomography\\180822\\res-cek-sul-18072022-output\\' 
+# 1: vpvsdwpdws 0: vpvs
 vdws = 0
+
+# =============================================================================
+filemod = path+'MOD' #deklarasi file MOD
+n = 1 #grid yang dipotong || tidak bisa n = 0 / tidak dipotong
+
+# =============================================================================
+filemod = path+'MOD' #deklarasi file MOD
+n = 1 #grid yang dipotong || tidak bisa n = 0 / tidak dipotong
 
 #auto column count ==================================================
 largest_column_count = 0
