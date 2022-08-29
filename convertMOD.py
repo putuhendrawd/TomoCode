@@ -15,6 +15,10 @@ vdws = 0
 filemod = path+'MOD' #deklarasi file MOD
 n = 1 #grid yang dipotong || tidak bisa n = 0 / tidak dipotong
 
+# =============================================================================
+filemod = path+'MOD' #deklarasi file MOD
+n = 1 #grid yang dipotong || tidak bisa n = 0 / tidak dipotong
+
 #auto column count ==================================================
 largest_column_count = 0
 with open(filemod, 'r') as temp_f:
