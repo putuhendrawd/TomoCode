@@ -8,7 +8,6 @@ import os
 from pathlib import Path
 import sys
 
-print("Running Converter")
 # folder path
 path = os.getcwd() + '\\'
 # 1: vpvsdwpdws 0: vpvs
