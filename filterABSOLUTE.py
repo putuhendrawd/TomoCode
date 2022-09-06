@@ -17,7 +17,7 @@ pd.options.mode.chained_assignment = None
 # selected station, phase, total station report, rms value, magnitude value
 # =============================================================================
 
-path = 'D:\\Local\\tes1-07072022-4phasemin\\'
+path = 'E:\\My Drive\\Tomography\\050922\\tes1-07072022-4phasemin\\'
 fname = 'phase_sul5.dat'
 staname = 'station.dat'
 # baca data stasiun ==============================================

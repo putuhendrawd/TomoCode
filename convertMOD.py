@@ -7,9 +7,9 @@ import numpy as np
 from pathlib import Path
 
 # folder path
-path = 'E:\\My Drive\\Tomography\\180822\\res-cek-sul-18072022-output\\' 
+path = 'E:\\My Drive\\Tomography\\040922\\res1-sul-modak135-damp150-03092022\\' 
 # 1: vpvsdwpdws 0: vpvs
-vdws = 0
+vdws = 1
 
 # =============================================================================
 filemod = path+'MOD' #deklarasi file MOD
