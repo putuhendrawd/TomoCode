@@ -18,8 +18,8 @@ import statistics
 
 #initializaion
 df = pd.DataFrame([],columns=['model_var','data_var','damp'])
-damp = [10,20,40,70,100,120,150,200,300,500]
-parent = 'E:\\My Drive\\Tomography\\040822\\multidamp-03082022\\'
+damp = [10,20,40,70,90,100,120,150,200,300,400,500]
+parent = 'D:\\BMKG Putu\\Tomography\\070922\\vartes-sumatra-05092022\\'
 #read 
 with open(parent+'MOD') as modf:
     mod=modf.readline().split()
@@ -28,9 +28,10 @@ with open(parent+'MOD') as modf:
     lendepth=int(mod[3])
 
 for z in damp:
-    path = parent+'Output_Files_damp_{}\\'.format(z)
+    #path = parent+'Output_Files_damp_{}\\'.format(z)
+    path=parent
     #load data
-    filevp = path+'Vp_model.dat'
+    filevp = path+f'Vp_model-damp{z}.dat'
     datavp = np.loadtxt(filevp)
     varperlayer=[]
     for i in range(lendepth):
