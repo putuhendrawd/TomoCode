@@ -72,14 +72,17 @@ df = df.astype('float64')
 df.sort_values(by='model_var',inplace=True)
 df.reset_index(inplace=True)
 
+#select data
+df = df[df['damp'] > 20]
+
 #make graph
-fig,ax = plt.subplots()
-ax.plot(df['model_var'],df['data_var'],marker='o',linestyle='None')
+fig,ax = plt.subplots(dpi=300)
+ax.plot(df['model_var'],df['data_var'],marker='o',linestyle='--')
 c=0
 for x,y in zip(df['model_var'],df['data_var']):
-    ax.annotate(df['damp'][c],(x,y),textcoords="offset points",xytext=(0,10),ha='center')
+    ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(0,10),ha='center')
     c=c+1
-#ax.set_ylim(min(df['model_var'])-0.005,max(df['model_var'])+0.005)
-ax.set_ylabel('data variance')
-ax.set_xlabel('model variance')
-fig.savefig(parent+'outputnew2.jpg',bbox_inches = 'tight')
+ax.set_ylim(min(df['data_var'])-10,max(df['data_var'])+15)
+ax.set_ylabel('data variance [s$^2$]')
+ax.set_xlabel('model variance [(km/s)$^2$]')
+fig.savefig(parent+'TradeOffCurve--.jpg',bbox_inches = 'tight')
