@@ -19,8 +19,8 @@ import statistics
 #initializaion
 df = pd.DataFrame([],columns=['model_var','data_var','damp'])
 damp = [10,20,40,70,90,100,120,150,200,300,400,500]
-parent = 'D:\\BMKG Putu\\Tomography\\080922\\tesvar1-indoburma-08082022'
-varvariable = 'absolute' # 'absolute' or 'weighted'
+parent = 'D:\\BMKG Putu\\Tomography\\070922\\vartes-sumatra-05092022'
+varvariable = 'weighted' # 'absolute' or 'weighted'
 #read 
 with open(parent+'\\MOD') as modf:
     mod=modf.readline().split()
@@ -59,7 +59,7 @@ for z in damp:
             print('Iteration end: {}'.format(file[-i][1]))
             mark = True
         if (len(file[-i])>3) and mark and (file[-i][0] == varvariable) and (file[-i][1] =='variance'):
-            datavar = float(file[-i][4]) / 1000
+            datavar = float(file[-i][4]) 
             print(f'{varvariable} variance: {datavar}')
             print('model variance: {}'.format(modelvar))
             done = True
@@ -74,7 +74,8 @@ df.sort_values(by='model_var',inplace=True)
 df.reset_index(inplace=True)
 
 #select data
-df = df[df['damp'] > 70]
+df = df[(df['damp'] != 20)]
+df.reset_index(inplace=True)
 
 #make graph
 fig,ax = plt.subplots(dpi=300)
@@ -86,4 +87,4 @@ for x,y in zip(df['model_var'],df['data_var']):
 ax.set_ylim(min(df['data_var'])-0.1,max(df['data_var'])+0.1)
 ax.set_ylabel('data variance [s$^2$]')
 ax.set_xlabel('model variance [(km/s)$^2$]')
-fig.savefig(parent+'//TradeOffCurve--.jpg',bbox_inches = 'tight')
+fig.savefig(parent+'\\TradeOffCurve2--.jpg',bbox_inches = 'tight')
