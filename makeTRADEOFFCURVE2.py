@@ -19,9 +19,10 @@ import statistics
 #initializaion
 df = pd.DataFrame([],columns=['model_var','data_var','damp'])
 damp = [10,20,40,70,90,100,120,150,200,300,400,500]
-parent = 'D:\\BMKG Putu\\Tomography\\070922\\vartes-sumatra-05092022\\'
+parent = 'D:\\BMKG Putu\\Tomography\\080922\\tesvar1-indoburma-08082022'
+varvariable = 'absolute' # 'absolute' or 'weighted'
 #read 
-with open(parent+'MOD') as modf:
+with open(parent+'\\MOD') as modf:
     mod=modf.readline().split()
     lenlon=int(mod[1])
     lenlat=int(mod[2])
@@ -31,7 +32,7 @@ for z in damp:
     #path = parent+'Output_Files_damp_{}\\'.format(z)
     path=parent
     #load data
-    filevp = path+f'Vp_model-damp{z}.dat'
+    filevp = path+f'\\Vp_model-damp{z}.dat'
     datavp = np.loadtxt(filevp)
     varperlayer=[]
     for i in range(lendepth):
@@ -44,7 +45,7 @@ for z in damp:
     modelvar = statistics.mean(varperlayer)
     
     #load fort.10 data
-    f = open(path+'fort.10_damp_{}'.format(z),encoding='utf8',errors='ignore')
+    f = open(path+'\\fort.10_damp_{}'.format(z),encoding='utf8',errors='ignore')
     print('open damp {}'.format(z))
     file = f.readlines()
     for i in range(len(file)):
@@ -57,9 +58,9 @@ for z in damp:
         if (len(file[-i])>3) and (file[-i][0] == 'Iteration') and (file[-i][2] == 'finished') and (mark == False):
             print('Iteration end: {}'.format(file[-i][1]))
             mark = True
-        if (len(file[-i])>3) and mark and (file[-i][0] == 'weighted') and (file[-i][1] =='variance'):
-            datavar = file[-i][4]
-            print('weighted variance: {}'.format(datavar))
+        if (len(file[-i])>3) and mark and (file[-i][0] == varvariable) and (file[-i][1] =='variance'):
+            datavar = float(file[-i][4]) / 1000
+            print(f'{varvariable} variance: {datavar}')
             print('model variance: {}'.format(modelvar))
             done = True
         if done:
@@ -73,16 +74,16 @@ df.sort_values(by='model_var',inplace=True)
 df.reset_index(inplace=True)
 
 #select data
-#df = df[df['damp'] > 20]
+df = df[df['damp'] > 70]
 
 #make graph
 fig,ax = plt.subplots(dpi=300)
-ax.plot(df['model_var'],df['data_var'],marker='o',linestyle='-')
+ax.plot(df['model_var'],df['data_var'],marker='o',linestyle='--')
 c=0
 for x,y in zip(df['model_var'],df['data_var']):
     ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(0,10),ha='center')
     c=c+1
-ax.set_ylim(min(df['data_var'])-0.2,max(df['data_var'])+0.2)
+ax.set_ylim(min(df['data_var'])-0.1,max(df['data_var'])+0.1)
 ax.set_ylabel('data variance [s$^2$]')
 ax.set_xlabel('model variance [(km/s)$^2$]')
-fig.savefig(parent+'TradeOffCurve-.jpg',bbox_inches = 'tight')
+fig.savefig(parent+'//TradeOffCurve--.jpg',bbox_inches = 'tight')
