@@ -18,8 +18,8 @@ import statistics
 
 #initializaion
 df = pd.DataFrame([],columns=['model_var','data_var','damp'])
-damp = [10,20,40,70,90,100,120,150,200,300,400,500]
-parent = 'D:\\BMKG Putu\\Tomography\\070922\\vartes-sumatra-05092022'
+damp = [10,20,40,90,100,120,150,200,300,400,500]
+parent = 'E:\\My Drive\\Tomography\\090922\\vartes-sum-09092022'
 varvariable = 'weighted' # 'absolute' or 'weighted'
 #read 
 with open(parent+'\\MOD') as modf:
@@ -79,12 +79,21 @@ df.reset_index(inplace=True)
 
 #make graph
 fig,ax = plt.subplots(dpi=300)
-ax.plot(df['model_var'],df['data_var'],marker='o',linestyle='--')
+ax.plot(df['model_var'],df['data_var'],marker='o',linestyle='-')
 c=0
 for x,y in zip(df['model_var'],df['data_var']):
-    ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(0,10),ha='center')
+    if c==9:
+        ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(10,-3),ha='center')
+    elif c==7:
+        ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(10,3),ha='center')
+    elif c==8:
+        ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(5,5),ha='center')
+    else:
+        ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(10,5),ha='center')
     c=c+1
-ax.set_ylim(min(df['data_var'])-0.1,max(df['data_var'])+0.1)
+
+ax.set_xlim(min(df['model_var'])-0.003,max(df['model_var'])+0.003)   
+ax.set_ylim(min(df['data_var'])-0.3,max(df['data_var'])+0.3)
 ax.set_ylabel('data variance [s$^2$]')
 ax.set_xlabel('model variance [(km/s)$^2$]')
-fig.savefig(parent+'\\TradeOffCurve2--.jpg',bbox_inches = 'tight')
+fig.savefig(parent+'\\TradeOffCurve2-.jpg',bbox_inches = 'tight')
