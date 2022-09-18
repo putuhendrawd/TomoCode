@@ -111,7 +111,7 @@ for z in dfp.columns:
         pass
     else:
         dfvs[z] = dfp[z] / dfs[z]
-dfvs.to_csv(path+'VpperVs_model_output', index = False, header=True, na_rep='NaN')
+dfvs.to_csv(path+'VpperVs_model_output.csv', index = False, header=True, na_rep='NaN')
 #=================================================================================================
 if vdws == 1:
     for x in ['P','S']:
