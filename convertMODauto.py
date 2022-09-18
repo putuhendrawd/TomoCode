@@ -94,6 +94,10 @@ for x in ['p','s']:
 
     #simpan hasil dalam format csv
     filename = path+Path(filevp).stem +'_output.csv'
+    if x == 'p':
+        dfp = df
+    else:
+        dfs = df
     df.to_csv (filename, index = False, header=True)
 
 #=================================================================================================

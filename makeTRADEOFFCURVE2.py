@@ -18,8 +18,8 @@ import statistics
 
 #initializaion
 df = pd.DataFrame([],columns=['model_var','data_var','damp'])
-damp = [10,20,40,90,100,120,150,200,300,400,500]
-parent = 'E:\\My Drive\\Tomography\\090922\\vartes-sum-09092022'
+damp = [10,20,40,50,90,100,120,150,200,300,400,500]
+parent = 'E:\\My Drive\\Tomography\\120922\\vartes-sum-09092022'
 varvariable = 'weighted' # 'absolute' or 'weighted'
 #read 
 with open(parent+'\\MOD') as modf:
@@ -82,12 +82,12 @@ fig,ax = plt.subplots(dpi=300)
 ax.plot(df['model_var'],df['data_var'],marker='o',linestyle='-')
 c=0
 for x,y in zip(df['model_var'],df['data_var']):
-    if c==9:
-        ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(10,-3),ha='center')
-    elif c==7:
-        ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(10,3),ha='center')
-    elif c==8:
-        ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(5,5),ha='center')
+    if c==7:
+        ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(10,2),ha='center')
+    elif c==10:
+        ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(10,-2),ha='center')
+    elif c==9:
+       ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(6,5),ha='center')
     else:
         ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(10,5),ha='center')
     c=c+1

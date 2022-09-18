@@ -7,9 +7,9 @@ import numpy as np
 from pathlib import Path
 
 # folder path
-path = 'E:\\My Drive\\Tomography\\040922\\res1-sul-modak135-damp150-03092022\\' 
+path = 'E:\\My Drive\\Tomography\\180922\\tes1-real-indbrm-17092022-output\\' 
 # 1: vpvsdwpdws 0: vpvs
-vdws = 1
+vdws = 0
 
 # =============================================================================
 filemod = path+'MOD' #deklarasi file MOD
@@ -93,10 +93,25 @@ for x in ['p','s']:
     df.insert(0,'Lat', lats) #menyisipkan lats pada kolom pertama
     df.insert(1,'Lon', lons)
 
+    #save for vp/vp
+    if x == 'p':
+        dfp = df
+    else:
+        dfs = df
     #simpan hasil dalam format csv
     filename = path+Path(filevp).stem +'_output.csv'
     df.to_csv (filename, index = False, header=True)
 
+#make vp/vs output
+dfvs = pd.DataFrame([],columns=dfp.columns)
+dfvs['Lat'] = lats
+dfvs['Lon'] = lons
+for z in dfp.columns:
+    if z == 'Lat' or z == 'Lon':
+        pass
+    else:
+        dfvs[z] = dfp[z] / dfs[z]
+dfvs.to_csv(path+'VpperVs_model_output', index = False, header=True, na_rep='NaN')
 #=================================================================================================
 if vdws == 1:
     for x in ['P','S']:
