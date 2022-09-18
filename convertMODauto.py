@@ -100,6 +100,15 @@ for x in ['p','s']:
         dfs = df
     df.to_csv (filename, index = False, header=True)
 
+dfvs = pd.DataFrame([],columns=dfp.columns)
+dfvs['Lat'] = lats
+dfvs['Lon'] = lons
+for z in dfp.columns:
+    if z == 'Lat' or z == 'Lon':
+        pass
+    else:
+        dfvs[z] = dfp[z] / dfs[z]
+dfvs.to_csv(path+'VpperVs_model_output', index = False, header=True, na_rep='NaN')
 #=================================================================================================
 if vdws == 1:
     for x in ['P','S']:
