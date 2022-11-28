@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 from localfunction import *
 from pathlib import Path
 
-path = "E:\\My Drive\\Tomography\\050922\\tes1-07072022-4phasemin\\"
-inname = "station.dat"
+path = "D:\\BMKG Putu\\Tomography\\190922\\Velest33-sumatera\\inputreformat\\"
+inname = "station-sumatera.dat"
 
 fin = open(path+inname) 
 baris = fin.readlines()
@@ -35,9 +35,11 @@ for i in range(len(baris)):
 #output
 fout = open(path+'output_'+Path(inname).stem+'.sta', 'w')
 fout.write("(a4,f7.4,a1,1x,f8.4,a1,1x,i5,1x,i1,1x,i3,1x,f5.2,2x,f5.2)\n")
+x=1
 for z in range(len(baris)):
     if baris[z][0] != 'out':
-        fout.write("{0: >4}{1: >8}{2: >10}{3: >6}{4: ^3}{5:0>3}{6: >6}{7: >7}{8: >4}\n".format(baris[z][0],baris[z][1],baris[z][2]\
-            ,baris[z][3], "1",z+1,"0.00","0.00","1"))
+        fout.write("{0: >4}{1: >8}{2: >10}{3: >6}{4: ^3}{5: >3}{6: >6}{7: >7}{8: >4}\n".format(baris[z][0],baris[z][1],baris[z][2]\
+            ,baris[z][3], "1",x,"0.00","0.00","1"))
+        x=x+1
 fout.write("   ")
 fout.close()
