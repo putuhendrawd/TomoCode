@@ -16,10 +16,10 @@ from localfunction import *
 pd.options.mode.chained_assignment = None
 
 path = 'E:\\My Drive\\Tomography\\LatestData\\'
-outputpath = 'E:\\My Drive\\Tomography\\290622\\Wadati Plot\\'
-fname = 'Phase\\phase-sumatera.dat'
-staname = 'station-sulawesi.dat'
-daerah = 'Sulawesi'
+outputpath = 'E:\\My Drive\\Tomography\\Shared Hasil\\Indoburma\\hasil\\'
+fname = 'Phase\\phase-indoburma-3-fixed-plus-510sta.dat'
+staname = 'Phase\\station-indoburma.dat'
+daerah = 'Indoburma'
 
 # =============================================================================
 # baca data dan cleaning
@@ -167,12 +167,14 @@ ax.scatter(wadati['tp'],wadati['ts-tp'])
 ax.set_xlabel('tp (s)')
 ax.set_ylabel('ts-tp (s)')
 #ax.set_title('Wadati Diagram')
-ax.set_xlim([-2,130])
-ax.set_ylim([-2,130])
+ax.set_xlim([-2,400])
+ax.set_ylim([-2,350])
 ax.plot(wadati['tp'],slope*wadati['tp']+intercept,'r--')
-ax.text(80, 40, 'y = {:.4f}x{:+.4f}'.format(slope,intercept), fontsize=14)
-ax.text(80, 25, 'Vp/Vs = {:.4f}'.format(slope+1), fontsize=14)
+ax.text(250, 130, 'y = {:.4f}x{:+.4f}'.format(slope,intercept), fontsize=14)
+ax.text(250, 105, 'Vp/Vs = {:.4f}'.format(slope+1), fontsize=14)
 fig.set_figheight(5)
 fig.set_figwidth(10)
 fig.savefig(outputpath+'Wadati Diagram {}.jpg'.format(daerah))
 
+
+# %%

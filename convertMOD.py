@@ -7,9 +7,9 @@ import numpy as np
 from pathlib import Path
 
 # folder path
-path = 'E:\\My Drive\\Tomography\\180922\\tes1-real-indbrm-17092022-output\\' 
+path = 'D:\\Local\\TomoPlot\\sumatera3 - Copy\\input\\tes1-real-sum-26092022\\' 
 # 1: vpvsdwpdws 0: vpvs
-vdws = 0
+vdws = 1
 
 # =============================================================================
 filemod = path+'MOD' #deklarasi file MOD

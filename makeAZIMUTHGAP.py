@@ -1,3 +1,5 @@
+#%%
+
 import numpy as np
 import pandas as pd
 import geopy.distance as gd
@@ -41,10 +43,10 @@ def kuadran4(x4,y4):
 # path and filename 
 # =============================================================================
 path = 'E:\\My Drive\\Tomography\\LatestData\\'
-outputpath = 'E:\\My Drive\\Tomography\\290622\\Azimuth Gap Histogram\\'
-fname = 'phase-indoburma-3-fixed-plus-510sta.dat'
-staname = 'station-indoburma.dat'
-daerah = 'Indoburma510'
+outputpath = 'E:\\My Drive\\Tomography\\Shared Hasil\\Indoburma\\hasil\\'
+fname = 'Phase\\phase-indoburma-3-fixed-plus-510sta.dat'
+staname = 'Phase\\station-indoburma.dat'
+daerah = 'Indoburma'
 
 # =============================================================================
 # baca data absolute
@@ -166,11 +168,12 @@ del(a,i,azgapmax,tempindex)
 x = tempheader[15].to_list()
 import matplotlib.ticker as ticker
 from matplotlib.ticker import PercentFormatter
-fig, ax = plt.subplots(dpi=1200)
+fig, ax = plt.subplots(figsize=(8,4), dpi=1200)
 ax.hist(x, bins = np.arange(15, 375, 30), align = 'mid',edgecolor='black',facecolor ='grey')
 ax.set_xlim([-15,375])
 ax.set_xlabel('Azimuthal Gap (deg)')
 ax.set_ylabel('Number of Rays ')
 # ax.yaxis.set_major_formatter(PercentFormatter(1,symbol = None))
 ax.xaxis.set_major_locator(ticker.MultipleLocator(30))
-fig.savefig(outputpath+'Azimuthal Gap Histogram {}.jpg'.format(daerah))
+fig.savefig(outputpath+'Azimuthal Gap Histogram {}.jpg'.format(daerah),bbox_inches="tight")
+# %%
