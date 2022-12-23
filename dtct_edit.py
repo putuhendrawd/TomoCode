@@ -18,3 +18,9 @@ df1_head.columns= ["TAG", "C1", "C2"]
 df2 = pd.read_csv(files[1], delim_whitespace=True, header = 0)
 df2.drop("OFFS", axis=1, inplace=True)
 df2.columns = ["STA", "DT", "C1", "C2", "IDX", "QUAL", "RES[ms]", "WT", "OFFS"]
+
+#processing
+idx = df1_head.index
+
+df1_data = df1.iloc[idx[0]+1:idx[0+1],:]
+df1_data.columns = ["STA", "C1", "C2", "WEIGHT", "PHASE"]
