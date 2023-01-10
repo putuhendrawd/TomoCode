@@ -3,10 +3,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-path = 'E:\\My Drive\\Tomography\\041022\\rms-sta-sebelum-ssdh-indoburma\\'
-outputpath = 'E:\\My Drive\\Tomography\\Shared Hasil\\Indoburma\\hasil\\'
-fname1 = 'tomoDD-sblm-indoburma.res'
-fname2 = 'tomoDD-ssdh-indoburma.res'
+path = 'D:\\'
+outputpath = 'D:\\'
+fname1 = 'Cianjur-hypoDD-sebelum.res'
+fname2 = 'Cianjur-hypoDD-setelah.res'
 
 def data(fname):
 	file = open(path+fname,'r')
@@ -37,7 +37,7 @@ ax.hist(df1["RES"], bins = np.arange(-15.75,15.75, 0.5),align = 'mid', edgecolor
 ax.hist(df2["RES"], bins = np.arange(-15.75,15.75, 0.5),align = 'mid', edgecolor='black',facecolor ='#4B4951', label='after')
 ax.hist(df1["RES"], bins = np.arange(-15.75,15.75, 0.5),align = 'mid', facecolor='None', edgecolor='black')
 # ax.hist(aa, bins = np.arange(-15.75,15.75, 0.5),align = 'mid', stacked = True, color = ['#C0C4C5', '#4B4951'],edgecolor='black')
-ax.set_xlim([-6,6])
+ax.set_xlim([-1,1])
 ax.set_ylim([0,30000])
 ax.set_xlabel('RMS Residual (s)')
 ax.set_xticks(np.arange(-6,7,1))
@@ -49,14 +49,14 @@ fig.savefig(outputpath+'RMS Sumatera.jpg' ,bbox_inches = 'tight')
 # %% up and down
 fig, ax = plt.subplots(nrows= 2,ncols=1, sharex = True, sharey = True, dpi = 1200)
 # ax.hist(df1["RES"], bins = np.arange(-15.75,15.75, 0.5),align = 'mid', edgecolor='None',facecolor ='#C0C4C5', label='before')
-ax[0].hist(df1["RES"], bins = np.arange(-15.75,15.75, 0.5),align = 'mid', edgecolor='black',facecolor ='#C0C4C5', label='before')
-ax[1].hist(df2["RES"], bins = np.arange(-15.75,15.75, 0.5),align = 'mid', edgecolor='black',facecolor ='#4B4951', label='after')
-ax[0].set_xticks(np.arange(-6,7,1))
-plt.setp(ax, xlim=[-6,6], ylim=[0,30000])
+ax[0].hist(df1["RES"], bins = np.arange(-0.25,0.3, 0.025),align = 'left', edgecolor='black',facecolor ='#C0C4C5', label='before relocation')
+ax[1].hist(df2["RES"], bins = np.arange(-0.25,0.3, 0.025),align = 'left', edgecolor='black',facecolor ='#4B4951', label='after relocation')
+ax[0].set_xticks(np.arange(-0.3,0.4,0.1))
+plt.setp(ax, xlim=[-0.3,0.3], ylim=[0,250])
 fig.supxlabel('RMS Residual (s)', ha='center')
 fig.supylabel('Number of Observations', va='center', x=-.01)
-fig.suptitle('RMS Residual Indoburma',y=0.95)
+fig.suptitle('RMS Residual Cianjur',y=0.95)
 ax[0].legend()
 ax[1].legend()
-fig.savefig(outputpath+'RMS Indoburma.jpg' ,bbox_inches = 'tight')
+fig.savefig(outputpath+'RMS Cianjur.jpg' ,bbox_inches = 'tight')
 # %%
