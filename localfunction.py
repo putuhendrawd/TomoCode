@@ -9,6 +9,7 @@ import pandas as pd
 import datetime as dt
 import numpy as np
 import os
+from pathlib import Path
 
 def readabsolute(arg,names = [i for i in range (0,15)]):
     temp= pd.read_csv(arg, delim_whitespace= True, names = names, keep_default_na=False, low_memory=False)
@@ -97,4 +98,7 @@ def readeventphase(x):
     df = readabsolute(x)
     data = df[df[0] != "#"]
     head = df[df[0] == "#"]
-    print("{} event \n{} fasa".format(len(head),len(data)))
+    P_phase = data[data[3] == "P"]
+    S_phase = data[data[3] != "P"]
+    print(f"== reading : {Path(x).name}")
+    print(f"{len(head): <6} Event \n{len(data): <6} Phase\n---P: {len(P_phase): >6}\n---S: {len(S_phase): >6}")

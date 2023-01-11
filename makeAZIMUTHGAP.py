@@ -6,6 +6,7 @@ import geopy.distance as gd
 import matplotlib.pyplot as plt
 from numpy import float64, math
 from localfunction import *
+import pygmt
 pd.options.mode.chained_assignment = None
 
 # =============================================================================
@@ -42,10 +43,10 @@ def kuadran4(x4,y4):
 # =============================================================================
 # path and filename 
 # =============================================================================
-path = 'E:\\My Drive\\Tomography\\LatestData\\'
-outputpath = 'E:\\My Drive\\Tomography\\Shared Hasil\\Indoburma\\hasil\\'
-fname = 'Phase\\phase-indoburma-3-fixed-plus-510sta.dat'
-staname = 'Phase\\station-indoburma.dat'
+path = 'E:\\My Drive\\Tomography\\100123\\reloc-isc-ehb-indoburma-10012023\\'
+outputpath = 'E:\\My Drive\\Tomography\\100123\\reloc-isc-ehb-indoburma-10012023\\'
+fname = 'phase-indoburma-3-fixed_filter5sta_plusehb_filter_sta_rms_filter5.dat'
+staname = 'input\\sta-usul-2-filter.txt'
 daerah = 'Indoburma'
 
 # =============================================================================
@@ -172,8 +173,42 @@ fig, ax = plt.subplots(figsize=(8,4), dpi=1200)
 ax.hist(x, bins = np.arange(15, 375, 30), align = 'mid',edgecolor='black',facecolor ='grey')
 ax.set_xlim([-15,375])
 ax.set_xlabel('Azimuthal Gap (deg)')
-ax.set_ylabel('Number of Rays ')
+ax.set_ylabel('Number of Events ')
 # ax.yaxis.set_major_formatter(PercentFormatter(1,symbol = None))
 ax.xaxis.set_major_locator(ticker.MultipleLocator(30))
-fig.savefig(outputpath+'Azimuthal Gap Histogram {}.jpg'.format(daerah),bbox_inches="tight")
+# fig.savefig(outputpath+'Azimuthal Gap Histogram {}.jpg'.format(daerah),bbox_inches="tight")
+fig.show()
+
+# %% plot per gempa
+tempheader = df[df[0] == '#']
+idx = df[df[0] == '#'].index
+
+#select data
+event_number = 1341
+a = event_number - 1
+# a = tempheader[tempheader[14].astype(float) == event_number].index.values[0]
+if a == len(idx)-1:
+    tempdf = df.iloc[idx[a]::]
+else:
+    tempdf = df.iloc[idx[a]:idx[a+1],:]
+originlat = float(tempdf.iloc[0][7])
+originlon = float(tempdf.iloc[0][8])
+
+#plot
+fig = pygmt.Figure()
+region = [85,106,7,30] #edit 
+frame = ["WSNE", "a4"]
+fig.basemap(region = region, frame = "f")
+fig.grdimage("etc/ETOPOcut.grd", cmap="etc/srtm.cpt", shading="+d")
+fig.coast(region = region,
+          frame = frame, 
+          shorelines = "0.5")
+#gempa
+fig.plot(x=tempdf.loc[[idx[a]]][8][idx[a]],y=tempdf.loc[[idx[a]]][7][idx[a]], style='a0.5c', pen='3,red', fill = "red")
+#stasiun
+fig.plot(x=(tempdf.loc[idx[a]+1::][5].to_numpy()+originlon).tolist(),y=(tempdf.loc[idx[a]+1::][4].to_numpy()+originlat).tolist(), style='t0.5c', pen='3,blue', fill = "blue")
+# fig.savefig("outputs.png")
+fig.show()
+print(f"event {event_number} azimuth gap : {tempdf.iloc[0][15]} degree")
+
 # %%
