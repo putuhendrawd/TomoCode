@@ -1,8 +1,10 @@
 from localfunction import *
 import pandas as pd
 
-path = "D:\\BMKG Putu\\Tomography\\210722\\taupy-sulawesi\\"
-fname = 'phase-sulawesi.dat'
+path = "E:/My Drive/Tomography/100123/reloc-isc-ehb-indoburma-10012023/"
+fname = 'tomoDD.res'
+
+df=readres(path+fname)
 
 df = readabsolute(path+fname)
 data = df[df[0] != "#"]

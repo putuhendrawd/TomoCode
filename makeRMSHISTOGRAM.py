@@ -3,34 +3,41 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-path = 'D:\\'
-outputpath = 'D:\\'
-fname1 = 'Cianjur-hypoDD-sebelum.res'
-fname2 = 'Cianjur-hypoDD-setelah.res'
+path = 'E:/My Drive/Tomography/100123/reloc-isc-ehb-indoburma-10012023/'
+outputpath = 'E:/My Drive/Tomography/100123/reloc-isc-ehb-indoburma-10012023/'
+fname1 = 'tomoDD-init.res'
+fname2 = 'tomoDD.res'
 
 def data(fname):
-	file = open(path+fname,'r')
-	baris = file.readlines()
-	for i in range(len(baris)):
-		baris[i]=baris[i].split()
-	file.close()
+	try:
+		file = open(path+fname,'r')
+		baris = file.readlines()
+		for i in range(len(baris)):
+			baris[i]=baris[i].split()
+		file.close()
 
 
-	df = pd.DataFrame(baris, columns = baris[0])
-	df.drop(0, inplace = True)
-	df.reset_index(drop = True, inplace=True)
+		df = pd.DataFrame(baris, columns = baris[0])
+		df.drop(0, inplace = True)
+		df.reset_index(drop = True, inplace=True)
 
-	df = df[df['RES'] != '************']
-	df['RES'] = pd.to_numeric(df['RES'])
-	df['RES'] = df['RES'].div(1000)
+		df = df[df['C1'] == df['C2']]
+		df = df[df['RES'] != '************']
+		df['RES'] = pd.to_numeric(df['RES'])
+		df['RES'] = df['RES'].div(1000)
 
-	#df = df[df['RES'] < 15]
-	return (df)
-
+		#df = df[df['RES'] < 15]
+		print("read file success")
+		return (df)
+	except:
+		print("file could not be loaded, return zero dataframe")
+		return(pd.DataFrame([]))
+print("==read before")
 df1 = data(fname1)
+print("==read after")
 df2 = data(fname2)
-z = np.array([df1['RES'],df2['RES']])
-aa = z.transpose()
+# z = np.array([df1['RES'],df2['RES']])
+# aa = z.transpose()
 #%% combine
 fig, ax = plt.subplots(dpi = 1200)
 ax.hist(df1["RES"], bins = np.arange(-15.75,15.75, 0.5),align = 'mid', edgecolor='black',facecolor ='#C0C4C5', label='before')
@@ -46,17 +53,34 @@ ax.set_title('RMS Residual Sumatera',y=1.03)
 ax.legend()
 fig.savefig(outputpath+'RMS Sumatera.jpg' ,bbox_inches = 'tight')
 # fig.close()
+
 # %% up and down
+print("==run up and down plot")
 fig, ax = plt.subplots(nrows= 2,ncols=1, sharex = True, sharey = True, dpi = 1200)
-# ax.hist(df1["RES"], bins = np.arange(-15.75,15.75, 0.5),align = 'mid', edgecolor='None',facecolor ='#C0C4C5', label='before')
-ax[0].hist(df1["RES"], bins = np.arange(-0.25,0.3, 0.025),align = 'left', edgecolor='black',facecolor ='#C0C4C5', label='before relocation')
-ax[1].hist(df2["RES"], bins = np.arange(-0.25,0.3, 0.025),align = 'left', edgecolor='black',facecolor ='#4B4951', label='after relocation')
-ax[0].set_xticks(np.arange(-0.3,0.4,0.1))
-plt.setp(ax, xlim=[-0.3,0.3], ylim=[0,250])
+bins_ = np.arange(-9.5,10.5,1)
+if not df1.empty:
+	max = round(df1["RES"].max(),3)
+	min = round(df1["RES"].min(),3)
+	med = round(df1["RES"].median(),3)
+	ax[0].hist(df1["RES"], bins = bins_,align = 'mid', edgecolor='black',facecolor ='#C0C4C5', label='before relocation')
+	ax[0].text(0.02,0.85,f"min: {min:>6}", size = "small", family= "monospace", transform=ax[0].transAxes)
+	ax[0].text(0.02,0.75,f"max: {max:>6}", size = "small", family= "monospace", transform=ax[0].transAxes)
+	ax[0].text(0.02,0.65,f"med: {med:>6}", size = "small", family= "monospace", transform=ax[0].transAxes)	
+	ax[0].legend()
+if not df2.empty:
+    max = round(df2["RES"].max(),3)
+    min = round(df2["RES"].min(),3)
+    med = round(df2["RES"].median(),3)
+    ax[1].hist(df2["RES"], bins = bins_,align = 'mid', edgecolor='black',facecolor ='#4B4951', label='after relocation')
+    ax[1].text(0.02,0.85,f"min: {min:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)
+    ax[1].text(0.02,0.75,f"max: {max:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)
+    ax[1].text(0.02,0.65,f"med: {med:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)	
+    ax[1].legend()
+ax[0].set_xticks(np.arange(-9,10,1))
+plt.setp(ax, xlim=[bins_[0],bins_[-1]], ylim=[0,20000])
 fig.supxlabel('RMS Residual (s)', ha='center')
 fig.supylabel('Number of Observations', va='center', x=-.01)
-fig.suptitle('RMS Residual Cianjur',y=0.95)
-ax[0].legend()
-ax[1].legend()
-fig.savefig(outputpath+'RMS Cianjur.jpg' ,bbox_inches = 'tight')
+fig.suptitle('RMS Residual',y=0.95)
+fig.savefig(outputpath+'RMS.jpg' ,bbox_inches = 'tight')
+print(f"==save complete on {outputpath}")
 # %%

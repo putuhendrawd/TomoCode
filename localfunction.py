@@ -12,11 +12,45 @@ import os
 
 def readabsolute(arg,names = [i for i in range (0,15)]):
     temp= pd.read_csv(arg, delim_whitespace= True, names = names, keep_default_na=False, low_memory=False)
+    print("readabsolute: read file success")
     return temp
 
 def readazgap(arg,names = [i for i in range (0,16)]):
     temp= pd.read_csv(arg, delim_whitespace= True, names = names, keep_default_na=False, low_memory=False)
     return temp
+
+def readres(arg):
+    try:
+        file = open(arg,'r')
+        baris = file.readlines()
+        for i in range(len(baris)):
+            baris[i]=baris[i].split()
+        file.close()
+
+        df = pd.DataFrame(baris, columns = baris[0])
+        df.drop(0, inplace = True)
+        df.reset_index(drop = True, inplace=True)
+        df.drop("OFFS", axis=1, inplace=True)
+        df.columns = ["STA", "DT", "C1", "C2", "IDX", "QUAL", "RES", "WT", "OFFS"]
+        df = df[df['C1'] == df['C2']]
+        df = df[df['RES'] != '************']
+        df['RES'] = pd.to_numeric(df['RES'])
+        df['RES'] = df['RES'].div(1000)
+        df.reset_index(drop = True, inplace=True)
+        df["C1"]=df["C1"].apply(pd.to_numeric)
+        df["C2"]=df["C2"].apply(pd.to_numeric)
+        print("readres: read file success")
+        return (df)
+    except:
+        print("readres: file could not be loaded, return zero dataframe")
+        return(pd.DataFrame([]))
+
+def readsta(arg, names=[i for i in range(12)]):
+    temp = pd.read_csv(arg, delim_whitespace = True,names = names)
+    temp.set_index(0, inplace = True)
+    temp.dropna(axis=1, how='all',inplace=True)
+    print("readsta: read file success")
+    return(temp)
 
 def pass_datetime(text):
     for fmt in ('%Y-%m-%d %H:%M:%S.%f', '%Y-%m-%d %H:%M:%S', \

@@ -14,14 +14,14 @@ pd.options.mode.chained_assignment = None
 
 # =============================================================================
 # Filter Absolute based on
-# selected station, phase, total station report, rms value, magnitude value
+# selected station, phase, total station report, event rms value, magnitude value
 # =============================================================================
 
-path = 'E:\\My Drive\\Tomography\\050922\\tes1-07072022-4phasemin\\'
-fname = 'phase_sul5.dat'
-staname = 'station.dat'
-# baca data stasiun ==============================================
+path = 'E:\\My Drive\\Tomography\\100123\\reloc-isc-ehb-indoburma-10012023\\'
+fname = 'phase-indoburma-3-fixed_filter5sta_plusehb_filter_sta_rms.dat'
+staname = 'input\\sta-usul-2-filter.txt'
 
+# baca data stasiun ==============================================
 stafile = pd.read_csv(path+staname, delim_whitespace = True,names = [i for i in range(12)])
 stafile.set_index(0, inplace = True)
 
@@ -30,7 +30,7 @@ df= readabsolute(path+fname)
 
 # filter data by rms / magnitude ==============================================
 dfhead = df[df[0] == '#']
-#rms filter
+#rms event filter
 # dfhead[13] = dfhead[13].apply(pd.to_numeric)
 # dfhead = dfhead[abs(dfhead[13]) <= 3] 
 #magnitude filter
@@ -64,12 +64,12 @@ for a in range (len(idx)):
     tempdf.drop(idx[a], inplace = True)
     
     #seleksi data berdasarkan stasiun
-    tempdf = tempdf[tempdf[0].isin(stafile.index)]
+    # tempdf = tempdf[tempdf[0].isin(stafile.index)]
     #clean hanya data fasa P dan S
-    tempdf = tempdf[(tempdf[3] == 'P') | (tempdf[3] == 'S')]
+    # tempdf = tempdf[(tempdf[3] == 'P') | (tempdf[3] == 'S')]
     
     #seleksi data berdasarkan jumlah laporan stasiun
-    if (len(tempdf.index) >= 1): #isi batas jumlah laporan
+    if (len(tempdf.index) >= 5): #isi batas jumlah laporan
         tempdf[2] = pd.to_numeric(df[2])
         tempdf[2] = tempdf[2].map(lambda x: '%2.1f' % x)
         tempdata = pd.concat([tempdata,tempdf])
@@ -83,9 +83,9 @@ df.sort_index(inplace = True)
 df.reset_index(inplace = True, drop = True)
 
 #output df
-df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_filterstation.dat')
+df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_filter5.dat')
 print("== data filter")
-readeventphase(path+Path(fname).stem+'_filterstation.dat')
+readeventphase(path+Path(fname).stem+'_filter5.dat')
 
 # ==================================================================
 # Filter Absolute based on
@@ -156,3 +156,54 @@ dfres.reset_index(inplace = True, drop = True)
 
 #output df
 df2dat(dfres,evnum = 1, path = path, fname=Path(fname).stem+'_filterlatlon.dat')
+
+# =============================================================================
+# Filter Absolute based on
+# station rms value
+# =============================================================================
+
+path = 'E:\\My Drive\\Tomography\\100123\\reloc-isc-ehb-indoburma-10012023\\'
+absname = 'input/phase-indoburma-3-fixed_filter5sta_plusehb.dat'
+staname = 'input/sta-usul-2-filter.txt'
+resname = 'tomoDD.res'
+
+#read data
+dfabs = readabsolute(path+absname)
+dfsta = readsta(path+staname)
+dfres = readres(path+resname)
+
+#init tempdata
+tempdata = pd.DataFrame([],columns = dfabs.columns)
+
+#processing
+RMSv_LIMIT = 5
+tempheader = dfabs[dfabs[0] == '#']
+idx = tempheader.index
+
+for a in range (len(idx)):
+    #load abs data
+    if a == len(idx)-1:
+        tempdfabs = dfabs.iloc[idx[a]+1::]
+    else:
+        tempdfabs = dfabs.iloc[idx[a]+1:idx[a+1],:]
+    
+    #load res data    
+    tempdfres = dfres[dfres["C1"] == int(tempheader.loc[idx[a]][14])]
+
+    #process
+    for i in tempdfabs.index:
+        st_ = tempdfabs.loc[[i]][0][i]
+        if not tempdfres[tempdfres["STA"] == st_].empty:
+            if (abs(tempdfres[tempdfres["STA"] == st_].RES.values[0]) > RMSv_LIMIT):
+                tempdfabs.drop([i], inplace=True)
+        else:
+            tempdfabs.drop([i], inplace=True)
+    tempdata = pd.concat([tempdata,tempdfabs])
+
+dfresult=pd.concat([tempdata,tempheader])
+dfresult.sort_index(inplace = True)
+dfresult.reset_index(inplace = True, drop = True)
+
+#output
+df2dat(dfresult,evnum = 1, path = path, fname=Path(absname).stem+'_filter_sta_rms.dat')
+readeventphase(path+Path(absname).stem+'_filter_sta_rms.dat')
