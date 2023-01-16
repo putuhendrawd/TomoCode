@@ -11,16 +11,17 @@ import numpy as np
 import os
 from pathlib import Path
 
-def readabsolute(arg,names = [i for i in range (0,15)]):
+def readabsolute(arg,names = [i for i in range (0,15)],verbose = False):
     temp= pd.read_csv(arg, delim_whitespace= True, names = names, keep_default_na=False, low_memory=False)
-    print("readabsolute: read file success")
+    if verbose:
+        print("readabsolute: read file success")
     return temp
 
-def readazgap(arg,names = [i for i in range (0,16)]):
+def readazgap(arg,names = [i for i in range (0,16)],):
     temp= pd.read_csv(arg, delim_whitespace= True, names = names, keep_default_na=False, low_memory=False)
     return temp
 
-def readres(arg):
+def readres(arg,verbose = False):
     try:
         file = open(arg,'r')
         baris = file.readlines()
@@ -40,19 +41,32 @@ def readres(arg):
         df.reset_index(drop = True, inplace=True)
         df["C1"]=df["C1"].apply(pd.to_numeric)
         df["C2"]=df["C2"].apply(pd.to_numeric)
-        print("readres: read file success")
+        if verbose:
+            print("readres: read file success")
         return (df)
     except:
         print("readres: file could not be loaded, return zero dataframe")
         return(pd.DataFrame([]))
 
-def readsta(arg, names=[i for i in range(12)]):
+def readsta(arg, names=[i for i in range(12)],verbose = False):
     temp = pd.read_csv(arg, delim_whitespace = True,names = names)
     temp.set_index(0, inplace = True)
     temp.dropna(axis=1, how='all',inplace=True)
-    print("readsta: read file success")
+    if verbose:
+        print("readsta: read file success")
     return(temp)
 
+def readeventphase(x):
+    df = readabsolute(x)
+    print(f"! {Path(x).name}\n-----------------")
+    data = df[df[0] != "#"]
+    head = df[df[0] == "#"]
+    print(f"Event --> {len(head): >6}\nPhase --> {len(data): >6}")
+    for i in data[3].unique():
+        x = data[data[3] == i]
+        print(f"-- {i: <3}: {len(x): >6}")
+    print("-----------------")
+    
 def pass_datetime(text):
     for fmt in ('%Y-%m-%d %H:%M:%S.%f', '%Y-%m-%d %H:%M:%S', \
         '%Y-%m-%d %H-%M-%S.%f','%Y-%m-%d %H-%M-%S'):
@@ -93,12 +107,3 @@ def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat',mode='w'):
             files.write(tempdata)
     files.close()  
     return print("Output finish: {} at {}".format(fname,path))
-
-def readeventphase(x):
-    df = readabsolute(x)
-    data = df[df[0] != "#"]
-    head = df[df[0] == "#"]
-    P_phase = data[data[3] == "P"]
-    S_phase = data[data[3] != "P"]
-    print(f"== reading : {Path(x).name}")
-    print(f"{len(head): <6} Event \n{len(data): <6} Phase\n---P: {len(P_phase): >6}\n---S: {len(S_phase): >6}")

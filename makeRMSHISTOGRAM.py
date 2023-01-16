@@ -3,9 +3,9 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-path = 'E:/My Drive/Tomography/100123/reloc-isc-ehb-indoburma-10012023/'
-outputpath = 'E:/My Drive/Tomography/100123/reloc-isc-ehb-indoburma-10012023/'
-fname1 = 'tomoDD-init.res'
+path = 'E:\\My Drive\\Tomography\\120123\\sta-filter-sum-12012023\\'
+outputpath = 'E:\\My Drive\\Tomography\\120123\\sta-filter-sum-12012023\\'
+fname1 = 'tomoDD-sum-before.res'
 fname2 = 'tomoDD.res'
 
 def data(fname):
@@ -77,7 +77,7 @@ if not df2.empty:
     ax[1].text(0.02,0.65,f"med: {med:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)	
     ax[1].legend()
 ax[0].set_xticks(np.arange(-9,10,1))
-plt.setp(ax, xlim=[bins_[0],bins_[-1]], ylim=[0,20000])
+plt.setp(ax, xlim=[bins_[0],bins_[-1]], ylim=[0,50000])
 fig.supxlabel('RMS Residual (s)', ha='center')
 fig.supylabel('Number of Observations', va='center', x=-.01)
 fig.suptitle('RMS Residual',y=0.95)

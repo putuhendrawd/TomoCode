@@ -1,3 +1,4 @@
+#%%
 # -*- coding: utf-8 -*-
 """
 Created on Wed Mar 30 09:20:20 2022
@@ -12,14 +13,15 @@ from pathlib import Path
 from localfunction import *
 pd.options.mode.chained_assignment = None
 
+#%%
 # =============================================================================
 # Filter Absolute based on
 # selected station, phase, total station report, event rms value, magnitude value
 # =============================================================================
 
-path = 'E:\\My Drive\\Tomography\\100123\\reloc-isc-ehb-indoburma-10012023\\'
-fname = 'phase-indoburma-3-fixed_filter5sta_plusehb_filter_sta_rms.dat'
-staname = 'input\\sta-usul-2-filter.txt'
+path = 'E:\\My Drive\\Tomography\\120123\\sta-filter-sum-12012023\\'
+fname = 'sumatra4_filter_sta-rms.dat'
+staname = 'stasum1.dat'
 
 # baca data stasiun ==============================================
 stafile = pd.read_csv(path+staname, delim_whitespace = True,names = [i for i in range(12)])
@@ -87,6 +89,7 @@ df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_filter5.dat')
 print("== data filter")
 readeventphase(path+Path(fname).stem+'_filter5.dat')
 
+#%%
 # ==================================================================
 # Filter Absolute based on
 # Latitude and Longitude
@@ -157,14 +160,15 @@ dfres.reset_index(inplace = True, drop = True)
 #output df
 df2dat(dfres,evnum = 1, path = path, fname=Path(fname).stem+'_filterlatlon.dat')
 
+#%%
 # =============================================================================
 # Filter Absolute based on
 # station rms value
 # =============================================================================
 
-path = 'E:\\My Drive\\Tomography\\100123\\reloc-isc-ehb-indoburma-10012023\\'
-absname = 'input/phase-indoburma-3-fixed_filter5sta_plusehb.dat'
-staname = 'input/sta-usul-2-filter.txt'
+path = 'E:\\My Drive\\Tomography\\120123\\sta-filter-sum-12012023\\'
+absname = 'sumatra4.dat'
+staname = 'stasum1.dat'
 resname = 'tomoDD.res'
 
 #read data
@@ -205,5 +209,5 @@ dfresult.sort_index(inplace = True)
 dfresult.reset_index(inplace = True, drop = True)
 
 #output
-df2dat(dfresult,evnum = 1, path = path, fname=Path(absname).stem+'_filter_sta_rms.dat')
-readeventphase(path+Path(absname).stem+'_filter_sta_rms.dat')
+df2dat(dfresult,evnum = 1, path = path, fname=Path(absname).stem+'_filter_sta-rms.dat')
+readeventphase(path+Path(absname).stem+'_filter_sta-rms.dat')
