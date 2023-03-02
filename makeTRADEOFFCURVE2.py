@@ -17,10 +17,10 @@ from matplotlib.ticker import FormatStrFormatter
 import statistics
 
 #initializaion
-df = pd.DataFrame([],columns=['model_var','data_var','damp'])
-damp = [10,20,40,50,90,100,120,150,200,300,400,500]
-parent = 'E:\\My Drive\\Tomography\\120922\\vartes-sum-09092022'
-varvariable = 'weighted' # 'absolute' or 'weighted'
+df = pd.DataFrame([],columns=['model_var','data_var','cnd','damp'])
+damp = [10,30,60,70,80,100,180,200,300,400,500]
+parent = 'G:\\My Drive\\Tomography\\010323\\varians_model_sul'
+varvariable = 'absolute' # 'absolute' or 'weighted'
 #read 
 with open(parent+'\\MOD') as modf:
     mod=modf.readline().split()
@@ -29,10 +29,10 @@ with open(parent+'\\MOD') as modf:
     lendepth=int(mod[3])
 
 for z in damp:
-    #path = parent+'Output_Files_damp_{}\\'.format(z)
-    path=parent
+    path = parent+'\\Output_Files_damp_{}\\'.format(z)
+    # path = parent
     #load data
-    filevp = path+f'\\Vp_model-damp{z}.dat'
+    filevp = path+f'\\Vp_model.dat'
     datavp = np.loadtxt(filevp)
     varperlayer=[]
     for i in range(lendepth):
@@ -67,14 +67,18 @@ for z in damp:
             mark= False
             done= False
             break
-    df = pd.concat([df,pd.Series([modelvar,datavar,z],index=df.columns).to_frame().transpose()])
+    df = pd.concat([df,pd.Series([modelvar,datavar,cnd,z],index=df.columns).to_frame().transpose()])
 
 df = df.astype('float64')
 df.sort_values(by='model_var',inplace=True)
 df.reset_index(inplace=True)
 
 #select data
-df = df[(df['damp'] != 20)]
+df = df[(df['damp'] != 30)]
+# df = df[(df['damp'] != 10)]
+df = df[(df['damp'] != 70)]
+df = df[(df['damp'] != 80)]
+df = df[(df['damp'] != 180)]
 df.reset_index(inplace=True)
 
 #make graph
@@ -82,18 +86,18 @@ fig,ax = plt.subplots(dpi=300)
 ax.plot(df['model_var'],df['data_var'],marker='o',linestyle='-')
 c=0
 for x,y in zip(df['model_var'],df['data_var']):
-    if c==7:
-        ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(10,2),ha='center')
-    elif c==10:
-        ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(10,-2),ha='center')
-    elif c==9:
-       ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(6,5),ha='center')
-    else:
-        ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(10,5),ha='center')
+    # if c==7:
+    #     ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(10,2),ha='center')
+    # elif c==10:
+    #     ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(10,-2),ha='center')
+    # elif c==9:
+    #    ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(6,5),ha='center')
+    # else:
+    ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(10,5),ha='center')
     c=c+1
 
 ax.set_xlim(min(df['model_var'])-0.003,max(df['model_var'])+0.003)   
-ax.set_ylim(min(df['data_var'])-0.3,max(df['data_var'])+0.3)
-ax.set_ylabel('data variance [s$^2$]')
-ax.set_xlabel('model variance [(km/s)$^2$]')
-fig.savefig(parent+'\\TradeOffCurve2-.jpg',bbox_inches = 'tight')
+ax.set_ylim(min(df['data_var'])-5,max(df['data_var'])+10)
+ax.set_ylabel('data variance (s)')
+ax.set_xlabel('model variance (km/s)')
+fig.savefig(parent+'\\TradeOffCurve2-absolute-4.jpg',bbox_inches = 'tight')

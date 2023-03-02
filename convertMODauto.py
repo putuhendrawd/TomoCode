@@ -61,58 +61,8 @@ for lt in lat:
 
 #=================================================================================================
 for x in ['p','s']:
-    filevp= path+'V{}_model.dat'.format(x) #deklarasi file VP
-
-    #mengambil level yang akan digunakan
-    dflvl = np.loadtxt(filevp,usecols=(0)) #hanya kolom pertama
-
-    datavp = np.loadtxt(filevp)
-    datafix = []
-    for i in range(len(lvl)):
-
-        #edit code untuk n grid
-        data = (datavp[nbaris*i+n:nbaris*(i+1)-n,n:-n]) #pilih data perlapisan
-        #-----
-        #data =np.flip(data) #membalik data
-        data = data.ravel() #memflatkan data
-
-        #edit code untuk n grid
-        ikat = dflvl[i*nbaris+n] # buat ikatan
-        #-----
-        
-        data = ((data-ikat)/ikat)*100 #formula dari pak Supri
-        data = data.tolist() #ubah array ke list
-        datafix.append(data)
-        
-    df = pd.DataFrame(datafix) #membaca data dalam format dataframe pandas
-    df = df.transpose()
-    df = df.set_axis(lvl, axis='columns') #beri nama columns dengan lvl 0, 0.5, ..
-    df.drop(df.columns[[0,-1]], axis=1, inplace=True) #hapus data pada level awal dan akhir
-    #print('panjang lats',len(lats))
-    df.insert(0,'Lat', lats) #menyisipkan lats pada kolom pertama
-    df.insert(1,'Lon', lons)
-
-    #simpan hasil dalam format csv
-    filename = path+Path(filevp).stem +'_output.csv'
-    if x == 'p':
-        dfp = df
-    else:
-        dfs = df
-    df.to_csv (filename, index = False, header=True)
-
-dfvs = pd.DataFrame([],columns=dfp.columns)
-dfvs['Lat'] = lats
-dfvs['Lon'] = lons
-for z in dfp.columns:
-    if z == 'Lat' or z == 'Lon':
-        pass
-    else:
-        dfvs[z] = dfp[z] / dfs[z]
-dfvs.to_csv(path+'VpperVs_model_output.csv', index = False, header=True, na_rep='NaN')
-#=================================================================================================
-if vdws == 1:
-    for x in ['P','S']:
-        filevp= path+'DWS_{}'.format(x) #deklarasi file VP
+    try:
+        filevp= path+'V{}_model.dat'.format(x) #deklarasi file VP
 
         #mengambil level yang akan digunakan
         dflvl = np.loadtxt(filevp,usecols=(0)) #hanya kolom pertama
@@ -123,16 +73,15 @@ if vdws == 1:
 
             #edit code untuk n grid
             data = (datavp[nbaris*i+n:nbaris*(i+1)-n,n:-n]) #pilih data perlapisan
-            #----- 
-
+            #-----
             #data =np.flip(data) #membalik data
             data = data.ravel() #memflatkan data
 
             #edit code untuk n grid
-            #ikat = dflvl[i*nbaris+n] # buat ikatan
+            ikat = dflvl[i*nbaris+n] # buat ikatan
             #-----
             
-            #data = ((data-ikat)/ikat)*100 #formula dari pak Supri
+            data = ((data-ikat)/ikat)*100 #formula dari pak Supri
             data = data.tolist() #ubah array ke list
             datafix.append(data)
             
@@ -146,6 +95,65 @@ if vdws == 1:
 
         #simpan hasil dalam format csv
         filename = path+Path(filevp).stem +'_output.csv'
+        if x == 'p':
+            dfp = df
+        else:
+            dfs = df
         df.to_csv (filename, index = False, header=True)
+    except:
+        print('V{}_model.dat running error'.format(x))
+try:
+    dfvs = pd.DataFrame([],columns=dfp.columns)
+    dfvs['Lat'] = lats
+    dfvs['Lon'] = lons
+    for z in dfp.columns:
+        if z == 'Lat' or z == 'Lon':
+            pass
+        else:
+            dfvs[z] = dfp[z] / dfs[z]
+    dfvs.to_csv(path+'VpperVs_model_output.csv', index = False, header=True, na_rep='NaN')
+except:
+    print('VpperVs_model_output.csv cannot be created')
+#=================================================================================================
+if vdws == 1:
+    try:
+        for x in ['P','S']:
+            filevp= path+'DWS_{}'.format(x) #deklarasi file VP
+
+            #mengambil level yang akan digunakan
+            dflvl = np.loadtxt(filevp,usecols=(0)) #hanya kolom pertama
+
+            datavp = np.loadtxt(filevp)
+            datafix = []
+            for i in range(len(lvl)):
+
+                #edit code untuk n grid
+                data = (datavp[nbaris*i+n:nbaris*(i+1)-n,n:-n]) #pilih data perlapisan
+                #----- 
+
+                #data =np.flip(data) #membalik data
+                data = data.ravel() #memflatkan data
+
+                #edit code untuk n grid
+                #ikat = dflvl[i*nbaris+n] # buat ikatan
+                #-----
+                
+                #data = ((data-ikat)/ikat)*100 #formula dari pak Supri
+                data = data.tolist() #ubah array ke list
+                datafix.append(data)
+                
+            df = pd.DataFrame(datafix) #membaca data dalam format dataframe pandas
+            df = df.transpose()
+            df = df.set_axis(lvl, axis='columns') #beri nama columns dengan lvl 0, 0.5, ..
+            df.drop(df.columns[[0,-1]], axis=1, inplace=True) #hapus data pada level awal dan akhir
+            #print('panjang lats',len(lats))
+            df.insert(0,'Lat', lats) #menyisipkan lats pada kolom pertama
+            df.insert(1,'Lon', lons)
+
+            #simpan hasil dalam format csv
+            filename = path+Path(filevp).stem +'_output.csv'
+            df.to_csv (filename, index = False, header=True)
+    except:
+        print('DWS_{} running error'.format(x))
         
 print("converter finish")

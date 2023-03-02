@@ -70,37 +70,42 @@ for lt in lat.to_list():
 
 #%%
 #input grd / nc image
-for zz in [0,10,20,30,40,50,60,77,90,100,120,140,180,210]:
-  z = f"D:/#BMKG_Local/Tomoplot/sum-real-{zz}km.grd"
-  #run
-  fig = pygmt.Figure()
-  # cpt = pygmt.makecpt(cmap="polar", series=[-10,10,1],reverse=True)
-  cpt = "etc/tomo2.cpt"
-  region = [92,106,-7,7]
-  frame = [f"WSNE+tDepth = {zz} km", "a4f2"]
-  fig.basemap(region = region, frame = "f")
-  fig.grdimage(z, cmap=cpt)
-  fig.coast(region = region,
-            frame = frame, 
-            shorelines = "1")
+# for zz in [0,10,20,30,40,50,60,77,90,100,120,140,180,210]:
+#   z = f"D:/#BMKG_Local/Tomoplot/sum-real-{zz}km.grd"
+#   #run
+fig = pygmt.Figure()
+# cpt = pygmt.makecpt(cmap="polar", series=[-10,10,1],reverse=True)
+# cpt = "etc/tomo2.cpt"
+region = [90,110,-12,7]
+frame = [f"WSNE", "a4f2"]
+# fig.basemap(region = region, frame = "f")
+# fig.grdimage(z, cmap=cpt)
+fig.coast(region = region,
+          frame = frame, 
+          projection = "M6c",
+          shorelines = "1",
+          water="lightblue",
+          land="grey")
+# focal_mechanism = dict(strike=330,dip=30,rake=90,magnitude=3)
+# fig.meca(focal_mechanism, scale="1c", longitude=107.05,latitude=-6.86,depth=10)
   # adition
-  fig.plot("etc/trench.gmt", pen = "1", fill = "black", style="f0.5i/0.13i+l+t")
-  fig.plot("etc/ridge.gmt", pen = "1,blue")
-  fig.plot("etc/pusgen/Indonesia_Confirmed_Thrust.gmt", pen = "1", fill = "black", style="f0.4i/0.08i+l+t")
-  fig.plot("etc/pusgen/Indonesia_Inferred_Thrust.gmt", pen = "1,black,-", fill = "black", style="f0.4i/0.08i+l+t")
-  fig.plot("etc/pusgen/Indonesia_Confirmed_Fault.gmt", pen = "1")
-  fig.plot("etc/pusgen/Indonesia_Inferred_Fault.gmt", pen = "1,-")
-  fig.plot("etc/pusgen/Indonesia_Confirmed_Normal.gmt", pen = "1", style="f0.4i/0.05i+l+c")
-  fig.plot("etc/pusgen/Indonesia_Inferred_Normal.gmt", pen = "1,-", style="f0.4i/0.05i+l+c")
-  fig.plot("etc/pusgen/Indonesia_Confirmed_Fold.gmt", pen = "1", style="f0.4i/0.05i+l+t")
+  # fig.plot("etc/trench.gmt", pen = "1", fill = "black", style="f0.5i/0.13i+l+t")
+  # fig.plot("etc/ridge.gmt", pen = "1,blue")
+  # fig.plot("etc/pusgen/Indonesia_Confirmed_Thrust.gmt", pen = "1", fill = "black", style="f0.4i/0.08i+l+t")
+  # fig.plot("etc/pusgen/Indonesia_Inferred_Thrust.gmt", pen = "1,black,-", fill = "black", style="f0.4i/0.08i+l+t")
+  # fig.plot("etc/pusgen/Indonesia_Confirmed_Fault.gmt", pen = "1")
+  # fig.plot("etc/pusgen/Indonesia_Inferred_Fault.gmt", pen = "1,-")
+  # fig.plot("etc/pusgen/Indonesia_Confirmed_Normal.gmt", pen = "1", style="f0.4i/0.05i+l+c")
+  # fig.plot("etc/pusgen/Indonesia_Inferred_Normal.gmt", pen = "1,-", style="f0.4i/0.05i+l+c")
+  # fig.plot("etc/pusgen/Indonesia_Confirmed_Fold.gmt", pen = "1", style="f0.4i/0.05i+l+t")
 
-  fig.colorbar(cmap=cpt,frame=["+l dVp","+u \\040"],position="x7.5c/-1.5c+w15.3c/0.45c+jBC+h")
+  # fig.colorbar(cmap=cpt,frame=["+l dVp","+u \\040"],position="x7.5c/-1.5c+w15.3c/0.45c+jBC+h")
   # fig.plot(x=lons,y=lats, style='+0.2', pen='1,red') 
   #fig.plot(x=df[8].to_list(),y=df[7].to_list(), style='p0.05', color='red')
   # fig.plot(x=[109.487,80.681,80.543,80.702,92.743,109.843,108.921], y = [30.272,6.089,8.397,7.273,11.656,19.029,34.039],style='t0.3', color='red')
   # fig.plot(x=87.3687,y=28.6056, style='c0.3', color = 'blue') 
-  fig.savefig("D:/#BMKG_Local/Tomoplot/"+Path(z).stem+"-yosi.png")
-# fig.show()
+  # fig.savefig("D:/#BMKG_Local/Tomoplot/"+Path(z).stem+"-yosi.png")
+fig.show()
 #%%
 #save lat dan lon
 # np.savetxt('lon',lon,newline=',',fmt='%2.1f')

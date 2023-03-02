@@ -5,15 +5,18 @@ Author: Putu Hendra Widyadharma
 === reading velest output .OUT || need input depth and initial vp from readMODparam function
 '''
 import pandas as pd
+from pathlib import Path
 from localfunction import *
 
-path = "D:\\BMKG Putu\\Tomography\\140722\\Sumatera-run\\"
-fname = "VELEST_sumatera.OUT"
+path = "G:\\My Drive\\Tomography\\160223\\Velest33-sul5_filtermagnitude45\\"
+input_path = "output160223\\"
+fname = "VEL_neq325_vthet999.OUT"
+
 
 depth = []
 initial = []
 
-fin = open(path+'sumatera.mod')
+fin = open(path+'sulawesi3.mod')
 #skip row 1 and 2
 readl = fin.readlines()
 #read
@@ -39,7 +42,7 @@ result.set_index("depth",inplace=True)
 start = False
 
 #start
-fin = open(path+fname)
+fin = open(path+input_path+fname)
 readl = fin.readlines()
 for i in range(len(readl)):
     spl = readl[i].split()
@@ -69,7 +72,7 @@ for i in range(len(readl)):
         continue
     
 #export
-result.to_csv(path+'vp_extract.txt',index="depth")
+result.to_csv(path+f'{input_path}convert/{Path(fname).stem}_vp_extract.txt',index="depth")
 #export transpose
 tresult = result.transpose()
-tresult.to_csv(path+'vp_extract_transpose.txt')
+tresult.to_csv(path+f'{input_path}convert/{Path(fname).stem}_vp_extract_transpose.txt')

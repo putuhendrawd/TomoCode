@@ -4,6 +4,7 @@ Created on Fri Mar 25 16:14:23 2022
 
 @author: UX425IA
 """
+#%%
 # =============================================================================
 # membuat wadati diagram
 # =============================================================================
@@ -13,10 +14,11 @@ import pandas as pd
 import geopy.distance as gd
 import matplotlib.pyplot as plt
 from localfunction import *
+from sklearn.metrics import r2_score
 pd.options.mode.chained_assignment = None
 
-path = 'E:\\My Drive\\Tomography\\LatestData\\'
-outputpath = 'E:\\My Drive\\Tomography\\Shared Hasil\\Indoburma\\hasil\\'
+path = 'G:\\My Drive\\Tomography\\LatestData\\'
+outputpath = 'G:\\My Drive\\Tomography\\Shared Hasil\\Indoburma\\hasil\\'
 fname = 'Phase\\phase-indoburma-3-fixed-plus-510sta.dat'
 staname = 'Phase\\station-indoburma.dat'
 daerah = 'Indoburma'
@@ -151,9 +153,22 @@ wadati = wadati[wadati['ts-tp']>0]
 #parameter vp/vs calculation
 wadati = wadati[['tp','ts-tp']].astype(float)
 slope, intercept = np.polyfit(wadati['tp'],wadati['ts-tp'],1)
+predict = np.poly1d([slope, intercept])
+
+#hitung stdev
+std = np.std(wadati['ts-tp'])
+
+#hitung standard_error
+residuals = wadati['ts-tp'].to_numpy() - predict(wadati['tp'])
+residuals = residuals**2
+standard_error = (sum(residuals)/(len(residuals)-2))**0.5
+
+#cek r-square score
+r2 = r2_score(wadati['ts-tp'],predict(wadati['tp']))
 
 print('VP/VS = ' + str(slope + 1))
-
+print(f"R-square = {r2}")
+print(f"std_err = {standard_error}")
 #output wadati file
 #wadati.to_csv(path+'wadati_sumatera.txt',sep = '\t', index = None)
 
@@ -172,6 +187,7 @@ ax.set_ylim([-2,350])
 ax.plot(wadati['tp'],slope*wadati['tp']+intercept,'r--')
 ax.text(250, 130, 'y = {:.4f}x{:+.4f}'.format(slope,intercept), fontsize=14)
 ax.text(250, 105, 'Vp/Vs = {:.4f}'.format(slope+1), fontsize=14)
+ax.text(250, 80, f'R$^2$ = {r2:.3f}', fontsize=14)
 fig.set_figheight(5)
 fig.set_figwidth(10)
 fig.savefig(outputpath+'Wadati Diagram {}.jpg'.format(daerah))
