@@ -17,10 +17,10 @@ from matplotlib.ticker import FormatStrFormatter
 import statistics
 
 #initializaion
-df = pd.DataFrame([],columns=['model_var','data_var','cnd','damp'])
-damp = [10,30,60,70,80,100,180,200,300,400,500]
+df = pd.DataFrame([],columns=['model_var','data_var','damp'])
+damp = [10,30,60,70,80,100,180,200,220,300,400,500]
 parent = 'G:\\My Drive\\Tomography\\010323\\varians_model_sul'
-varvariable = 'absolute' # 'absolute' or 'weighted'
+varvariable = 'weighted' # 'absolute' or 'weighted'
 #read 
 with open(parent+'\\MOD') as modf:
     mod=modf.readline().split()
@@ -67,18 +67,18 @@ for z in damp:
             mark= False
             done= False
             break
-    df = pd.concat([df,pd.Series([modelvar,datavar,cnd,z],index=df.columns).to_frame().transpose()])
+    df = pd.concat([df,pd.Series([modelvar,datavar,z],index=df.columns).to_frame().transpose()])
 
 df = df.astype('float64')
 df.sort_values(by='model_var',inplace=True)
 df.reset_index(inplace=True)
 
 #select data
-df = df[(df['damp'] != 30)]
+# df = df[(df['damp'] != 30)]
 # df = df[(df['damp'] != 10)]
-df = df[(df['damp'] != 70)]
-df = df[(df['damp'] != 80)]
-df = df[(df['damp'] != 180)]
+# df = df[(df['damp'] != 70)]
+# df = df[(df['damp'] != 80)]
+# df = df[(df['damp'] != 180)]
 df.reset_index(inplace=True)
 
 #make graph
@@ -100,4 +100,4 @@ ax.set_xlim(min(df['model_var'])-0.003,max(df['model_var'])+0.003)
 ax.set_ylim(min(df['data_var'])-5,max(df['data_var'])+10)
 ax.set_ylabel('data variance (s)')
 ax.set_xlabel('model variance (km/s)')
-fig.savefig(parent+'\\TradeOffCurve2-absolute-4.jpg',bbox_inches = 'tight')
+fig.savefig(parent+f'\\TradeOffCurve2-{varvariable}-8.jpg',bbox_inches = 'tight')

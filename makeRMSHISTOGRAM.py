@@ -3,9 +3,9 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-path = 'E:\\My Drive\\Tomography\\120123\\sta-filter-sum-12012023\\'
-outputpath = 'E:\\My Drive\\Tomography\\120123\\sta-filter-sum-12012023\\'
-fname1 = 'tomoDD-sum-before.res'
+path = 'G:\\My Drive\\Tomography\\Shared Hasil\\Sulawesi\\input_data\\early-res-sul5-fix-2019\\sul-awal-hasil-2019\\'
+outputpath = 'G:\\My Drive\\Tomography\\Shared Hasil\\Sulawesi\\input_data\\early-res-sul5-fix-2019\\sul-awal-hasil-2019\\'
+fname1 = 'tomoDD-sebelum-sul-dataawal.res'
 fname2 = 'tomoDD.res'
 
 def data(fname):
@@ -39,13 +39,14 @@ df2 = data(fname2)
 # z = np.array([df1['RES'],df2['RES']])
 # aa = z.transpose()
 #%% combine
+bins_ = np.arange(-9.5,10.5,1)
 fig, ax = plt.subplots(dpi = 1200)
-ax.hist(df1["RES"], bins = np.arange(-15.75,15.75, 0.5),align = 'mid', edgecolor='black',facecolor ='#C0C4C5', label='before')
-ax.hist(df2["RES"], bins = np.arange(-15.75,15.75, 0.5),align = 'mid', edgecolor='black',facecolor ='#4B4951', label='after')
-ax.hist(df1["RES"], bins = np.arange(-15.75,15.75, 0.5),align = 'mid', facecolor='None', edgecolor='black')
+ax.hist(df1["RES"], bins = bins_,align = 'mid', edgecolor='black',facecolor ='#C0C4C5', label='before')
+ax.hist(df2["RES"], bins = bins_,align = 'mid', edgecolor='black',facecolor ='#4B4951', label='after')
+ax.hist(df1["RES"], bins = bins_,align = 'mid', facecolor='None', edgecolor='black')
 # ax.hist(aa, bins = np.arange(-15.75,15.75, 0.5),align = 'mid', stacked = True, color = ['#C0C4C5', '#4B4951'],edgecolor='black')
 ax.set_xlim([-1,1])
-ax.set_ylim([0,30000])
+ax.set_ylim([0,40000])
 ax.set_xlabel('RMS Residual (s)')
 ax.set_xticks(np.arange(-6,7,1))
 ax.set_ylabel('Number of Observations')
@@ -57,7 +58,6 @@ fig.savefig(outputpath+'RMS Sumatera.jpg' ,bbox_inches = 'tight')
 # %% up and down
 print("==run up and down plot")
 fig, ax = plt.subplots(nrows= 2,ncols=1, sharex = True, sharey = True, dpi = 1200)
-bins_ = np.arange(-9.5,10.5,1)
 if not df1.empty:
 	max = round(df1["RES"].max(),3)
 	min = round(df1["RES"].min(),3)
@@ -76,11 +76,10 @@ if not df2.empty:
     ax[1].text(0.02,0.75,f"max: {max:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)
     ax[1].text(0.02,0.65,f"med: {med:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)	
     ax[1].legend()
-ax[0].set_xticks(np.arange(-9,10,1))
-plt.setp(ax, xlim=[bins_[0],bins_[-1]], ylim=[0,50000])
+plt.setp(ax, xlim=[-6,7], ylim=[0,40000])
 fig.supxlabel('RMS Residual (s)', ha='center')
 fig.supylabel('Number of Observations', va='center', x=-.01)
 fig.suptitle('RMS Residual',y=0.95)
-fig.savefig(outputpath+'RMS.jpg' ,bbox_inches = 'tight')
+fig.savefig(outputpath+'RMS Split Sulawesi.jpg' ,bbox_inches = 'tight')
 print(f"==save complete on {outputpath}")
 # %%
