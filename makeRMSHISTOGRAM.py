@@ -3,9 +3,9 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-path = 'G:\\My Drive\\Tomography\\Shared Hasil\\Sulawesi\\input_data\\early-res-sul5-fix-2019\\sul-awal-hasil-2019\\'
-outputpath = 'G:\\My Drive\\Tomography\\Shared Hasil\\Sulawesi\\input_data\\early-res-sul5-fix-2019\\sul-awal-hasil-2019\\'
-fname1 = 'tomoDD-sebelum-sul-dataawal.res'
+path = 'G:\\My Drive\\Tomography\\120123\\sta-filter-sum-12012023\\'
+outputpath = 'G:\\My Drive\\Tomography\\120123\\sta-filter-sum-12012023\\'
+fname1 = 'tomoDD-sum-before.res'
 fname2 = 'tomoDD.res'
 
 def data(fname):
@@ -46,7 +46,7 @@ ax.hist(df2["RES"], bins = bins_,align = 'mid', edgecolor='black',facecolor ='#4
 ax.hist(df1["RES"], bins = bins_,align = 'mid', facecolor='None', edgecolor='black')
 # ax.hist(aa, bins = np.arange(-15.75,15.75, 0.5),align = 'mid', stacked = True, color = ['#C0C4C5', '#4B4951'],edgecolor='black')
 ax.set_xlim([-1,1])
-ax.set_ylim([0,40000])
+ax.set_ylim([0,50000])
 ax.set_xlabel('RMS Residual (s)')
 ax.set_xticks(np.arange(-6,7,1))
 ax.set_ylabel('Number of Observations')
@@ -76,10 +76,10 @@ if not df2.empty:
     ax[1].text(0.02,0.75,f"max: {max:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)
     ax[1].text(0.02,0.65,f"med: {med:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)	
     ax[1].legend()
-plt.setp(ax, xlim=[-6,7], ylim=[0,40000])
+plt.setp(ax, xlim=[-6,7], ylim=[0,50000])
 fig.supxlabel('RMS Residual (s)', ha='center')
 fig.supylabel('Number of Observations', va='center', x=-.01)
 fig.suptitle('RMS Residual',y=0.95)
-fig.savefig(outputpath+'RMS Split Sulawesi.jpg' ,bbox_inches = 'tight')
+fig.savefig(outputpath+'RMS Split Sumatera.jpg' ,bbox_inches = 'tight')
 print(f"==save complete on {outputpath}")
 # %%

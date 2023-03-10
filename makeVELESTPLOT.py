@@ -11,9 +11,9 @@ from matplotlib.ticker import MultipleLocator, FormatStrFormatter, AutoMinorLoca
 from matplotlib.lines import Line2D
 from localfunction import *
 
-path = "G:\\My Drive\\Tomography\\110223\\"
+path = "G:\\My Drive\\Tomography\\060323\\"
 # input from mod
-df = pd.read_csv(path+"plot_vp_vs_sul.csv")
+df = pd.read_csv(path+"vp_sumatera.csv")
 depth = df['depth'].to_list()
 vp = df.iloc[:,1::].values.transpose().tolist()
 
@@ -28,7 +28,26 @@ def makeinput(depth,vp):
     vp2.sort()
     return(depth2,vp2)
 #=========================================
-if len(vp) == 2:
+if len(vp) == 1:
+    fig,ax = plt.subplots(figsize=(3,4), dpi = 300)
+    #plot iter
+    # for i in range(1,len(vp)-1):
+    #     depth2,vp2 = makeinput(depth,vp[i])
+    #     ax.plot(vp2,depth2,color='grey',linestyle="--")
+
+    #plot init
+    depth2,vp2 = makeinput(depth,vp[0])
+    ax.plot(vp2,depth2,color='black',linestyle='-')
+
+    #plot init
+    # depth2,vp2 = makeinput(depth,vp[1])
+    # ax.plot(vp2,depth2,color='black',linestyle='--')
+
+    #make legend
+    custom_lines = [Line2D([0], [0], color='black', linestyle="-", lw=1),]
+    ax.legend(custom_lines, [df.columns[1]],prop={'size': 8})
+
+elif len(vp) == 2:
     fig,ax = plt.subplots(figsize=(3,4), dpi = 300)
     #plot iter
     # for i in range(1,len(vp)-1):
@@ -114,4 +133,4 @@ ax.invert_yaxis()
 # ax.set_title('1-D Model')
 ax.set_xlabel('Velocity (km/s)')
 ax.set_ylabel('Depth (km)')
-fig.savefig(path+"velocity model all 300.png",bbox_inches = 'tight', transparent=False)
+fig.savefig(path+"velocity model sumatera 300.png",bbox_inches = 'tight', transparent=False)
