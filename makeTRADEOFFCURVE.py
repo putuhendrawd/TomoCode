@@ -17,7 +17,7 @@ from matplotlib.ticker import FormatStrFormatter
 #initializaion
 df = pd.DataFrame([],columns=['model_var','data_var','damp'])
 damp = [10,20,40,70,90,100,120,150,200,300,400,500]
-parent = 'D:\\BMKG Putu\\Tomography\\070922\\vartes-sumatra-05092022\\'
+parent = 'Z:\\Tomography_dump\\Tomography_2022\\070922\\vartes-sumatra-05092022\\'
 #read 
 for z in damp:
     path = parent+'Output_Files_damp_{}\\'.format(z)
@@ -69,7 +69,8 @@ for x,y in zip(df['model_var'],df['data_var']):
 #ax.set_ylim(min(df['model_var'])-0.005,max(df['model_var'])+0.005)
 ax.set_ylabel('data variance')
 ax.set_xlabel('model variance')
-fig.savefig(parent+'output.jpg',bbox_inches = 'tight')
+fig.show()
+# fig.savefig(parent+'output.jpg',bbox_inches = 'tight')
 
 #make graph dual y
 # fig,ax = plt.subplots()
