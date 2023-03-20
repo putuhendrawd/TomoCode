@@ -14,6 +14,7 @@ path = os.getcwd() + '\\'
 # 1: vpvsdwpdws 0: vpvs
 print("running converter")
 vdws = int(input("input mode [ 0: vpvs | 1: all ] = "))
+ref_vpvs = float(input("reference vp/vs = "))
 
 # =============================================================================
 filemod = path+'MOD' #deklarasi file MOD
@@ -117,15 +118,21 @@ for x in ['p','s']:
         print('V{}_model.dat running error'.format(x))
 try:
     dfvs = pd.DataFrame([],columns=dfp.columns)
+    dfvspercentage = pd.DataFrame([],columns=dfp.columns)
     dfvs['Lat'] = lats
     dfvs['Lon'] = lons
+    dfvspercentage['Lat'] = lats
+    dfvspercentage['Lon'] = lons
     for z in dfp.columns:
         if z == 'Lat' or z == 'Lon':
             pass
         else:
             dfvs[z] = dfp[z] / dfs[z]
+            dfvspercentage[z] = (((dfp[z]/dfs[z])-ref_vpvs)/ref_vpvs)*100
     dfvs.replace([np.inf, -np.inf], np.nan, inplace=True)
+    dfvspercentage.replace([np.inf, -np.inf], np.nan, inplace=True)
     dfvs.to_csv(path+'VpperVs_model_output.csv', index = False, header=True, na_rep='NaN')
+    dfvspercentage.to_csv(path+'VpperVs_model_output_percent.csv', index = False, header=True, na_rep='NaN')
 except:
     print('VpperVs_model_output.csv cannot be created')
 #=================================================================================================

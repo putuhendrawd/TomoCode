@@ -19,7 +19,7 @@ import statistics
 #initializaion
 df = pd.DataFrame([],columns=['model_var','data_var','damp'])
 damp = [10,20,40,90,100,120,150,200,300,400,500]
-parent = 'Z:\\Tomography_dump\\Tomography_2022\\090922\\vartes-sum-09092022'
+parent = 'G:\\My Drive\\Tomography\\020323\\vartes-sum-09092022\\'
 varvariable = 'weighted' # 'absolute' or 'weighted'
 #read 
 with open(parent+'\\MOD') as modf:
@@ -29,7 +29,7 @@ with open(parent+'\\MOD') as modf:
     lendepth=int(mod[3])
 
 for z in damp:
-    # path = parent+'\\Output_Files_damp_{}\\'.format(z)
+    # path = parent+'\\Output_Files_damp_{}'.format(z)
     path = parent
     #load data
     filevp = path+f'\\Vp_model-damp{z}.dat'
@@ -75,29 +75,29 @@ df.reset_index(inplace=True)
 
 #select data
 df = df[(df['damp'] != 20)]
-df = df[(df['damp'] != 90)]
+# df = df[(df['damp'] != 10)]
 # df = df[(df['damp'] != 70)]
-df = df[(df['damp'] != 100)]
+# df = df[(df['damp'] != 100)]
 # df = df[(df['damp'] != 180)]
 df.reset_index(inplace=True)
 
 #make graph
-fig,ax = plt.subplots(dpi=1200)
+fig,ax = plt.subplots(figsize=(6,3),dpi=1200)
 ax.plot(df['model_var'],df['data_var'],marker='o',linestyle='-')
 c=0
 for x,y in zip(df['model_var'],df['data_var']):
-    if c==7:
+    if c==9:
         ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(13,-3),ha='center')
-    elif c==6:
-        ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(3,7),ha='center')
-    # elif c==9:
-    #    ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(6,5),ha='center')
+    elif c==7:
+        ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(10,3),ha='center')
+    elif c==8:
+       ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(3,5),ha='center')
     else:
         ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(10,5),ha='center')
     c=c+1
 
-ax.set_xlim(min(df['model_var'])-0.003,max(df['model_var'])+0.003)   
-ax.set_ylim(min(df['data_var'])-0.5,max(df['data_var'])+0.3)
-ax.set_ylabel('data variance (s)')
-ax.set_xlabel('model variance (km/s)')
-fig.savefig(parent+f'\\TradeOffCurve-{varvariable}-2.jpg',bbox_inches = 'tight')
+ax.set_xlim(min(df['model_var'])-0.005,max(df['model_var'])+0.005)   
+ax.set_ylim(min(df['data_var'])-0.3,max(df['data_var'])+0.3)
+ax.set_ylabel('Data variance')
+ax.set_xlabel('Model variance')
+fig.savefig(parent+f'\\TradeOffCurve-{varvariable}.jpg',bbox_inches = 'tight')

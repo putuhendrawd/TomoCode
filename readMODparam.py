@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-path = 'G:\\My Drive\\Tomography\\Shared Hasil\\Sumatera\\input\\tes1-check-sum-26092022-output\\' 
+path = 'G:\\My Drive\\Tomography\\Shared Hasil\\Indoburma\\input\\tes1-real-indoburma-26092022-output\\' 
 filemod = path+'MOD'
 
 #auto column count ==================================================
