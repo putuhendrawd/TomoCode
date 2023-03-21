@@ -10,9 +10,11 @@ import sys
 
 # folder path
 path = os.getcwd() + '\\'
+# path = "G:\\My Drive\\Tomography\\Shared Hasil\\Sulawesi\\input_data\\early-res-sul5-fix-2019\\real-inversi\\"
 # 1: vpvsdwpdws 0: vpvs
 print("running converter")
 vdws = int(input("input mode [ 0: vpvs | 1: all ] = "))
+ref_vpvs = float(input("reference vp/vs = "))
 
 # =============================================================================
 filemod = path+'MOD' #deklarasi file MOD
@@ -69,6 +71,7 @@ for x in ['p','s']:
 
         datavp = np.loadtxt(filevp)
         datafix = []
+        datavpvsfix = []
         for i in range(len(lvl)):
 
             #edit code untuk n grid
@@ -76,14 +79,16 @@ for x in ['p','s']:
             #-----
             #data =np.flip(data) #membalik data
             data = data.ravel() #memflatkan data
-
+            datavpvs = data.ravel() # pengolahan vpvs
             #edit code untuk n grid
             ikat = dflvl[i*nbaris+n] # buat ikatan
             #-----
             
             data = ((data-ikat)/ikat)*100 #formula dari pak Supri
             data = data.tolist() #ubah array ke list
+            datavpvs = datavpvs.tolist() # pengolahan vpvs
             datafix.append(data)
+            datavpvsfix.append(datavpvs) # pengolahan vpvs
             
         df = pd.DataFrame(datafix) #membaca data dalam format dataframe pandas
         df = df.transpose()
@@ -93,25 +98,41 @@ for x in ['p','s']:
         df.insert(0,'Lat', lats) #menyisipkan lats pada kolom pertama
         df.insert(1,'Lon', lons)
 
+        # pengolahan vpvs
+        dfvpvs = pd.DataFrame(datavpvsfix) #membaca data dalam format dataframe pandas
+        dfvpvs = dfvpvs.transpose()
+        dfvpvs = dfvpvs.set_axis(lvl, axis='columns') #beri nama columns dengan lvl 0, 0.5, ..
+        dfvpvs.drop(dfvpvs.columns[[0,-1]], axis=1, inplace=True) #hapus data pada level awal dan akhir
+        #print('panjang lats',len(lats))
+        dfvpvs.insert(0,'Lat', lats) #menyisipkan lats pada kolom pertama
+        dfvpvs.insert(1,'Lon', lons)
+
         #simpan hasil dalam format csv
         filename = path+Path(filevp).stem +'_output.csv'
         if x == 'p':
-            dfp = df
+            dfp = dfvpvs
         else:
-            dfs = df
+            dfs = dfvpvs
         df.to_csv (filename, index = False, header=True)
     except:
         print('V{}_model.dat running error'.format(x))
 try:
     dfvs = pd.DataFrame([],columns=dfp.columns)
+    dfvspercentage = pd.DataFrame([],columns=dfp.columns)
     dfvs['Lat'] = lats
     dfvs['Lon'] = lons
+    dfvspercentage['Lat'] = lats
+    dfvspercentage['Lon'] = lons
     for z in dfp.columns:
         if z == 'Lat' or z == 'Lon':
             pass
         else:
             dfvs[z] = dfp[z] / dfs[z]
+            dfvspercentage[z] = (((dfp[z]/dfs[z])-ref_vpvs)/ref_vpvs)*100
+    dfvs.replace([np.inf, -np.inf], np.nan, inplace=True)
+    dfvspercentage.replace([np.inf, -np.inf], np.nan, inplace=True)
     dfvs.to_csv(path+'VpperVs_model_output.csv', index = False, header=True, na_rep='NaN')
+    dfvspercentage.to_csv(path+'VpperVs_model_output_percent.csv', index = False, header=True, na_rep='NaN')
 except:
     print('VpperVs_model_output.csv cannot be created')
 #=================================================================================================
