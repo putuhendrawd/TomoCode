@@ -11,11 +11,11 @@ ti = dt.datetime.now()
 # file input                                                  #
 # data di f1 akan dihapus jika ada event yang sama dengan f2  #
 ###############################################################
-path = 'E:\\My Drive\\Tomography\\290622\\indoburma-isc-ehb\\'
+path = 'G:\\My Drive\\Tomography\\050423\\'
 #file compare 1
-f1 = 'convert_indoburma-isc-ehb-1964-2020_filter10sta.dat'
+f1 = 'phase_sul5.dat'
 #file compare 2
-f2 = 'phase-indoburma-3-fixed_filter5sta.dat'
+f2 = 'phase_sul5.dat'
 #output filename
 outputname = "compare_"+f1.split('.')[0] #without extension
 

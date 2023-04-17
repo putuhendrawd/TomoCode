@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 from localfunction import *
 from pathlib import Path
 
-path = "D:\\BMKG Putu\\Tomography\\190922\\Velest33-sumatera\\inputreformat\\"
-inname = "station-sumatera.dat"
+path = "G:\\My Drive\\Tomography\\130423\\"
+inname = "sta-run-sul6-13042023.txt"
 
 fin = open(path+inname) 
 baris = fin.readlines()

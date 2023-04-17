@@ -43,11 +43,11 @@ def kuadran4(x4,y4):
 # =============================================================================
 # path and filename 
 # =============================================================================
-path = 'E:\\My Drive\\Tomography\\100123\\reloc-isc-ehb-indoburma-10012023\\'
-outputpath = 'E:\\My Drive\\Tomography\\100123\\reloc-isc-ehb-indoburma-10012023\\'
-fname = 'phase-indoburma-3-fixed_filter5sta_plusehb_filter_sta_rms_filter5.dat'
-staname = 'input\\sta-usul-2-filter.txt'
-daerah = 'Indoburma'
+path = 'G:\\My Drive\\Tomography\\130423\\'
+fname = 'output_phase_sul_2022_filter5_filter8rec_m4_new.dat'
+outputpath = 'G:\\My Drive\\Tomography\\130423\\'
+staname = 'sta-run-sul6-13042023.txt'
+daerah = 'Sulawesi'
 
 # =============================================================================
 # baca data absolute

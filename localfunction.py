@@ -58,18 +58,53 @@ def readsta(arg, names=[i for i in range(12)],verbose = False):
 
 def readeventphase(x):
     df = readabsolute(x)
-    print(f"! {Path(x).name}\n-----------------")
+    print(f"! {Path(x).name}\n---------------------------")
     data = df[df[0] != "#"]
     head = df[df[0] == "#"]
-    print(f"Event --> {len(head): >6}\nPhase --> {len(data): >6}")
+    for tup_head in head.iterrows():
+        iter, item = tup_head
+        timestr=f"{item[1]:.0f}-{item[2]:.0f}-{item[3]} {item[4]}:{item[5]}:{item[6]}"
+        temp_time = pass_datetime(timestr)
+        temp_mag = item[10]
+        temp_depth = item[9]
+        # time search
+        if iter == 0:
+            mintime = temp_time
+            maxtime = temp_time
+        else:
+            if temp_time < mintime:
+                mintime = temp_time
+            elif temp_time > maxtime:
+                maxtime = temp_time
+            else:
+                pass
+    
+    # magnitude search
+    minmag = head[10].min()
+    maxmag = head[10].max()
+    # depth search
+    mindepth = head[9].min()
+    maxdepth = head[9].max()
+    #print
+    print(f"start time        : {mintime}")
+    print(f"end time          : {maxtime}")
+    print(f"minimum magnitude : {minmag}")
+    print(f"maximum magnitude : {maxmag}")
+    print(f"minimum depth     : {mindepth} km")
+    print(f"maximum depth     : {maxdepth} km")
+    print(f"station used      : {len(data[0].unique())}")
+    print("---------------------------")
+    print(f"Event : {len(head): >6}\nPhase : {len(data): >6}")
     for i in data[3].unique():
         x = data[data[3] == i]
         print(f"-- {i: <3}: {len(x): >6}")
-    print("-----------------")
+    print("---------------------------")
     
 def pass_datetime(text):
     for fmt in ('%Y-%m-%d %H:%M:%S.%f', '%Y-%m-%d %H:%M:%S', \
-        '%Y-%m-%d %H-%M-%S.%f','%Y-%m-%d %H-%M-%S'):
+                '%Y-%m-%d %H-%M-%S.%f','%Y-%m-%d %H-%M-%S', \
+                '%Y.%1f-%m.%1f-%d %H:%M:%S.%2f', '%Y.%1f-%m.%1f-%d %H:%M:%S', \
+                '%Y.%1f-%m.%1f-%d %H-%M-%S.%2f','%Y.%1f-%m.%1f-%d %H-%M-%S'):
         try:
             return dt.datetime.strptime(text, fmt)
         except ValueError:

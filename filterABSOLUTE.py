@@ -19,9 +19,9 @@ pd.options.mode.chained_assignment = None
 # selected station, phase, total station report, event rms value, magnitude value
 # =============================================================================
 
-path = 'E:\\My Drive\\Tomography\\120123\\sta-filter-sum-12012023\\'
-fname = 'sumatra4_filter_sta-rms.dat'
-staname = 'stasum1.dat'
+path = 'G:\\My Drive\\Tomography\\130423\\'
+fname = 'output_phase_sul_2022_filter5.dat'
+staname = 'sta-run-sul6-13042023.txt'
 
 # baca data stasiun ==============================================
 stafile = pd.read_csv(path+staname, delim_whitespace = True,names = [i for i in range(12)])
@@ -34,10 +34,10 @@ df= readabsolute(path+fname)
 dfhead = df[df[0] == '#']
 #rms event filter
 # dfhead[13] = dfhead[13].apply(pd.to_numeric)
-# dfhead = dfhead[abs(dfhead[13]) <= 3] 
+# dfhead = dfhead[abs(dfhead[13]) <= 1] # fill rms here
 #magnitude filter
-# dfhead[10] = dfhead[10].apply(pd.to_numeric)
-# dfhead = dfhead[abs(dfhead[10]) >= 4.5] 
+dfhead[10] = dfhead[10].apply(pd.to_numeric)
+dfhead = dfhead[abs(dfhead[10]) >= 4] # fill magnitude here
 
 #header index
 idx = df[df[0] == '#'].index
@@ -66,7 +66,7 @@ for a in range (len(idx)):
     tempdf.drop(idx[a], inplace = True)
     
     #seleksi data berdasarkan stasiun
-    # tempdf = tempdf[tempdf[0].isin(stafile.index)]
+    tempdf = tempdf[tempdf[0].isin(stafile.index)]
     #clean hanya data fasa P dan S
     # tempdf = tempdf[(tempdf[3] == 'P') | (tempdf[3] == 'S')]
     
@@ -85,9 +85,9 @@ df.sort_index(inplace = True)
 df.reset_index(inplace = True, drop = True)
 
 #output df
-df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_filter5.dat')
+df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_filter5rec_m4.dat')
 print("== data filter")
-readeventphase(path+Path(fname).stem+'_filter5.dat')
+readeventphase(path+Path(fname).stem+'_filter5rec_m4.dat')
 
 #%%
 # ==================================================================
