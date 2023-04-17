@@ -159,6 +159,7 @@ df = pd.concat([tempdata,tempheader])
 df.sort_index(inplace = True)
 df.reset_index(inplace = True, drop = True)
 
+df2dat(df,evnum=1,path=path,fname=Path(fname).stem+"_azgap.dat",azgap=True)
 del(a,i,azgapmax,tempindex)
 
 #%%
@@ -179,12 +180,15 @@ ax.xaxis.set_major_locator(ticker.MultipleLocator(30))
 # fig.savefig(outputpath+'Azimuthal Gap Histogram {}.jpg'.format(daerah),bbox_inches="tight")
 fig.show()
 
-# %% plot per gempa
+#%% 
+# =============================================================================
+# plot per gempa
+# =============================================================================
 tempheader = df[df[0] == '#']
 idx = df[df[0] == '#'].index
 
 #select data
-event_number = 1341
+event_number = 15
 a = event_number - 1
 # a = tempheader[tempheader[14].astype(float) == event_number].index.values[0]
 if a == len(idx)-1:
@@ -196,17 +200,17 @@ originlon = float(tempdf.iloc[0][8])
 
 #plot
 fig = pygmt.Figure()
-region = [85,106,7,30] #edit 
+region = [115,130,-10,6] #edit 
 frame = ["WSNE", "a4"]
 fig.basemap(region = region, frame = "f")
-fig.grdimage("etc/ETOPOcut.grd", cmap="etc/srtm.cpt", shading="+d")
+fig.grdimage("etc/ETOPO1_Indonesia.grd", cmap="etc/srtm.cpt", shading="+d")
 fig.coast(region = region,
           frame = frame, 
           shorelines = "0.5")
 #gempa
-fig.plot(x=tempdf.loc[[idx[a]]][8][idx[a]],y=tempdf.loc[[idx[a]]][7][idx[a]], style='a0.5c', pen='3,red', fill = "red")
+fig.plot(x=tempdf.loc[[idx[a]]][8][idx[a]],y=tempdf.loc[[idx[a]]][7][idx[a]], style='a1c', pen='1,black', fill = "red")
 #stasiun
-fig.plot(x=(tempdf.loc[idx[a]+1::][5].to_numpy()+originlon).tolist(),y=(tempdf.loc[idx[a]+1::][4].to_numpy()+originlat).tolist(), style='t0.5c', pen='3,blue', fill = "blue")
+fig.plot(x=(tempdf.loc[idx[a]+1::][5].to_numpy()+originlon).tolist(),y=(tempdf.loc[idx[a]+1::][4].to_numpy()+originlat).tolist(), style='t0.5c', pen='1,black', fill = "blue")
 # fig.savefig("outputs.png")
 fig.show()
 print(f"event {event_number} azimuth gap : {tempdf.iloc[0][15]} degree")

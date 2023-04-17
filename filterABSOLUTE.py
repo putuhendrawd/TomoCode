@@ -19,8 +19,8 @@ pd.options.mode.chained_assignment = None
 # selected station, phase, total station report, event rms value, magnitude value
 # =============================================================================
 
-path = 'G:\\My Drive\\Tomography\\130423\\'
-fname = 'output_phase_sul_2022_filter5.dat'
+path = 'G:\\My Drive\\Tomography\\170423\\'
+fname = 'phase_sul_2022.dat'
 staname = 'sta-run-sul6-13042023.txt'
 
 # baca data stasiun ==============================================
@@ -36,8 +36,8 @@ dfhead = df[df[0] == '#']
 # dfhead[13] = dfhead[13].apply(pd.to_numeric)
 # dfhead = dfhead[abs(dfhead[13]) <= 1] # fill rms here
 #magnitude filter
-dfhead[10] = dfhead[10].apply(pd.to_numeric)
-dfhead = dfhead[abs(dfhead[10]) >= 4] # fill magnitude here
+# dfhead[10] = dfhead[10].apply(pd.to_numeric)
+# dfhead = dfhead[abs(dfhead[10]) >= 4] # fill magnitude here
 
 #header index
 idx = df[df[0] == '#'].index
@@ -62,8 +62,10 @@ for a in range (len(idx)):
             tempheader.drop(idx[a], inplace = True)
             continue
         
-    #drop header
+    # drop header
     tempdf.drop(idx[a], inplace = True)
+    # time bug dropper (23.59 time drop)
+    tempdf = tempdf[tempdf[1] > 0]
     
     #seleksi data berdasarkan stasiun
     tempdf = tempdf[tempdf[0].isin(stafile.index)]
@@ -71,7 +73,7 @@ for a in range (len(idx)):
     # tempdf = tempdf[(tempdf[3] == 'P') | (tempdf[3] == 'S')]
     
     #seleksi data berdasarkan jumlah laporan stasiun
-    if (len(tempdf.index) >= 5): #isi batas jumlah laporan
+    if (len(tempdf[tempdf[3] == 'P']) >= 10): #isi batas jumlah laporan
         tempdf[2] = pd.to_numeric(df[2])
         tempdf[2] = tempdf[2].map(lambda x: '%2.1f' % x)
         tempdata = pd.concat([tempdata,tempdf])
@@ -85,9 +87,9 @@ df.sort_index(inplace = True)
 df.reset_index(inplace = True, drop = True)
 
 #output df
-df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_filter5rec_m4.dat')
+df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_10P.dat')
 print("== data filter")
-readeventphase(path+Path(fname).stem+'_filter5rec_m4.dat')
+readeventphase(path+Path(fname).stem+'_10P.dat')
 
 #%%
 # ==================================================================

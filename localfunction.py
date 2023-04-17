@@ -65,8 +65,6 @@ def readeventphase(x):
         iter, item = tup_head
         timestr=f"{item[1]:.0f}-{item[2]:.0f}-{item[3]} {item[4]}:{item[5]}:{item[6]}"
         temp_time = pass_datetime(timestr)
-        temp_mag = item[10]
-        temp_depth = item[9]
         # time search
         if iter == 0:
             mintime = temp_time
@@ -80,11 +78,11 @@ def readeventphase(x):
                 pass
     
     # magnitude search
-    minmag = head[10].min()
-    maxmag = head[10].max()
+    minmag = pd.to_numeric(head[10]).min()
+    maxmag = pd.to_numeric(head[10]).max()
     # depth search
-    mindepth = head[9].min()
-    maxdepth = head[9].max()
+    mindepth = pd.to_numeric(head[9]).min()
+    maxdepth = pd.to_numeric(head[9]).max()
     #print
     print(f"start time        : {mintime}")
     print(f"end time          : {maxtime}")
@@ -111,7 +109,7 @@ def pass_datetime(text):
             pass
     raise ValueError('no valid date format found')
 
-def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat',mode='w'):
+def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat',mode='w',azgap=False):
     df = x
     
     #if evnum != 0 then remake event number by the evnum input as first event number
@@ -130,12 +128,20 @@ def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat',mode='w'):
     files = open(path+'/'+fname, str(mode), newline='\n')
     for i in range(len(df.index)):
         if i in idx.index:
-            tempheader = "{} {: >4.0f} {: >2.0f} {: >2.0f} {: >2.0f} {: >2.0f} {: >4.2f} {: >8.4f} {: >8.4f} {: >3.0f} {: >4.2f} {: >3.0f} {: >3.0f} {: >6.3f} {: >6.0f}\n".\
-            format(str(df.iloc[i][0]),float(df.iloc[i][1]),float(df.iloc[i][2]),float(df.iloc[i][3])\
-            ,float((df.iloc[i][4])),float(df.iloc[i][5]),float(df.iloc[i][6]),float(df.iloc[i][7])\
-            ,float(df.iloc[i][8]),float(df.iloc[i][9]),float(df.iloc[i][10]),float(df.iloc[i][11])\
-            ,float(df.iloc[i][12]),float(df.iloc[i][13]),float(df.iloc[i][14]))
-            files.write(tempheader)
+            if azgap == True:
+                tempheader = "{} {: >4.0f} {: >2.0f} {: >2.0f} {: >2.0f} {: >2.0f} {: >4.2f} {: >8.4f} {: >8.4f} {: >3.0f} {: >4.2f} {: >3.0f} {: >3.0f} {: >6.3f} {: >6.0f} {: >6.2f}\n".\
+                format(str(df.iloc[i][0]),float(df.iloc[i][1]),float(df.iloc[i][2]),float(df.iloc[i][3])\
+                ,float((df.iloc[i][4])),float(df.iloc[i][5]),float(df.iloc[i][6]),float(df.iloc[i][7])\
+                ,float(df.iloc[i][8]),float(df.iloc[i][9]),float(df.iloc[i][10]),float(df.iloc[i][11])\
+                ,float(df.iloc[i][12]),float(df.iloc[i][13]),float(df.iloc[i][14]),float(df.iloc[i][15]))
+                files.write(tempheader)
+            else:
+                tempheader = "{} {: >4.0f} {: >2.0f} {: >2.0f} {: >2.0f} {: >2.0f} {: >4.2f} {: >8.4f} {: >8.4f} {: >3.0f} {: >4.2f} {: >3.0f} {: >3.0f} {: >6.3f} {: >6.0f}\n".\
+                format(str(df.iloc[i][0]),float(df.iloc[i][1]),float(df.iloc[i][2]),float(df.iloc[i][3])\
+                ,float((df.iloc[i][4])),float(df.iloc[i][5]),float(df.iloc[i][6]),float(df.iloc[i][7])\
+                ,float(df.iloc[i][8]),float(df.iloc[i][9]),float(df.iloc[i][10]),float(df.iloc[i][11])\
+                ,float(df.iloc[i][12]),float(df.iloc[i][13]),float(df.iloc[i][14]))
+                files.write(tempheader)
         else:
             tempdata = "     {: <7}{: >7.2f}{: >6}{: >4} \n".\
             format(str(df.iloc[i][0]),float(df.iloc[i][1]),float(df.iloc[i][2]),(df.iloc[i][3]))
