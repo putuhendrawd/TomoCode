@@ -17,12 +17,13 @@ from pathlib import Path
 #maxlat = 3
 
 #### SET THE FOLDER FOR WRITING OUTPUT FILES ################
-outdir = 'G:\\My Drive\\Tomography\\170423\\'
+outdir = 'G:\\My Drive\\Tomography\\260423\\'
 
 #### SEARCH INPUT FILE FOR GIVEN FOLDER PATH ################
-sfiles = [outdir+'phase_sul_2022_10P_M55.dat']
+sfiles = [outdir+'phase_sul_2022_8P_150-10D_PnS.dat']
 
 #### READ EACH FILE #########################################
+first = True
 for sfile in sfiles:
     fin = open(sfile,'r')
 #    print('Read Data from File:',sfile)
@@ -34,12 +35,12 @@ for sfile in sfiles:
 #        print('BARIS :',spl)
         if spl and len(spl) > 1:
             if spl[0] == '#':
-                if i > 1 and l % 6 != 0:
-                    fout.write("\n\n")
-                else:
+                if first:
                     fout.write("\n")
+                    first=False
+                else:
+                    fout.write("\n\n")
                 
-                k = 0
                 l = 0
 #                print(spl)
                 tahun = spl[1]
@@ -87,15 +88,7 @@ for sfile in sfiles:
                     continue
                 flag = int(float(spl[2]))
                 pha = spl[3]
-                k += 1
                 l += 1
-                if k < 6:
-#                    print("{0} {1}".format(stacode_i, time_i))
-                    fout.write('%s%s%s%6s'%(stacode,pha,flag,time))
-                elif k == 6:
-                    fout.write('%s%s%s%6s\n'%(stacode,pha,flag,time))
-                    k = 0
-                    
-        
+                fout.write('%s%s%s%6s'%(stacode,pha,flag,time))
 fin.close()
 fout.close()

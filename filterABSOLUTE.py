@@ -30,14 +30,17 @@ stafile.set_index(0, inplace = True)
 # baca data =======================================================
 df= readabsolute(path+fname)
 
-# filter data by rms / magnitude ==============================================
+# filter data by rms / magnitude / depth ==============================================
 dfhead = df[df[0] == '#']
 #rms event filter
 # dfhead[13] = dfhead[13].apply(pd.to_numeric)
 # dfhead = dfhead[abs(dfhead[13]) <= 1] # fill rms here
 #magnitude filter
-dfhead[10] = dfhead[10].apply(pd.to_numeric)
-dfhead = dfhead[abs(dfhead[10]) >= 5.5] # fill magnitude here
+# dfhead[10] = dfhead[10].apply(pd.to_numeric)
+# dfhead = dfhead[abs(dfhead[10]) >= 5.5] # fill magnitude here
+#magnitude depth
+dfhead[9] = dfhead[9].apply(pd.to_numeric)
+dfhead = dfhead[(pd.to_numeric(dfhead[9]) != 10) & (pd.to_numeric(dfhead[9]) <= 150)] # fill depth here
 
 #header index
 idx = df[df[0] == '#'].index
@@ -76,10 +79,10 @@ for a in range (len(idx)):
     #seleksi data berdasarkan stasiun
     tempdf = tempdf[tempdf[0].isin(stafile.index)]
     #clean hanya data fasa P dan S
-    # tempdf = tempdf[(tempdf[3] == 'P') | (tempdf[3] == 'S')]
+    tempdf = tempdf[(tempdf[3] == 'P') | (tempdf[3] == 'S')]
     
     #seleksi data berdasarkan jumlah laporan stasiun
-    if (len(tempdf[tempdf[3] == 'P']) >= 10): #isi batas jumlah laporan
+    if (len(tempdf[tempdf[3] == 'P']) >= 8): #isi batas jumlah laporan
         tempdf[2] = pd.to_numeric(df[2])
         tempdf[2] = tempdf[2].map(lambda x: '%2.1f' % x)
         tempdata = pd.concat([tempdata,tempdf])
@@ -93,11 +96,11 @@ df.sort_index(inplace = True)
 df.reset_index(inplace = True, drop = True)
 
 #output df
-df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_10P_M55.dat')
+df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_8P_150-10D_PnS.dat')
 print("== data filter")
-readeventphase(path+Path(fname).stem+'_10P_M55.dat')
+readeventphase(path+Path(fname).stem+'_8P_150-10D_PnS.dat')
 
-#%%
+  #%%
 # ==================================================================
 # Filter Absolute based on
 # Latitude and Longitude
