@@ -43,9 +43,9 @@ def kuadran4(x4,y4):
 # =============================================================================
 # path and filename 
 # =============================================================================
-path = 'G:\\My Drive\\Tomography\\130423\\'
-fname = 'output_phase_sul_2022_filter5_filter8rec_m4_new.dat'
-outputpath = 'G:\\My Drive\\Tomography\\130423\\'
+path = 'G:\\My Drive\\Tomography\\170423\\'
+fname = 'phase_sul_2022_10P_fix.dat'
+outputpath = 'G:\\My Drive\\Tomography\\170423\\'
 staname = 'sta-run-sul6-13042023.txt'
 daerah = 'Sulawesi'
 
@@ -158,8 +158,10 @@ tempheader[15] = azgapmax
 df = pd.concat([tempdata,tempheader])
 df.sort_index(inplace = True)
 df.reset_index(inplace = True, drop = True)
+df.to_csv(path+Path(fname).stem+"_azgap.dat", sep="\t", index=False, header=None)
+df[df[0] == '#'].to_csv(path+Path(fname).stem+"_azgap2.dat", sep="\t", index=False, header=None)
 
-df2dat(df,evnum=1,path=path,fname=Path(fname).stem+"_azgap.dat",azgap=True)
+# df2dat(df,evnum=1,path=path,fname=Path(fname).stem+"_azgap.dat",azgap=True)
 del(a,i,azgapmax,tempindex)
 
 #%%
@@ -188,7 +190,7 @@ tempheader = df[df[0] == '#']
 idx = df[df[0] == '#'].index
 
 #select data
-event_number = 15
+event_number = 100
 a = event_number - 1
 # a = tempheader[tempheader[14].astype(float) == event_number].index.values[0]
 if a == len(idx)-1:
@@ -208,9 +210,9 @@ fig.coast(region = region,
           frame = frame, 
           shorelines = "0.5")
 #gempa
-fig.plot(x=tempdf.loc[[idx[a]]][8][idx[a]],y=tempdf.loc[[idx[a]]][7][idx[a]], style='a1c', pen='1,black', fill = "red")
+fig.plot(x=tempdf.loc[[idx[a]]][8][idx[a]],y=tempdf.loc[[idx[a]]][7][idx[a]], style='a1c', pen='2,black', fill = "red")
 #stasiun
-fig.plot(x=(tempdf.loc[idx[a]+1::][5].to_numpy()+originlon).tolist(),y=(tempdf.loc[idx[a]+1::][4].to_numpy()+originlat).tolist(), style='t0.5c', pen='1,black', fill = "blue")
+fig.plot(x=(tempdf.loc[idx[a]+1::][5].to_numpy()+originlon).tolist(),y=(tempdf.loc[idx[a]+1::][4].to_numpy()+originlat).tolist(), style='t0.5c', pen='2,black', fill = "yellow")
 # fig.savefig("outputs.png")
 fig.show()
 print(f"event {event_number} azimuth gap : {tempdf.iloc[0][15]} degree")

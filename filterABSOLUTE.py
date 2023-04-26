@@ -36,8 +36,8 @@ dfhead = df[df[0] == '#']
 # dfhead[13] = dfhead[13].apply(pd.to_numeric)
 # dfhead = dfhead[abs(dfhead[13]) <= 1] # fill rms here
 #magnitude filter
-# dfhead[10] = dfhead[10].apply(pd.to_numeric)
-# dfhead = dfhead[abs(dfhead[10]) >= 4] # fill magnitude here
+dfhead[10] = dfhead[10].apply(pd.to_numeric)
+dfhead = dfhead[abs(dfhead[10]) >= 5.5] # fill magnitude here
 
 #header index
 idx = df[df[0] == '#'].index
@@ -64,8 +64,14 @@ for a in range (len(idx)):
         
     # drop header
     tempdf.drop(idx[a], inplace = True)
-    # time bug dropper (23.59 time drop)
-    tempdf = tempdf[tempdf[1] > 0]
+    
+    # time bug fixer
+    for i in range(len(tempdf.index)):
+        if tempdf.iloc[i,1] < 0:
+            tempdf.iloc[i,1] = 86400 + float(tempdf.iloc[i,1])
+        else:
+            continue
+    # tempdf = tempdf[tempdf[1] > 0]
     
     #seleksi data berdasarkan stasiun
     tempdf = tempdf[tempdf[0].isin(stafile.index)]
@@ -87,9 +93,9 @@ df.sort_index(inplace = True)
 df.reset_index(inplace = True, drop = True)
 
 #output df
-df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_10P.dat')
+df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_10P_M55.dat')
 print("== data filter")
-readeventphase(path+Path(fname).stem+'_10P.dat')
+readeventphase(path+Path(fname).stem+'_10P_M55.dat')
 
 #%%
 # ==================================================================

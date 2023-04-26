@@ -2,21 +2,21 @@
 Coding: PYTHON UTF-8
 Created On: 2022-07-13 21:29:05
 Author: Putu Hendra Widyadharma
-=== reading velest output .OUT || need input depth and initial vp from readMODparam function
+=== reading velest output .OUT || need input depth and initial vp from velocity model .mod
 '''
 import pandas as pd
 from pathlib import Path
 from localfunction import *
 
-path = "G:\\My Drive\\Tomography\\160223\\Velest33-sul5_filtermagnitude45\\"
-input_path = "output160223\\"
-fname = "VEL_neq325_vthet999.OUT"
+path = "G:\\My Drive\\Tomography\\220423\\tes-velest-sul-22042023\\"
+input_path = "output\\"
+fname = "model_sulawesi.OUT"
 
 
 depth = []
 initial = []
 
-fin = open(path+'sulawesi3.mod')
+fin = open(path+'velocity_p.mod')
 #skip row 1 and 2
 readl = fin.readlines()
 #read

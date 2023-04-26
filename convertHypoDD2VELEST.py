@@ -17,10 +17,10 @@ from pathlib import Path
 #maxlat = 3
 
 #### SET THE FOLDER FOR WRITING OUTPUT FILES ################
-outdir = 'G:\\My Drive\\Tomography\\130423\\'
+outdir = 'G:\\My Drive\\Tomography\\170423\\'
 
 #### SEARCH INPUT FILE FOR GIVEN FOLDER PATH ################
-sfiles = [outdir+'output_phase_sul_2022_filter5_filter10rec_rms1_m4.dat']
+sfiles = [outdir+'phase_sul_2022_10P_M55.dat']
 
 #### READ EACH FILE #########################################
 for sfile in sfiles:
