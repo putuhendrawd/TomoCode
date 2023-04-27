@@ -20,7 +20,7 @@ from pathlib import Path
 outdir = 'G:\\My Drive\\Tomography\\260423\\'
 
 #### SEARCH INPUT FILE FOR GIVEN FOLDER PATH ################
-sfiles = [outdir+'phase_sul_2022_8P_150-10D_PnS.dat']
+sfiles = [outdir+'phase_sul_2022_6P_150-10D_PnS.dat']
 
 #### READ EACH FILE #########################################
 first = True
@@ -41,7 +41,6 @@ for sfile in sfiles:
                 else:
                     fout.write("\n\n")
                 
-                l = 0
 #                print(spl)
                 tahun = spl[1]
                 bulan =spl[2]
@@ -88,7 +87,6 @@ for sfile in sfiles:
                     continue
                 flag = int(float(spl[2]))
                 pha = spl[3]
-                l += 1
                 fout.write('%s%s%s%6s'%(stacode,pha,flag,time))
 fin.close()
 fout.close()
