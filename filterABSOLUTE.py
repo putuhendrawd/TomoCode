@@ -82,7 +82,7 @@ for a in range (len(idx)):
     tempdf = tempdf[(tempdf[3] == 'P') | (tempdf[3] == 'S')]
     
     #seleksi data berdasarkan jumlah laporan stasiun
-    if (len(tempdf[tempdf[3] == 'P']) >= 8): #isi batas jumlah laporan
+    if (len(tempdf[tempdf[3] == 'P']) >= 6): #isi batas jumlah laporan
         tempdf[2] = pd.to_numeric(df[2])
         tempdf[2] = tempdf[2].map(lambda x: '%2.1f' % x)
         tempdata = pd.concat([tempdata,tempdf])
@@ -96,9 +96,9 @@ df.sort_index(inplace = True)
 df.reset_index(inplace = True, drop = True)
 
 #output df
-df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_8P_150-10D_PnS.dat')
+df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_6P_150-10D_PnS.dat')
 print("== data filter")
-readeventphase(path+Path(fname).stem+'_8P_150-10D_PnS.dat')
+readeventphase(path+Path(fname).stem+'_6P_150-10D_PnS.dat')
 
   #%%
 # ==================================================================
