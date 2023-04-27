@@ -18,7 +18,7 @@ from sklearn.metrics import r2_score
 pd.options.mode.chained_assignment = None
 
 path = 'G:\\My Drive\\Tomography\\170423\\'
-outputpath = path+'wadati\\'
+outputpath = 'G:\\My Drive\\Tomography\\270423\\'
 fname = 'phase_sul_2022_8P.dat'
 staname = 'sta-run-sul6-13042023.txt'
 daerah = 'Sulawesi 8P'
@@ -144,18 +144,18 @@ for a in range (len(idx)):
                 dist = tempdf.iloc[i][4]
                 bar = pd.Series([sta,tp,ts,tstp,dist,event_id], index = wadati.columns)
                 wadati = pd.concat([wadati,bar.to_frame(1).T], axis = 0)
-    
+df.to_csv(outputpath+f'temppha_{Path(fname).stem}.txt',sep = '\t', index = None)
 # del(tempdf,tp,tstp,i,dist,a,bar)
 
 #cleaning wadati
-wadati = wadati[wadati['tp'] > 0]
-wadati = wadati[wadati['tp'] < 400]
+# wadati = wadati[wadati['tp'] > 0]
+# wadati = wadati[wadati['tp'] < 400]
 #wadati = wadati[wadati['dist'] != '#NA']
-wadati = wadati[wadati['ts-tp']>0]
+# wadati = wadati[wadati['ts-tp']>0]
 # wadati = wadati[wadati['ts-tp']<180]
 
 #output wadati file
-wadati.to_csv(outputpath+f'wadati {daerah}.txt',sep = '\t', index = None)
+wadati.to_csv(outputpath+f'tempwadati_{Path(fname).stem}.txt',sep = '\t', index = None)
 
 #%%
 #parameter vp/vs calculation
