@@ -19,7 +19,7 @@ pd.options.mode.chained_assignment = None
 # selected station, phase, total station report, event rms value, magnitude value
 # =============================================================================
 
-path = 'G:\\My Drive\\Tomography\\170423\\'
+path = 'G:\\My Drive\\Tomography\\280423\\'
 fname = 'phase_sul_2022.dat'
 staname = 'sta-run-sul6-13042023.txt'
 
@@ -32,13 +32,13 @@ df= readabsolute(path+fname)
 
 # filter data by rms / magnitude / depth ==============================================
 dfhead = df[df[0] == '#']
-#rms event filter
+# rms event filter
 # dfhead[13] = dfhead[13].apply(pd.to_numeric)
 # dfhead = dfhead[abs(dfhead[13]) <= 1] # fill rms here
-#magnitude filter
+# magnitude filter
 # dfhead[10] = dfhead[10].apply(pd.to_numeric)
 # dfhead = dfhead[abs(dfhead[10]) >= 5.5] # fill magnitude here
-#magnitude depth
+# magnitude depth
 dfhead[9] = dfhead[9].apply(pd.to_numeric)
 dfhead = dfhead[(pd.to_numeric(dfhead[9]) != 10) & (pd.to_numeric(dfhead[9]) <= 150)] # fill depth here
 
@@ -68,13 +68,16 @@ for a in range (len(idx)):
     # drop header
     tempdf.drop(idx[a], inplace = True)
     
-    # time bug fixer
+    # time bug 86400 fixer ()
     for i in range(len(tempdf.index)):
-        if tempdf.iloc[i,1] < 0:
+        if tempdf.iloc[i,1] <= -84000:
             tempdf.iloc[i,1] = 86400 + float(tempdf.iloc[i,1])
+        elif tempdf.iloc[i,1] >= 84000:
+            tempdf.iloc[i,1] = abs(-86400 + float(tempdf.iloc[i,1]))
         else:
             continue
-    # tempdf = tempdf[tempdf[1] > 0]
+    # time bug small negative dropper 
+    tempdf = tempdf[tempdf[1] > 0]
     
     #seleksi data berdasarkan stasiun
     tempdf = tempdf[tempdf[0].isin(stafile.index)]
