@@ -17,9 +17,9 @@ from localfunction import *
 from sklearn.metrics import r2_score
 pd.options.mode.chained_assignment = None
 
-path = 'G:\\My Drive\\Tomography\\170423\\'
-outputpath = 'G:\\My Drive\\Tomography\\270423\\'
-fname = 'phase_sul_2022_8P_fix.dat'
+path = 'G:\\My Drive\\Tomography\\280423\\'
+outputpath = 'G:\\My Drive\\Tomography\\280423\\'
+fname = 'phase_sul_2022_8P_fix_wadatifilter.dat'
 staname = 'sta-run-sul6-13042023.txt'
 daerah = 'Sulawesi 8P'
 
@@ -212,7 +212,7 @@ ax.text(100, 20, f'R$^2$ = {r2:.3f}', fontsize=14)
 #add-on
 fig.set_figheight(5)
 fig.set_figwidth(10)
-fig.savefig(outputpath+'Wadati Diagram {}.jpg'.format(daerah))
+fig.savefig(outputpath+'Wadati Diagram {}.jpg'.format(Path(fname).stem))
 
 # %%
 # =============================================================================
@@ -240,7 +240,7 @@ ax.text(0.02,0.93,'P', transform=ax.transAxes, fontsize=18)
 ax.text(0.02,0.81,'S', transform=ax.transAxes, fontsize=18)
 fig.colorbar(tp_ax[3], cax=cbax1, orientation='horizontal')
 fig.colorbar(ts_ax[3], cax=cbax2, orientation='horizontal')
-fig.savefig(outputpath+'Time Travel Diagram {}.jpg'.format(daerah))
+fig.savefig(outputpath+'Time Travel Diagram {}.jpg'.format(Path(fname).stem))
 
 # %%
 # =============================================================================
@@ -269,5 +269,5 @@ ax.set_ylim([-2,250])
 ax.legend()
 fig.set_figheight(5)
 fig.set_figwidth(10)
-fig.savefig(outputpath+'Time Travel Diagram Bubble {}.jpg'.format(daerah))
+fig.savefig(outputpath+'Time Travel Diagram Bubble {}.jpg'.format(Path(fname).stem))
 # %%
