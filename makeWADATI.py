@@ -19,7 +19,7 @@ pd.options.mode.chained_assignment = None
 
 path = 'G:\\My Drive\\Tomography\\170423\\'
 outputpath = 'G:\\My Drive\\Tomography\\270423\\'
-fname = 'phase_sul_2022_8P.dat'
+fname = 'phase_sul_2022_8P_fix.dat'
 staname = 'sta-run-sul6-13042023.txt'
 daerah = 'Sulawesi 8P'
 
@@ -162,6 +162,10 @@ wadati.to_csv(outputpath+f'tempwadati_{Path(fname).stem}.txt',sep = '\t', index 
 slope, intercept = np.polyfit(wadati['tp'].astype(float),wadati['ts-tp'].astype(float),1)
 predict = np.poly1d([slope, intercept])
 
+#hitung batas atas dan bawah regresi vp/vs
+predictup = np.poly1d([slope,intercept+9.5])
+predictdown = np.poly1d([slope,intercept-9.5])
+
 #hitung stdev
 std = np.std(wadati['ts-tp'])
 
@@ -181,20 +185,31 @@ print(f"std_err = {standard_error}")
 # =============================================================================
 # buat grafik wadati
 # =============================================================================
+#init
 plt.rcParams.update({'font.size': 14})
 fig, ax = plt.subplots(figsize = (5,5), dpi=1200)
-ax.scatter(wadati['tp'],wadati['ts-tp'])
 ax.set_xlabel('tp (s)')
 ax.set_ylabel('ts-tp (s)')
 #ax.set_title('Wadati Diagram')
 ax.set_xlim([-2,150])
 ax.set_ylim([-2,150])
-ax.plot(wadati['tp'],slope*wadati['tp']+intercept,'r--')
+#plot scatter data
+ax.scatter(wadati['tp'],wadati['ts-tp'])
+#sort data for antibacktracking plot
+wadatis = wadati.sort_values('tp')
+#plot regression line
+ax.plot(wadatis['tp'],predict(wadatis['tp']),'r--')
+# percentage error
 # ax.plot(wadati['tp'],(slope*wadati['tp']+intercept)+(0.1*(slope*wadati['tp']+intercept)),'r--')
 # ax.plot(wadati['tp'],(slope*wadati['tp']+intercept)-(0.1*(slope*wadati['tp']+intercept)),'r--')
+# fix error 
+ax.plot(wadatis['tp'],predictup(wadatis['tp']),'r-')
+ax.plot(wadatis['tp'],predictdown(wadatis['tp']),'r-')
+#add additional legend data
 ax.text(100, 40, 'y = {:.4f}x{:+.4f}'.format(slope,intercept), fontsize=14)
 ax.text(100, 30, 'Vp/Vs = {:.4f}'.format(slope+1), fontsize=14)
 ax.text(100, 20, f'R$^2$ = {r2:.3f}', fontsize=14)
+#add-on
 fig.set_figheight(5)
 fig.set_figwidth(10)
 fig.savefig(outputpath+'Wadati Diagram {}.jpg'.format(daerah))
