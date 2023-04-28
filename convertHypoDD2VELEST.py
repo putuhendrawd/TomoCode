@@ -17,7 +17,7 @@ from pathlib import Path
 #maxlat = 3
 
 #### SET THE FOLDER FOR WRITING OUTPUT FILES ################
-outdir = 'G:\\My Drive\\Tomography\\260423\\'
+outdir = 'G:\\My Drive\\Tomography\\280423\\'
 
 #### SEARCH INPUT FILE FOR GIVEN FOLDER PATH ################
 sfiles = [outdir+'phase_sul_2022_6P_150-10D_PnS.dat']

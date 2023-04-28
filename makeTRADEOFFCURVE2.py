@@ -19,7 +19,7 @@ import statistics
 
 #initializaion
 df = pd.DataFrame([],columns=['model_var','data_var','damp'])
-damp = [10,20,30,50,60,70,80,90,100,200,300,400,500]
+damp = [10,20,30,50,60,70,80,90,100,110,120,130,200,300,400,500]
 parent = 'G:\\My Drive\\Tomography\\270423\\runak135fcrust10-tradeoff-27042023'
 varvariable = 'weighted' # 'absolute' or 'weighted'
 #read 
@@ -95,9 +95,9 @@ for x,y in zip(df['model_var'],df['data_var']):
     # elif c==8:
     #    ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(3,5),ha='center')
     # else:
-    if int(df['damp'][c]) <= 100 and c % 2 == 0:
+    if int(df['damp'][c]) <= 130 and c % 2 == 0:
         ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(0,5),ha='center',fontsize=10)
-    elif int(df['damp'][c]) <= 100 and c % 2 != 0:
+    elif int(df['damp'][c]) <= 130 and c % 2 != 0:
         ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(0,-13),ha='center',fontsize=10)
     else:
         ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(0,5),ha='center',fontsize=10)
