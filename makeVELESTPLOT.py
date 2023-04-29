@@ -11,9 +11,10 @@ from matplotlib.ticker import MultipleLocator, FormatStrFormatter, AutoMinorLoca
 from matplotlib.lines import Line2D
 from localfunction import *
 
-path = "G:\\My Drive\\Tomography\\280423\\"
+path = "G:\\My Drive\\Tomography\\290423\\"
+fname ="model_sulawesi_linux_2022_6P_150-10D_PnS_damp70_vadj1_vp.csv"
 # input from mod
-df = pd.read_csv(path+"vp_extract.csv")
+df = pd.read_csv(path+fname)
 depth = df['depth'].to_list()
 vp = df.iloc[:,1::].values.transpose().tolist()
 
@@ -137,4 +138,4 @@ ax.invert_yaxis()
 # ax.set_title('1-D Model')
 ax.set_xlabel('Velocity (km/s)')
 ax.set_ylabel('Depth (km)')
-fig.savefig(path+"velocity model.png",bbox_inches = 'tight', transparent=False)
+fig.savefig(path+f"velocity model {Path(fname).stem}.png",bbox_inches = 'tight', transparent=False)
