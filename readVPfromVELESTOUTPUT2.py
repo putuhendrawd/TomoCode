@@ -8,9 +8,8 @@ import pandas as pd
 from pathlib import Path
 from localfunction import *
 
-path = "G:\\My Drive\\Tomography\\280423\\velest_output\\"
-input_path = "output\\"
-fname = "model_sulawesi_linux_2022_6P_150-10D_PnS.OUT"
+path = "G:\\My Drive\\Tomography\\290423\\"
+fname = "model_sulawesi_linux_2022_6P_150-10D_PnS_damp70_vadj1.OUT"
 
 # init
 depth = []
@@ -131,7 +130,7 @@ result_vp.to_csv(path+f'{Path(fname).stem}_vp.csv',index="depth")
 result_vs.to_csv(path+f'{Path(fname).stem}_vs.csv',index="depth")
 with open(path+f"residual {Path(fname).stem}.txt", "w") as res:
     res.write(f"{'iteration':<10} {'residuals':<10}\n")
-    for i in range(count):
+    for i in range(count+1):
         if i ==0:
             res.write(f"{'init':<10} {residual[i]:<10}\n")
         else:
