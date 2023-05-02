@@ -1,138 +1,98 @@
-'''
-Coding: PYTHON UTF-8
-Created On: 2022-07-13 21:29:05
-Author: Putu Hendra Widyadharma
-=== reading velest output .OUT || need input depth and initial vp from velocity model .mod
-'''
+import numpy as np
 import pandas as pd
+import geopy.distance as gd
+import matplotlib.pyplot as plt
 from pathlib import Path
 from localfunction import *
+pd.options.mode.chained_assignment = None
 
-path = "G:\\My Drive\\Tomography\\280423\\velest_output\\"
-input_path = "output\\"
-fname = "model_sulawesi_linux_2022_6P_150-10D_PnS.OUT"
+for nn in [3,4,5,6,7]:
+    # =============================================================================
+    # Filter Absolute based on
+    # selected station, phase, total station report, event rms value, magnitude value
+    # =============================================================================
 
-# init
-depth = []
-initial_vp = []
-initial_vs = []
-residual = []
-read_init_vp = False
-read_init_vs = False
-read_vp=False
-read_vs=False
-adjustment=False
-count = 0
-count2 = 0
-count3 = 0
-result_vp = pd.DataFrame([],columns=["depth","init"])
-result_vs = pd.DataFrame([],columns=["depth","init"])
+    path = 'G:\\My Drive\\Tomography\\300423\\'
+    fname = f'phase_sul_2022_8P_wadatifilter_sta-rms{nn}.dat'
+    staname = 'selected_sta_sul.txt'
 
-# define function float searcher
-def isfloat(num):
-    try:
-        float(num)
-        return True
-    except ValueError:
-        return False
+    # baca data stasiun ==============================================
+    stafile = pd.read_csv(path+staname, delim_whitespace = True,names = [i for i in range(12)])
+    stafile.set_index(0, inplace = True)
 
-# read
-print(f"========== Start Reading {fname} ==========\n")
-fin = open(path+fname)
-readl = fin.readlines()
+    # baca data =======================================================
+    df= readabsolute(path+fname)
 
-for i in readl:
-    spl=i.split()
-    # print(spl)
-    # cari data model awal 
-    if "velocity structure for model" in " ".join(spl).lower():
-        if spl[4] == '1':
-            read_init_vp = True
-            print(f"## READING INITIAL DATA VP")
-            # print(f'== step 1 read init\nread_init_vp = {read_init_vp}\nread_init_vs = {read_init_vs}')
-        elif spl[4] == '2':
-            read_init_vp = False
-            read_init_vs = True
-            print(f"## READING INITIAL DATA VS")
-            # print(f'== step 2 read init\nread_init_vp = {read_init_vp}\nread_init_vs = {read_init_vs}')
+    # filter data by rms / magnitude / depth ==============================================
+    dfhead = df[df[0] == '#']
+    # rms event filter
+    # dfhead[13] = dfhead[13].apply(pd.to_numeric)
+    # dfhead = dfhead[abs(dfhead[13]) <= 1] # fill rms here
+    # magnitude filter
+    # dfhead[10] = dfhead[10].apply(pd.to_numeric)
+    # dfhead = dfhead[abs(dfhead[10]) >= 5.5] # fill magnitude here
+    # magnitude depth
+    # dfhead[9] = dfhead[9].apply(pd.to_numeric)
+    # dfhead = dfhead[(pd.to_numeric(dfhead[9]) != 10) & (pd.to_numeric(dfhead[9]) <= 150)] # fill depth here
+
+    #header index
+    idx = df[df[0] == '#'].index
+    #temp df header
+    tempheader = df[df[0] == '#']
+    #temp df data
+    tempdata = pd.DataFrame([],columns = df.columns)
+
+    #filtering data
+    for a in range (len(idx)):
+        #buat data per kejadian gempa
+        if a == len(idx)-1:
+            if idx[a] in dfhead.index:
+                tempdf = df.iloc[idx[a]::]
+            else:
+                tempheader.drop(idx[a], inplace = True)
+                continue
         else:
-            pass
-    if len(spl)>0 and spl[0].isnumeric() and read_init_vp:
-        depth.append(float(spl[2]))
-        initial_vp.append(float(spl[1]))
-        count+=1
-    elif len(spl)>0 and spl[0].isnumeric() and read_init_vs:
-        if count2 < count:
-            initial_vs.append(float(spl[1]))
-            count2+=1
-        else:
-            read_init_vs = False
-            #save vp
-            result_vp["depth"] = depth
-            result_vp['init'] = initial_vp
-            result_vp.set_index("depth",inplace=True)
+            if idx[a] in dfhead.index:
+                tempdf = df.iloc[idx[a]:idx[a+1],:]
+            else:
+                tempheader.drop(idx[a], inplace = True)
+                continue
             
-            #save vs
-            result_vs["depth"] = depth
-            result_vs['init'] = initial_vs
-            result_vs.set_index("depth",inplace=True)
-            
-            del count2
-            # print(f'== step 3 read init\nread_init_vp = {read_init_vp}\nread_init_vs = {read_init_vs}')
-            print(f"initial data stored in result_vp and result_vs")
-
-    # cari rms residual 
-    if "rms residual" in " ".join(spl).lower():
-        residual.append(float(spl[-1]))
-    
-    # cari data dari setiap iterasi
-    if "iteration no" in " ".join(spl).lower():
-        iter = spl[2]
-        adjustment=False
-        read_vp=False
-        read_vs=False
-        vp_dump=[]
-        vs_dump=[]
-        count3=0
-        print(f"## READING ITERATION {iter}")
-    if "velocity adjustments:" in " ".join(spl).lower():
-        # print(spl)
-        adjustment=True
-    if len(spl)==3 and adjustment and "velocity model" in " ".join(spl).lower():
-        # print(spl)
-        if spl[2] == '1':
-            read_vp = True
-            # print(f'== step 1 read data iteration: {iter}\nread_vp = {read_vp}\nread_vs = {read_vs}')
-        elif spl[2] == '2':
-            read_vp = False
-            read_vs = True
-            # print(f'== step 2 read data iteration: {iter}\nread_vp = {read_vp}\nread_vs = {read_vs}')
+        # drop header
+        tempdf.drop(idx[a], inplace = True)
+        
+        # time bug 86400 fixer ()
+        for i in range(len(tempdf.index)):
+            if tempdf.iloc[i,1] <= -84000:
+                tempdf.iloc[i,1] = 86400 + float(tempdf.iloc[i,1])
+            elif tempdf.iloc[i,1] >= 84000:
+                tempdf.iloc[i,1] = abs(-86400 + float(tempdf.iloc[i,1]))
+            else:
+                continue
+        # time bug small negative dropper 
+        tempdf = tempdf[tempdf[1] > 0]
+        
+        #seleksi data berdasarkan stasiun
+        tempdf = tempdf[tempdf[0].isin(stafile.index)]
+        #clean hanya data fasa P dan S
+        # tempdf = tempdf[(tempdf[3] == 'P') | (tempdf[3] == 'S')]
+        
+        #seleksi data berdasarkan jumlah laporan stasiun
+        # if (len(tempdf) >= 8): #isi batas jumlah laporan untuk semua jenis fasa
+        if (len(tempdf[tempdf[3] == 'P']) >= 8): #isi batas jumlah laporan hanya P yang dihitung
+            tempdf[2] = pd.to_numeric(df[2])
+            tempdf[2] = tempdf[2].map(lambda x: '%2.1f' % x)
+            tempdata = pd.concat([tempdata,tempdf])
         else:
-            pass
-    if len(spl)>=3 and isfloat(spl[0]) and isfloat(spl[1]) and isfloat(spl[2]) and read_vp:
-        vp_dump.append(spl[0])
-    elif len(spl)>=3 and isfloat(spl[0]) and isfloat(spl[1]) and isfloat(spl[2]) and read_vs:
-        if count3 < count:
-            vs_dump.append(spl[0])
-            count3+=1
-    if count3==count and read_vs:
-        read_vs = False
-        #save vp
-        result_vp[iter] = vp_dump
-        #save vs
-        result_vs[iter] = vs_dump
-        # print(f'== step 3 read data iteration: {iter}\nread_vp = {read_vp}\nread_vs = {read_vs}')
-        print(f"iteration data stored in result_vp and result_vs")
-print(f"\n========== Finish Reading {fname} ==========")
-fin.close()
+            #hapus header
+            tempheader.drop(idx[a], inplace = True)
 
-#export
-result_vp.to_csv(path+f'{Path(fname).stem}_vp.csv',index="depth")
-result_vs.to_csv(path+f'{Path(fname).stem}_vs.csv',index="depth")
-with open(path+f"residual {Path(fname).stem}.txt", "w") as res:
-    res.write(f"{'iteration':<10} {'residuals':<10}\n")
-    for i in range(count):
-        if i ==0:
-            res.write(f"{'init':<10} {residual[i]:<10}\n")
-        else:
-            res.write(f"{i:<10} {residual[i]:<10}\n")
+    #remake df to filtered df
+    df=pd.concat([tempdata,tempheader])
+    df.sort_index(inplace = True)
+    df.reset_index(inplace = True, drop = True)
+
+    #output df
+    df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_8P.dat')
+    print("== data filter")
+    readeventphase(path+Path(fname).stem+'_8P.dat')

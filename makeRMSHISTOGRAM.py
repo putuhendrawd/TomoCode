@@ -3,9 +3,9 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-path = 'G:\\My Drive\\Tomography\\120123\\sta-filter-sum-12012023\\'
-outputpath = 'G:\\My Drive\\Tomography\\120123\\sta-filter-sum-12012023\\'
-fname1 = 'tomoDD-sum-before.res'
+path = 'G:\\My Drive\\Tomography\\300423\\'
+outputpath = 'G:\\My Drive\\Tomography\\300423\\'
+fname1 = ''
 fname2 = 'tomoDD.res'
 
 def data(fname):
@@ -57,6 +57,7 @@ fig.savefig(outputpath+'RMS Sumatera.jpg' ,bbox_inches = 'tight')
 
 # %% up and down
 print("==run up and down plot")
+bins_ = np.arange(-9.5,10.5,1)
 fig, ax = plt.subplots(nrows= 2,ncols=1, sharex = True, sharey = True, dpi = 1200)
 if not df1.empty:
 	max = round(df1["RES"].max(),3)
@@ -76,10 +77,10 @@ if not df2.empty:
     ax[1].text(0.02,0.75,f"max: {max:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)
     ax[1].text(0.02,0.65,f"med: {med:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)	
     ax[1].legend()
-plt.setp(ax, xlim=[-6,7], ylim=[0,50000])
+plt.setp(ax, xlim=[-6,7], ylim=[0,150000])
 fig.supxlabel('RMS Residual (s)', ha='center')
 fig.supylabel('Number of Observations', va='center', x=-.01)
 fig.suptitle('RMS Residual',y=0.95)
-fig.savefig(outputpath+'RMS Split Sumatera.jpg' ,bbox_inches = 'tight')
+fig.savefig(outputpath+'RMS Split.jpg' ,bbox_inches = 'tight')
 print(f"==save complete on {outputpath}")
 # %%

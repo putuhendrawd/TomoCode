@@ -17,11 +17,10 @@ from localfunction import *
 from sklearn.metrics import r2_score
 pd.options.mode.chained_assignment = None
 
-path = 'G:\\My Drive\\Tomography\\280423\\'
-outputpath = 'G:\\My Drive\\Tomography\\280423\\'
-fname = 'phase_sul_2022_8P_fix_wadatifilter.dat'
-staname = 'sta-run-sul6-13042023.txt'
-daerah = 'Sulawesi 8P'
+path = 'G:\\My Drive\\Tomography\\300423\\'
+outputpath = path
+fname = 'phase_sul_2022_8P_wadatifilter_sta-rms5_8PS.dat'
+staname = 'selected_sta_sul.txt'
 
 #%%
 # =============================================================================
@@ -150,7 +149,7 @@ df.to_csv(outputpath+f'temppha_{Path(fname).stem}.txt',sep = '\t', index = None)
 #cleaning wadati
 # wadati = wadati[wadati['tp'] > 0]
 # wadati = wadati[wadati['tp'] < 400]
-#wadati = wadati[wadati['dist'] != '#NA']
+# wadati = wadati[wadati['dist'] != '#NA']
 # wadati = wadati[wadati['ts-tp']>0]
 # wadati = wadati[wadati['ts-tp']<180]
 
@@ -192,7 +191,7 @@ ax.set_xlabel('tp (s)')
 ax.set_ylabel('ts-tp (s)')
 #ax.set_title('Wadati Diagram')
 ax.set_xlim([-2,150])
-ax.set_ylim([-2,150])
+ax.set_ylim([-2,130])
 #plot scatter data
 ax.scatter(wadati['tp'],wadati['ts-tp'])
 #sort data for antibacktracking plot
@@ -203,8 +202,8 @@ ax.plot(wadatis['tp'],predict(wadatis['tp']),'r--')
 # ax.plot(wadati['tp'],(slope*wadati['tp']+intercept)+(0.1*(slope*wadati['tp']+intercept)),'r--')
 # ax.plot(wadati['tp'],(slope*wadati['tp']+intercept)-(0.1*(slope*wadati['tp']+intercept)),'r--')
 # fix error 
-ax.plot(wadatis['tp'],predictup(wadatis['tp']),'r-')
-ax.plot(wadatis['tp'],predictdown(wadatis['tp']),'r-')
+# ax.plot(wadatis['tp'],predictup(wadatis['tp']),'r-')
+# ax.plot(wadatis['tp'],predictdown(wadatis['tp']),'r-')
 #add additional legend data
 ax.text(100, 40, 'y = {:.4f}x{:+.4f}'.format(slope,intercept), fontsize=14)
 ax.text(100, 30, 'Vp/Vs = {:.4f}'.format(slope+1), fontsize=14)

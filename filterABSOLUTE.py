@@ -19,9 +19,9 @@ pd.options.mode.chained_assignment = None
 # selected station, phase, total station report, event rms value, magnitude value
 # =============================================================================
 
-path = 'G:\\My Drive\\Tomography\\280423\\'
-fname = 'phase_sul_2022.dat'
-staname = 'sta-run-sul6-13042023.txt'
+path = 'G:\\My Drive\\Tomography\\300423\\'
+fname = 'phase_sul_2022_8P_wadatifilter_sta-rms5.dat'
+staname = 'selected_sta_sul.txt'
 
 # baca data stasiun ==============================================
 stafile = pd.read_csv(path+staname, delim_whitespace = True,names = [i for i in range(12)])
@@ -39,8 +39,8 @@ dfhead = df[df[0] == '#']
 # dfhead[10] = dfhead[10].apply(pd.to_numeric)
 # dfhead = dfhead[abs(dfhead[10]) >= 5.5] # fill magnitude here
 # magnitude depth
-dfhead[9] = dfhead[9].apply(pd.to_numeric)
-dfhead = dfhead[(pd.to_numeric(dfhead[9]) != 10) & (pd.to_numeric(dfhead[9]) <= 150)] # fill depth here
+# dfhead[9] = dfhead[9].apply(pd.to_numeric)
+# dfhead = dfhead[(pd.to_numeric(dfhead[9]) != 10) & (pd.to_numeric(dfhead[9]) <= 150)] # fill depth here
 
 #header index
 idx = df[df[0] == '#'].index
@@ -82,10 +82,11 @@ for a in range (len(idx)):
     #seleksi data berdasarkan stasiun
     tempdf = tempdf[tempdf[0].isin(stafile.index)]
     #clean hanya data fasa P dan S
-    tempdf = tempdf[(tempdf[3] == 'P') | (tempdf[3] == 'S')]
+    # tempdf = tempdf[(tempdf[3] == 'P') | (tempdf[3] == 'S')]
     
     #seleksi data berdasarkan jumlah laporan stasiun
-    if (len(tempdf[tempdf[3] == 'P']) >= 6): #isi batas jumlah laporan
+    if (len(tempdf) >= 8): #isi batas jumlah laporan untuk semua jenis fasa
+    # if (len(tempdf[tempdf[3] == 'P']) >= 8): #isi batas jumlah laporan hanya P yang dihitung
         tempdf[2] = pd.to_numeric(df[2])
         tempdf[2] = tempdf[2].map(lambda x: '%2.1f' % x)
         tempdata = pd.concat([tempdata,tempdf])
@@ -99,9 +100,9 @@ df.sort_index(inplace = True)
 df.reset_index(inplace = True, drop = True)
 
 #output df
-df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_6P_150-10D_PnS.dat')
+df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_8PS.dat')
 print("== data filter")
-readeventphase(path+Path(fname).stem+'_6P_150-10D_PnS.dat')
+readeventphase(path+Path(fname).stem+'_8PS.dat')
 
   #%%
 # ==================================================================
@@ -180,9 +181,9 @@ df2dat(dfres,evnum = 1, path = path, fname=Path(fname).stem+'_filterlatlon.dat')
 # station rms value
 # =============================================================================
 
-path = 'E:\\My Drive\\Tomography\\120123\\sta-filter-sum-12012023\\'
-absname = 'sumatra4.dat'
-staname = 'stasum1.dat'
+path = "G:\\My Drive\\Tomography\\300423\\"
+absname = "phase_sul_2022_8P_wadatifilter.dat"
+staname = 'selected_sta_sul.txt'
 resname = 'tomoDD.res'
 
 #read data
@@ -194,7 +195,7 @@ dfres = readres(path+resname)
 tempdata = pd.DataFrame([],columns = dfabs.columns)
 
 #processing
-RMSv_LIMIT = 5
+RMSv_LIMIT = 7
 tempheader = dfabs[dfabs[0] == '#']
 idx = tempheader.index
 
@@ -223,5 +224,5 @@ dfresult.sort_index(inplace = True)
 dfresult.reset_index(inplace = True, drop = True)
 
 #output
-df2dat(dfresult,evnum = 1, path = path, fname=Path(absname).stem+'_filter_sta-rms.dat')
-readeventphase(path+Path(absname).stem+'_filter_sta-rms.dat')
+df2dat(dfresult,evnum = 1, path = path, fname=Path(absname).stem+f'_sta-rms{RMSv_LIMIT}.dat')
+readeventphase(path+Path(absname).stem+f'_sta-rms{RMSv_LIMIT}.dat')
