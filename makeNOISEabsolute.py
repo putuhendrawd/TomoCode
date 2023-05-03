@@ -12,10 +12,10 @@ from localfunction import *
 pd.options.mode.chained_assignment = None
 import matplotlib.pyplot as plt
 
-path = 'G:\\My Drive\\Tomography\\020523\\'
-fname = 'phase_sul_2022.dat'
+path = 'G:\\My Drive\\Tomography\\030523\\'
+fname = 'syn.absolute.dat'
 df= readabsolute(path+fname)
-mu, sigma = 0, 0.2 # mean and standard deviation
+mu, sigma = 0, 0.1 # mean and standard deviation
 
 #init tempdata
 tempheader = df[df[0]=="#"]
@@ -32,7 +32,7 @@ for a in range (len(idx)):
     # process make random noise
     s = np.random.normal(mu, sigma, len(tempdf))
     # include
-    tempdf[1] = round(tempdf[1].map(np.array)-s,2)
+    tempdf[1] = tempdf[1].map(np.array)-s
     tempdata = pd.concat([tempdata,tempdf])
 
 dfresult=pd.concat([tempdata,tempheader])
@@ -42,3 +42,11 @@ dfresult.reset_index(inplace = True, drop = True)
 #output
 df2dat(dfresult,evnum = 1, path = path, fname=f'noisestdev{str(sigma).replace(".","")}_'+Path(fname).name)
 readeventphase(path+f'noisestdev{str(sigma).replace(".","")}_'+Path(fname).name)
+
+#if running in absolute.dat
+dfresult.loc[:,:3].to_csv(path+f'noisestdev{str(sigma).replace(".","")}_'+Path(fname).name, sep="\t",index=None, header=None)
+'''
+if running in absolute.dat, there is a bug and it need to fix by using:
+replace "\t\t" char with none
+replace "\t" with "  " (double space)
+'''
