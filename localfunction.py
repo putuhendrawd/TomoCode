@@ -136,7 +136,7 @@ def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat',mode='w',azgap=Fa
                 ,float(df.iloc[i][12]),float(df.iloc[i][13]),float(df.iloc[i][14]),float(df.iloc[i][15]))
                 files.write(tempheader)
             elif absolute == True:
-                tempheader = "{} {}\n".format(str(df.iloc[i][0]),int(df.iloc[i][1]))
+                tempheader = "{}  {}\n".format(str(df.iloc[i][0]),int(df.iloc[i][1]))
                 files.write(tempheader)
             else:
                 tempheader = "{} {: >4.0f} {: >2.0f} {: >2.0f} {: >2.0f} {: >2.0f} {: >4.2f} {: >8.4f} {: >8.4f} {: >3.0f} {: >4.2f} {: >3.0f} {: >3.0f} {: >6.3f} {: >6.0f}\n".\
