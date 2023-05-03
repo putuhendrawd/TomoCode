@@ -7,6 +7,7 @@ import numpy as np
 import os
 from pathlib import Path
 import sys
+np.seterr(divide='ignore', invalid='ignore')
 
 # folder path
 path = os.getcwd() + '\\'
@@ -146,6 +147,7 @@ if vdws == 1:
 
             datavp = np.loadtxt(filevp)
             datafix = []
+            datafix_log10 = []
             for i in range(len(lvl)):
 
                 #edit code untuk n grid
@@ -154,7 +156,9 @@ if vdws == 1:
 
                 #data =np.flip(data) #membalik data
                 data = data.ravel() #memflatkan data
-
+                data_log10 = np.log10(data)
+                data_log10[data_log10<0] = 0 #fix -inf to 1 as minimum value of log
+                
                 #edit code untuk n grid
                 #ikat = dflvl[i*nbaris+n] # buat ikatan
                 #-----
@@ -163,6 +167,9 @@ if vdws == 1:
                 data = data.tolist() #ubah array ke list
                 datafix.append(data)
                 
+                data_log10 = data_log10.tolist()
+                datafix_log10.append(data_log10)
+                
             df = pd.DataFrame(datafix) #membaca data dalam format dataframe pandas
             df = df.transpose()
             df = df.set_axis(lvl, axis='columns') #beri nama columns dengan lvl 0, 0.5, ..
@@ -170,10 +177,23 @@ if vdws == 1:
             #print('panjang lats',len(lats))
             df.insert(0,'Lat', lats) #menyisipkan lats pada kolom pertama
             df.insert(1,'Lon', lons)
+            
+            # log format data
+            df2 = pd.DataFrame(datafix_log10) #membaca data dalam format dataframe pandas
+            df2 = df2.transpose()
+            df2 = df2.set_axis(lvl, axis='columns') #beri nama columns dengan lvl 0, 0.5, ..
+            df2.drop(df2.columns[[0,-1]], axis=1, inplace=True) #hapus data pada level awal dan akhir
+            #print('panjang lats',len(lats))
+            df2.insert(0,'Lat', lats) #menyisipkan lats pada kolom pertama
+            df2.insert(1,'Lon', lons)
 
             #simpan hasil dalam format csv
             filename = path+Path(filevp).stem +'_output.csv'
             df.to_csv (filename, index = False, header=True)
+            
+            # log format data
+            filename2 = path+Path(filevp).stem +'_output_log10.csv'
+            df2.to_csv (filename2, index = False, header=True)
     except:
         print('DWS_{} running error'.format(x))
         
