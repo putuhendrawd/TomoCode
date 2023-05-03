@@ -109,11 +109,11 @@ def pass_datetime(text):
             pass
     raise ValueError('no valid date format found')
 
-def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat',mode='w',azgap=False):
+def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat',mode='w',azgap=False, absolute=False):
     df = x
     
     #if evnum != 0 then remake event number by the evnum input as first event number
-    if evnum != 0:
+    if evnum != 0 and absolute == False:
         pd.options.mode.chained_assignment = None
         tempheader = df[df[0] == '#']
         tempdata = df[df[0] != '#']
@@ -135,6 +135,9 @@ def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat',mode='w',azgap=Fa
                 ,float(df.iloc[i][8]),float(df.iloc[i][9]),float(df.iloc[i][10]),float(df.iloc[i][11])\
                 ,float(df.iloc[i][12]),float(df.iloc[i][13]),float(df.iloc[i][14]),float(df.iloc[i][15]))
                 files.write(tempheader)
+            elif absolute == True:
+                tempheader = "{} {}\n".format(str(df.iloc[i][0]),int(df.iloc[i][1]))
+                files.write(tempheader)
             else:
                 tempheader = "{} {: >4.0f} {: >2.0f} {: >2.0f} {: >2.0f} {: >2.0f} {: >4.2f} {: >8.4f} {: >8.4f} {: >3.0f} {: >4.2f} {: >3.0f} {: >3.0f} {: >6.3f} {: >6.0f}\n".\
                 format(str(df.iloc[i][0]),float(df.iloc[i][1]),float(df.iloc[i][2]),float(df.iloc[i][3])\
@@ -143,8 +146,13 @@ def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat',mode='w',azgap=Fa
                 ,float(df.iloc[i][12]),float(df.iloc[i][13]),float(df.iloc[i][14]))
                 files.write(tempheader)
         else:
-            tempdata = "     {: <7}{: >7.2f}{: >6}{: >4} \n".\
-            format(str(df.iloc[i][0]),float(df.iloc[i][1]),float(df.iloc[i][2]),(df.iloc[i][3]))
-            files.write(tempdata)
+            if absolute == True:
+                tempdata = "{}  {:.6f}  {:.7f}  {}\n".\
+                format(str(df.iloc[i][0]),float(df.iloc[i][1]),float(df.iloc[i][2]),(df.iloc[i][3]))
+                files.write(tempdata)
+            else: 
+                tempdata = "     {: <7}{: >7.2f}{: >6}{: >4} \n".\
+                format(str(df.iloc[i][0]),float(df.iloc[i][1]),float(df.iloc[i][2]),(df.iloc[i][3]))
+                files.write(tempdata)
     files.close()  
     return print("Output finish: {} at {}".format(fname,path))
