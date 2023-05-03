@@ -7,10 +7,8 @@ Author: Putu Hendra Widyadharma
 
 import numpy as np
 import pandas as pd
-from sklearn.metrics import r2_score
 from localfunction import *
 pd.options.mode.chained_assignment = None
-import matplotlib.pyplot as plt
 
 path = 'G:\\My Drive\\Tomography\\030523\\'
 fname = 'syn.absolute.dat'
@@ -40,13 +38,4 @@ dfresult.sort_index(inplace = True)
 dfresult.reset_index(inplace = True, drop = True)
 
 #output
-df2dat(dfresult,evnum = 1, path = path, fname=f'noisestdev{str(sigma).replace(".","")}_'+Path(fname).name)
-readeventphase(path+f'noisestdev{str(sigma).replace(".","")}_'+Path(fname).name)
-
-#if running in absolute.dat
-dfresult.loc[:,:3].to_csv(path+f'noisestdev{str(sigma).replace(".","")}_'+Path(fname).name, sep="\t",index=None, header=None)
-'''
-if running in absolute.dat, there is a bug and it need to fix by using:
-replace "\t\t" char with none
-replace "\t" with "  " (double space)
-'''
+df2dat(dfresult,evnum = 1, absolute=True, path = path, fname=f'noisestdev{str(sigma).replace(".","")}_'+Path(fname).name)
