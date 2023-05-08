@@ -3,6 +3,7 @@ Coding: PYTHON UTF-8
 Created On: 2023-05-02 14:53:08
 Author: Putu Hendra Widyadharma
 === update pha with .reloc parameter
+=== .reloc file should have same event id with .pha
 '''
 
 import numpy as np
