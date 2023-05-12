@@ -17,10 +17,10 @@ from pathlib import Path
 #maxlat = 3
 
 #### SET THE FOLDER FOR WRITING OUTPUT FILES ################
-outdir = 'G:\\My Drive\\Tomography\\280423\\'
+outdir = 'G:\\My Drive\\Tomography\\110523\\velest-sum-input\\'
 
 #### SEARCH INPUT FILE FOR GIVEN FOLDER PATH ################
-sfiles = [outdir+'phase_sul_2022_6P_150-10D_PnS.dat']
+sfiles = [outdir+'arrivals_sum_8P_wadatifilter_8P_150-10D_10PnS.dat']
 
 #### READ EACH FILE #########################################
 first = True

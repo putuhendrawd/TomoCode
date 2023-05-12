@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 from localfunction import *
 from pathlib import Path
 
-path = "G:\\My Drive\\Tomography\\170423\\"
-inname = "selected_sta_sul.txt"
+path = "G:\\My Drive\\Tomography\\110523\\velest-sum-input\\"
+inname = "sta_select_sum2_09052023.txt"
 
 fin = open(path+inname) 
 baris = fin.readlines()
@@ -14,7 +14,7 @@ for i in range(len(baris)):
 
 #format
 for i in range(len(baris)):
-    if float(baris[i][3]) >0:
+    if float(baris[i][3]) >=0:
         #format lat
         if float(baris[i][1]) >= 0:
             baris[i][1] = "{:.4f}N".format(float(baris[i][1]))

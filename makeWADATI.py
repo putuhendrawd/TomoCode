@@ -17,10 +17,10 @@ from localfunction import *
 from sklearn.metrics import r2_score
 pd.options.mode.chained_assignment = None
 
-path = 'G:\\My Drive\\Tomography\\300423\\'
+path = 'G:\\My Drive\\Tomography\\090523\\arr-bmkgcat-run-sum2-08092023\\'
 outputpath = path
-fname = 'phase_sul_2022_8P_wadatifilter_sta-rms5_8PS.dat'
-staname = 'selected_sta_sul.txt'
+fname = 'arrivals_sum_8P_wadatifilter.dat'
+staname = 'sta_select_sum2_09052023.txt'
 
 #%%
 # =============================================================================

@@ -11,6 +11,7 @@ import geopy.distance as gd
 import matplotlib.pyplot as plt
 from pathlib import Path
 from localfunction import *
+from tqdm import trange
 pd.options.mode.chained_assignment = None
 
 #%%
@@ -19,9 +20,9 @@ pd.options.mode.chained_assignment = None
 # selected station, phase, total station report, event rms value, magnitude value
 # =============================================================================
 
-path = 'G:\\My Drive\\Tomography\\300423\\'
-fname = 'phase_sul_2022_8P_wadatifilter_sta-rms5.dat'
-staname = 'selected_sta_sul.txt'
+path = 'G:\\My Drive\\Tomography\\110523\\velest-sum-input\\'
+fname = 'arrivals_sum_8P_wadatifilter_8P.dat'
+staname = 'sta_select_sum2_09052023.txt'
 
 # baca data stasiun ==============================================
 stafile = pd.read_csv(path+staname, delim_whitespace = True,names = [i for i in range(12)])
@@ -39,8 +40,8 @@ dfhead = df[df[0] == '#']
 # dfhead[10] = dfhead[10].apply(pd.to_numeric)
 # dfhead = dfhead[abs(dfhead[10]) >= 5.5] # fill magnitude here
 # magnitude depth
-# dfhead[9] = dfhead[9].apply(pd.to_numeric)
-# dfhead = dfhead[(pd.to_numeric(dfhead[9]) != 10) & (pd.to_numeric(dfhead[9]) <= 150)] # fill depth here
+dfhead[9] = dfhead[9].apply(pd.to_numeric)
+dfhead = dfhead[(pd.to_numeric(dfhead[9]) != 10) & (pd.to_numeric(dfhead[9]) <= 150)] # fill depth here
 
 #header index
 idx = df[df[0] == '#'].index
@@ -50,7 +51,7 @@ tempheader = df[df[0] == '#']
 tempdata = pd.DataFrame([],columns = df.columns)
 
 #filtering data
-for a in range (len(idx)):
+for a in trange(len(idx)):
     #buat data per kejadian gempa
     if a == len(idx)-1:
         if idx[a] in dfhead.index:
@@ -79,14 +80,17 @@ for a in range (len(idx)):
     # time bug small negative dropper 
     tempdf = tempdf[tempdf[1] > 0]
     
+    # drop duplicate phase from same station
+    tempdf.drop_duplicates(subset=[0, 3], keep='first',inplace=True)
+    
     #seleksi data berdasarkan stasiun
     tempdf = tempdf[tempdf[0].isin(stafile.index)]
     #clean hanya data fasa P dan S
-    # tempdf = tempdf[(tempdf[3] == 'P') | (tempdf[3] == 'S')]
+    tempdf = tempdf[(tempdf[3] == 'P') | (tempdf[3] == 'S')]
     
     #seleksi data berdasarkan jumlah laporan stasiun
-    if (len(tempdf) >= 8): #isi batas jumlah laporan untuk semua jenis fasa
-    # if (len(tempdf[tempdf[3] == 'P']) >= 8): #isi batas jumlah laporan hanya P yang dihitung
+    # if (len(tempdf) >= 1): #isi batas jumlah laporan untuk semua jenis fasa
+    if (len(tempdf[tempdf[3] == 'P']) >= 10): #isi batas jumlah laporan hanya P yang dihitung
         tempdf[2] = pd.to_numeric(df[2])
         tempdf[2] = tempdf[2].map(lambda x: '%2.1f' % x)
         tempdata = pd.concat([tempdata,tempdf])
@@ -100,9 +104,9 @@ df.sort_index(inplace = True)
 df.reset_index(inplace = True, drop = True)
 
 #output df
-df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_8PS.dat')
+df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_150-10D_10PnS_dropdup.dat')
 print("== data filter")
-readeventphase(path+Path(fname).stem+'_8PS.dat')
+readeventphase(path+Path(fname).stem+'_150-10D_10PnS_dropdup.dat')
 
   #%%
 # ==================================================================

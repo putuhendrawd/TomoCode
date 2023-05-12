@@ -2,14 +2,14 @@
 Coding: PYTHON UTF-8
 Created On: 2022-07-13 21:29:05
 Author: Putu Hendra Widyadharma
-=== reading velest output .OUT || need input depth and initial vp from velocity model .mod
+=== reading velest output .OUT
 '''
 import pandas as pd
 from pathlib import Path
 from localfunction import *
 
-path = "G:\\My Drive\\Tomography\\290423\\"
-fname = "model_sulawesi_linux_2022_6P_150-10D_PnS_damp70_vadj1.OUT"
+path = "G:\\My Drive\\Tomography\\120523\\velest-sum-110523\\"
+fname = "model_sum_arrivals_sum_8P_wadatifilter_8P_150-10D_10PnS_110523.OUT"
 
 # init
 depth = []

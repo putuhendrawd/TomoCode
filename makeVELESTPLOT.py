@@ -11,8 +11,8 @@ from matplotlib.ticker import MultipleLocator, FormatStrFormatter, AutoMinorLoca
 from matplotlib.lines import Line2D
 from localfunction import *
 
-path = "G:\\My Drive\\Tomography\\290423\\"
-fname ="model_sulawesi_linux_2022_6P_150-10D_PnS_damp70_vadj1_vp.csv"
+path = "G:\\My Drive\\Tomography\\120523\\velest-sum-110523\\"
+fname ="model_sum_arrivals_sum_8P_wadatifilter_8P_150-10D_10PnS_110523_vp.csv"
 # input from mod
 df = pd.read_csv(path+fname)
 depth = df['depth'].to_list()
