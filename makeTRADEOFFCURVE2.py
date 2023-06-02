@@ -19,8 +19,8 @@ import statistics
 
 #initializaion
 df = pd.DataFrame([],columns=['model_var','data_var','damp'])
-damp = [10,20,30,50,60,70,80,90,100,110,120,130,150,200,300,400,500]
-parent = 'G:\\My Drive\\Tomography\\300423\\runVelMod29042023-tradeoff-30042023'
+damp = [10,30,50,70,100,120,150,180,220,260,300,400,500]
+parent = 'G:\\My Drive\\Tomography\\240523\\output-trdoff-sul-runVelMod15052023_WadatiRelocFilterDamp220-22052023'
 varvariable = 'weighted' # 'absolute' or 'weighted'
 #read 
 with open(parent+'\\MOD') as modf:
@@ -95,12 +95,12 @@ for x,y in zip(df['model_var'],df['data_var']):
     # elif c==8:
     #    ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(3,5),ha='center')
     # else:
-    if int(df['damp'][c]) <= 120 and c % 2 == 0:
-        ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(0,5),ha='center',fontsize=10)
-    elif int(df['damp'][c]) <= 120 and c % 2 != 0:
-        ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(0,-13),ha='center',fontsize=10)
-    else:
-        ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(0,5),ha='center',fontsize=10)
+    # if int(df['damp'][c]) <= 120 and c % 2 == 0:
+    #     ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(0,5),ha='center',fontsize=10)
+    # elif int(df['damp'][c]) <= 120 and c % 2 != 0:
+    #     ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(0,-13),ha='center',fontsize=10)
+    # else:
+    ax.annotate(int(df['damp'][c]),(x,y),textcoords="offset points",xytext=(0,5),ha='center',fontsize=10)
     c=c+1
 
 # ax.set_xlim(min(df['model_var'])-0.005,max(df['model_var'])+0.005)   

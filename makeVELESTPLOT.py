@@ -15,8 +15,8 @@ path = "G:\\My Drive\\Tomography\\120523\\velest-sum-110523\\"
 fname ="model_sum_arrivals_sum_8P_wadatifilter_8P_150-10D_10PnS_110523_vp.csv"
 # input from mod
 df = pd.read_csv(path+fname)
-depth = df['depth'].to_list()
-vp = df.iloc[:,1::].values.transpose().tolist()
+depth = df['depth'][:-1].astype('float').to_list()
+vp = df.iloc[:-1,1::].values.transpose().tolist()
 
 #=========================================
 def makeinput(depth,vp):

@@ -3,10 +3,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-path = 'G:\\My Drive\\Tomography\\300423\\'
-outputpath = 'G:\\My Drive\\Tomography\\300423\\'
-fname1 = ''
-fname2 = 'tomoDD.res'
+path = 'G:\\My Drive\\Tomography\\250523\\output-RelocOnly-sum2-RunVelGab25052023_WdtFltr-25052023\\'
+outputpath = 'G:\\My Drive\\Tomography\\250523\\output-RelocOnly-sum2-RunVelGab25052023_WdtFltr-25052023\\'
+fname1 = '' #before
+fname2 = 'tomoDD.res' #after
 
 def data(fname):
 	try:
@@ -77,7 +77,7 @@ if not df2.empty:
     ax[1].text(0.02,0.75,f"max: {max:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)
     ax[1].text(0.02,0.65,f"med: {med:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)	
     ax[1].legend()
-plt.setp(ax, xlim=[-6,7], ylim=[0,150000])
+plt.setp(ax, xlim=[-6,7], ylim=[0,125000])
 fig.supxlabel('RMS Residual (s)', ha='center')
 fig.supylabel('Number of Observations', va='center', x=-.01)
 fig.suptitle('RMS Residual',y=0.95)

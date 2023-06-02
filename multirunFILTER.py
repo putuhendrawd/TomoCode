@@ -6,14 +6,14 @@ from pathlib import Path
 from localfunction import *
 pd.options.mode.chained_assignment = None
 
-for nn in [3,4,5,6,7]:
+for nn in [3,4,5]:
     # =============================================================================
     # Filter Absolute based on
     # selected station, phase, total station report, event rms value, magnitude value
     # =============================================================================
 
-    path = 'G:\\My Drive\\Tomography\\300423\\'
-    fname = f'phase_sul_2022_8P_wadatifilter_sta-rms{nn}.dat'
+    path = 'G:\\My Drive\\Tomography\\250523\\output-RelocOnly-sum2-RunVelGab25052023_WdtFltr-25052023\\'
+    fname = f'relocupdate_arrivals_sum_8P_wadatifilter_8P_sta-rms{nn}.dat'
     staname = 'selected_sta_sul.txt'
 
     # baca data stasiun ==============================================
@@ -75,7 +75,7 @@ for nn in [3,4,5,6,7]:
         #seleksi data berdasarkan stasiun
         tempdf = tempdf[tempdf[0].isin(stafile.index)]
         #clean hanya data fasa P dan S
-        # tempdf = tempdf[(tempdf[3] == 'P') | (tempdf[3] == 'S')]
+        tempdf = tempdf[(tempdf[3] == 'P') | (tempdf[3] == 'S')]
         
         #seleksi data berdasarkan jumlah laporan stasiun
         # if (len(tempdf) >= 8): #isi batas jumlah laporan untuk semua jenis fasa
