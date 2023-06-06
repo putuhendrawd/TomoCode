@@ -10,10 +10,10 @@ import pandas as pd
 from localfunction import *
 pd.options.mode.chained_assignment = None
 
-path = 'G:\\My Drive\\Tomography\\200523\\'
-fname = 'syn.absolute-18052023.dat'
+path = 'G:\\My Drive\\Tomography\\020623\\Syn-output-CRT2-sul-ModVel25052023-WdtFltrDamp100-28052023\\'
+fname = 'syn.absolute.dat'
 df = readabsolute(path+fname)
-mu, sigma = 0, 0.5 # mean and standard deviation (max = 2* std dev)
+mu, sigma = 0, 0.25 # mean and standard deviation (max = 2* std dev)
 
 #init tempdata
 tempheader = df[df[0]=="#"]

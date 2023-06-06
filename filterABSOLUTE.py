@@ -185,7 +185,7 @@ df2dat(dfres,evnum = 1, path = path, fname=Path(fname).stem+'_filterlatlon.dat')
 # station rms value
 # =============================================================================
 
-path = "G:\\My Drive\\Tomography\\250523\\output-RelocOnly-sul-runVelMod15052023_WadatiRelocFilterDamp500-25052023\\"
+path = "G:\\My Drive\\Tomography\\060623\\"
 absname = "phase_sul_2022_8P_wadatifilter.dat"
 staname = 'selected_sta_sul.txt'
 resname = 'tomoDD.res'

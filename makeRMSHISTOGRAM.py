@@ -3,10 +3,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-path = 'G:\\My Drive\\Tomography\\250523\\output-RelocOnly-sum2-RunVelGab25052023_WdtFltr-25052023\\'
-outputpath = 'G:\\My Drive\\Tomography\\250523\\output-RelocOnly-sum2-RunVelGab25052023_WdtFltr-25052023\\'
-fname1 = '' #before
-fname2 = 'tomoDD.res' #after
+path = 'G:\\My Drive\\Tomography\\060623\\rms_residual_plot\\'
+outputpath = path
+fname1 = 'tomoDD-before3.res' #before
+fname2 = 'tomoDD-after.res' #after
 
 def data(fname):
 	try:
@@ -52,7 +52,7 @@ ax.set_xticks(np.arange(-6,7,1))
 ax.set_ylabel('Number of Observations')
 ax.set_title('RMS Residual Sumatera',y=1.03)
 ax.legend()
-fig.savefig(outputpath+'RMS Sumatera.jpg' ,bbox_inches = 'tight')
+fig.savefig(outputpath+'RMS Combine.jpg' ,bbox_inches = 'tight')
 # fig.close()
 
 # %% up and down
@@ -84,3 +84,4 @@ fig.suptitle('RMS Residual',y=0.95)
 fig.savefig(outputpath+'RMS Split.jpg' ,bbox_inches = 'tight')
 print(f"==save complete on {outputpath}")
 # %%
+
