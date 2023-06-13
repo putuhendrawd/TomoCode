@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 path = 'G:\\My Drive\\Tomography\\060623\\rms_residual_plot\\'
 outputpath = path
 fname1 = 'tomoDD-before3.res' #before
-fname2 = 'tomoDD-after.res' #after
+fname2 = 'tomoDD-after6.res' #after
 
 def data(fname):
 	try:
@@ -77,7 +77,7 @@ if not df2.empty:
     ax[1].text(0.02,0.75,f"max: {max:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)
     ax[1].text(0.02,0.65,f"med: {med:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)	
     ax[1].legend()
-plt.setp(ax, xlim=[-6,7], ylim=[0,125000])
+plt.setp(ax, xlim=[-6,7], ylim=[0,150000])
 fig.supxlabel('RMS Residual (s)', ha='center')
 fig.supylabel('Number of Observations', va='center', x=-.01)
 fig.suptitle('RMS Residual',y=0.95)
