@@ -21,7 +21,7 @@ Creation time          2022-12-31 07:27:09
 Residual RMS               1.036 s
 Azimuthal gap              143.9 deg
 
-4 0 magnitudes:
+4 Network magnitudes:
 Mjma      2.19 +/- 0.24   3            BMKG
 ML        2.68 +/- 1.23   8            BMKG
 MLv       2.67 +/- 1.06   9            BMKG
