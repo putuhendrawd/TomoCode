@@ -23,7 +23,7 @@ def ctime(param):
 path = "arrival/"
 arrival_fname = "arrivals.txt"
 station_fname = "etc/indonesia_station.txt"
-output_type = "pha" #stead or pha
+output_type = "pha" #stead (STEAD Dataset CSV) or pha (hypodd-phase input)
 
 # check if output files with name exist:
 if os.path.isfile(path+Path(arrival_fname).stem+".csv") and output_type == "stead":
