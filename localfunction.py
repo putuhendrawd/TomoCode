@@ -109,14 +109,14 @@ def pass_datetime(text):
             pass
     raise ValueError('no valid date format found')
 
-def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat',mode='w',azgap=False, absolute=False):
+def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat',mode='w',azgap=False, absolute=False, verbose=True):
     df = x
     
     #if evnum != 0 then remake event number by the evnum input as first event number
     if evnum != 0 and absolute == False:
         pd.options.mode.chained_assignment = None
-        tempheader = df[df[0] == '#']
-        tempdata = df[df[0] != '#']
+        tempheader = df[df[df.columns[0]] == '#']
+        tempdata = df[df[df.columns[0]] != '#']
         tempheader[tempheader.columns[-1]] = np.arange(evnum,evnum+len(tempheader),1)
         df = pd.concat([tempdata,tempheader])
         df.sort_index(inplace = True)
@@ -124,7 +124,7 @@ def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat',mode='w',azgap=Fa
     else:
         pass
     
-    idx = df[df[0] == '#']
+    idx = df[df[df.columns[0]] == '#']
     files = open(path+'/'+fname, str(mode), newline='\n')
     for i in range(len(df.index)):
         if i in idx.index:
@@ -155,4 +155,7 @@ def df2dat(x,evnum = 0,path = os.getcwd(),fname = 'output.dat',mode='w',azgap=Fa
                 format(str(df.iloc[i][0]),float(df.iloc[i][1]),float(df.iloc[i][2]),(df.iloc[i][3]))
                 files.write(tempdata)
     files.close()  
-    return print("Output finish: {} at {}".format(fname,path))
+    if ~verbose:
+        return 0
+    else: 
+        return print("Output finish: {} at {}".format(fname,path))
