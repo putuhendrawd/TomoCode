@@ -21,7 +21,7 @@ def ctime(param):
     
 # import path and data
 path = "arrival/"
-arrival_fname = "arrivals_demo.txt"
+arrival_fname = "arrivals.txt"
 station_fname = "etc/indonesia_station.txt"
 output_type = "pha" #stead or pha
 
@@ -164,7 +164,10 @@ for i, line in enumerate(lines):
             lon_uncertainty_km_ = line.split()[-2]
         elif "depth" in line.lower():
             depth_ = line.split()[1]
-            depth_uncertainty_km_ = line.split()[-2]
+            if "fixed" in line.lower():
+                depth_uncertainty_km_ = 0
+            else:
+                depth_uncertainty_km_ = line.split()[-2]
         elif "azimuthal gap" in line.lower():
             azgap_ = line.split()[2]
         elif "residual rms" in line.lower():
@@ -300,6 +303,7 @@ for i, line in enumerate(lines):
                     'trace_name'                    :   ['None']
                     }
                 df = pd.concat([df,pd.DataFrame(data_)])
+            
             # save data pha  
             elif output_type == "pha":
                 phadata_ = {
