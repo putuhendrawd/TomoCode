@@ -29,8 +29,8 @@ output_type = "pha" #stead (STEAD Dataset CSV) or pha (hypodd-phase input)
 if os.path.isfile(path+Path(arrival_fname).stem+".csv") and output_type == "stead":
     print(f"output file exist! \nplease delete {path+Path(arrival_fname).stem+'.csv'}")
     exit()
-elif os.path.isfile(path+Path(arrival_fname).stem+".pha") and output_type == "pha":
-    print(f"output file exist! \nplease delete {path+Path(arrival_fname).stem+'.pha'}")
+elif os.path.isfile(path+Path(arrival_fname).stem+".dat") and output_type == "pha":
+    print(f"output file exist! \nplease delete {path+Path(arrival_fname).stem+'.dat'}")
     exit()
 
 # read station
@@ -338,7 +338,7 @@ for i, line in enumerate(lines):
         #save data pha
         else:
             df.reset_index(inplace = True, drop = True)
-            df2dat(df,evnum = 0, path = path, fname=Path(arrival_fname).stem+'.pha', mode = 'a', verbose=False)
+            df2dat(df,evnum = 0, path = path, fname=Path(arrival_fname).stem+'.dat', mode = 'a', verbose=False)
             # pruge df
             df = df[0:0]
             pass    
