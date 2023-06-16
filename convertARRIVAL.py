@@ -23,7 +23,7 @@ def ctime(param):
 path = "arrival/"
 arrival_fname = "arrivals.txt"
 station_fname = "etc/indonesia_station.txt"
-output_type = "pha" #stead (STEAD Dataset CSV) or pha (hypodd-phase input)
+output_type = "pha" #stead (STEAD Dataset CSV) or pha (hypodd-phase)
 
 # check if output files with name exist:
 if os.path.isfile(path+Path(arrival_fname).stem+".csv") and output_type == "stead":
@@ -190,6 +190,7 @@ for i, line in enumerate(lines):
     # phase arrival block reading + writing output format
     if trigger_d['phase']:
         if len(line.split()) > 3 and "sta" in line.lower() and output_type == "pha":
+            #pha header write
             phaheader_ = {
                     'flag'                 :   ["#"], ### done ###
                     'year'                 :   [date_.year], ### done ###
@@ -210,7 +211,6 @@ for i, line in enumerate(lines):
             df = pd.concat([df,pd.DataFrame(phaheader_)])
             
         elif len(line.split()) > 3 and "sta" not in line.lower():
-            # print(line)
             net_ = line.split()[1]
             sta_ = line.split()[0]
             receiver_type_ = "BH" # default 
@@ -293,8 +293,8 @@ for i, line in enumerate(lines):
                     'source_magnitude_type'         :   [source_mag_type_], ### done ###
                     'source_magnitude_author'       :   [author_], ### done ###
                     'source_mechanism_strike_dip_rake': ['None'],
-                    'source_distance_deg'           :   [source_dist_deg_],
-                    'source_distance_km'            :   [source_dist_km_],
+                    'source_distance_deg'           :   [source_dist_deg_], ### done ###
+                    'source_distance_km'            :   [source_dist_km_], ### done ###
                     'back_azimuth_deg'              :   [azimuth_],
                     'snr_db'                        :   ['None'],
                     'coda_end_sample'               :   ['None'],
@@ -309,7 +309,7 @@ for i, line in enumerate(lines):
                 phadata_ = {
                     'flag'                 :   [sta_], ### changing data to STA ###
                     'year'                 :   [tt_pha], ### changing data to TT ###
-                    'month'                :   ['1'], ### changing data to WEIGHT ### #default falue#
+                    'month'                :   ['1'], ### changing data to WEIGHT ### # default value #
                     'day'                  :   [pha], ### changing data to PHA TYPE ###
                     'hour'                 :   [None], ### changing data to None After this ###
                     'minutes'              :   [None], 
@@ -340,8 +340,7 @@ for i, line in enumerate(lines):
             df.reset_index(inplace = True, drop = True)
             df2dat(df,evnum = 0, path = path, fname=Path(arrival_fname).stem+'.dat', mode = 'a', verbose=False)
             # pruge df
-            df = df[0:0]
-            pass    
+            df = df[0:0]    
         print(f"processing {eventid_}")
         event_counter += 1
         trigger_counter = 0
