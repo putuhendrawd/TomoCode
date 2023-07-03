@@ -17,9 +17,9 @@ from localfunction import *
 from sklearn.metrics import r2_score
 pd.options.mode.chained_assignment = None
 
-path = 'G:\\My Drive\\Tomography\\060623\\filter_update_with_real_data\\'
+path = "G:\\My Drive\\Tomography\\230623\\reloc_update_with_final_real\\"
 outputpath = path
-fname = 'relocupdate_phase_sul_2022_8P_wadatifilter_sta-rms3_6P.dat'
+fname = 'relocupdate_phase_sul_2022_8P_wadatifilter_sta-rms5.dat'
 staname = 'selected_sta_sul.txt'
 
 #%%
@@ -286,19 +286,19 @@ for iter in ['p','s']:
     #plot
     fig, ax = plt.subplots(figsize = (5,5), dpi=1200)
     if iter == 'p':
-        ax.scatter(wadati['dist_from_event'],wadati['tp'],color='blue',label="P-phase",edgecolors='black')
+        ax.scatter(wadati['dist_from_event'],wadati['tp'],color='blue',label="P-phase",edgecolors='black', s=1)
     # ax.plot(wadati['dist_from_event'],slope*wadati['dist_from_event']+intercept,'r--')
     # ax.plot(wadati['dist_from_event'],(slope*wadati['dist_from_event']+intercept)+(0.1*(slope*wadati['dist_from_event']+intercept)),'g--')
     # ax.plot(wadati['dist_from_event'],(slope*wadati['dist_from_event']+intercept)-(0.1*(slope*wadati['dist_from_event']+intercept)),'g--')
     if iter == 's':
-        ax.scatter(wadati['dist_from_event'],wadati['ts'],color='red',label="S-phase",edgecolors='black')
+        ax.scatter(wadati['dist_from_event'],wadati['ts'],color='red',label="S-phase",edgecolors='black', s=1)
 
     ax.set_xlabel('Epicentral Distance (km)')
     ax.set_ylabel('Travel Time (s)')
-    ax.set_xlim([-2,1000])
-    ax.set_ylim([-2,250])
+    ax.set_xlim([-2,350])
+    ax.set_ylim([-2,80])
     ax.legend(loc='upper left')
     fig.set_figheight(5)
-    fig.set_figwidth(10)
+    fig.set_figwidth(8)
     fig.savefig(outputpath+'Time Travel Diagram Bubble {} {}.jpg'.format(iter,Path(fname).stem))
 # %%

@@ -12,7 +12,7 @@ from localfunction import *
 from tqdm import trange
 
 
-path="G:\\My Drive\\Tomography\\250523\\output-RelocOnly-sul-runVelMod15052023_WadatiRelocFilterDamp500-25052023\\"
+path="G:\\My Drive\\Tomography\\230623\\reloc_update_with_final_real\\"
 fname= "phase_sul_2022_8P_wadatifilter_sta-rms5.dat"
 relocname = "tomoDD.reloc"
 df=readabsolute(path+fname)
