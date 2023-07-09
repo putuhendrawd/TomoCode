@@ -20,7 +20,7 @@ def ctime(param):
     return(dt.strptime(param,"%H:%M:%S.%f"))
     
 # import path and data
-path = "arrival/"
+path = "G:\\My Drive\\IUGG Seminar\\data\\data_poster\\"
 arrival_fname = "arrivals.txt"
 station_fname = "etc/indonesia_station.txt"
 output_type = "pha" #stead (STEAD Dataset CSV) or pha (hypodd-phase)

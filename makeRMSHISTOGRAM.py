@@ -3,10 +3,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-path = 'G:\\My Drive\\Tomography\\060623\\rms_residual_plot\\'
+path = 'G:\\My Drive\\IUGG Seminar\\data\\data_poster\\reloc_ttdistfilter\\tes-250\\'
 outputpath = path
-fname1 = 'tomoDD-before3.res' #before
-fname2 = 'tomoDD-after6.res' #after
+fname1 = 'hypoDD_before_filter.res' #before
+fname2 = 'hypoDD.res' #after
 
 def data(fname):
 	try:
@@ -21,7 +21,7 @@ def data(fname):
 		df.drop(0, inplace = True)
 		df.reset_index(drop = True, inplace=True)
 
-		df = df[df['C1'] == df['C2']]
+		# df = df[df['C1'] == df['C2']]
 		df = df[df['RES'] != '************']
 		df['RES'] = pd.to_numeric(df['RES'])
 		df['RES'] = df['RES'].div(1000)
@@ -77,7 +77,8 @@ if not df2.empty:
     ax[1].text(0.02,0.75,f"max: {max:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)
     ax[1].text(0.02,0.65,f"med: {med:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)	
     ax[1].legend()
-plt.setp(ax, xlim=[-6,7], ylim=[0,150000])
+plt.yscale("log")
+plt.setp(ax, xlim=[-6,7], ylim=[0,1000000])
 fig.supxlabel('RMS Residual (s)', ha='center')
 fig.supylabel('Number of Observations', va='center', x=-.01)
 fig.suptitle('RMS Residual',y=0.95)
