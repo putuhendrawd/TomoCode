@@ -17,10 +17,10 @@ from localfunction import *
 from sklearn.metrics import r2_score
 pd.options.mode.chained_assignment = None
 
-path = 'G:\\My Drive\\Tomography\\090523\\arr-bmkgcat-run-sum2-08092023\\'
+path = "G:\\My Drive\\IUGG Seminar\\data\\data_poster\\"
 outputpath = path
-fname = 'arrivals_sum_8P_wadatifilter.dat'
-staname = 'sta_select_sum2_09052023.txt'
+fname = 'arrivals_ttdistfilter.dat'
+staname = 'indonesia_station_temporary_cianjur.txt'
 
 #%%
 # =============================================================================
@@ -149,7 +149,7 @@ df.to_csv(outputpath+f'temppha_{Path(fname).stem}.txt',sep = '\t', index = None)
 #cleaning wadati
 # wadati = wadati[wadati['tp'] > 0]
 # wadati = wadati[wadati['tp'] < 400]
-# wadati = wadati[wadati['dist'] != '#NA']
+wadati = wadati[wadati['dist_from_event'] != '#NA']
 # wadati = wadati[wadati['ts-tp']>0]
 # wadati = wadati[wadati['ts-tp']<180]
 
@@ -159,6 +159,12 @@ wadati.to_csv(outputpath+f'tempwadati_{Path(fname).stem}.txt',sep = '\t', index 
 #%%
 #parameter vp/vs calculation
 slope, intercept = np.polyfit(wadati['tp'].astype(float),wadati['ts-tp'].astype(float),1)
+
+#manual slope
+# slope = 0.589
+# intercept = 0.917
+
+#make predict
 predict = np.poly1d([slope, intercept])
 
 #hitung batas atas dan bawah regresi vp/vs
@@ -190,8 +196,8 @@ fig, ax = plt.subplots(figsize = (5,5), dpi=1200)
 ax.set_xlabel('tp (s)')
 ax.set_ylabel('ts-tp (s)')
 #ax.set_title('Wadati Diagram')
-ax.set_xlim([-2,150])
-ax.set_ylim([-2,130])
+ax.set_xlim([0,40])
+ax.set_ylim([-2,30])
 #plot scatter data
 ax.scatter(wadati['tp'],wadati['ts-tp'])
 #sort data for antibacktracking plot
@@ -205,9 +211,9 @@ ax.plot(wadatis['tp'],predict(wadatis['tp']),'r--')
 # ax.plot(wadatis['tp'],predictup(wadatis['tp']),'r-')
 # ax.plot(wadatis['tp'],predictdown(wadatis['tp']),'r-')
 #add additional legend data
-ax.text(100, 40, 'y = {:.4f}x{:+.4f}'.format(slope,intercept), fontsize=14)
-ax.text(100, 30, 'Vp/Vs = {:.4f}'.format(slope+1), fontsize=14)
-ax.text(100, 20, f'R$^2$ = {r2:.3f}', fontsize=14)
+ax.text(27, 5, 'y = {:.4f}x{:+.4f}'.format(slope,intercept), fontsize=14)
+ax.text(27, 3, 'Vp/Vs = {:.4f}'.format(slope+1), fontsize=14)
+ax.text(27, 1, f'R$^2$ = {r2:.3f}', fontsize=14)
 #add-on
 fig.set_figheight(5)
 fig.set_figwidth(10)
@@ -263,10 +269,42 @@ ax.scatter(wadati['dist_from_event'],wadati['ts'],color='red',label="S-phase",ed
 
 ax.set_xlabel('Epicentral Distance (km)')
 ax.set_ylabel('Travel Time (s)')
-ax.set_xlim([-2,1000])
-ax.set_ylim([-2,250])
+ax.set_xlim([-2,200])
+ax.set_ylim([-2,80])
 ax.legend()
 fig.set_figheight(5)
 fig.set_figwidth(10)
 fig.savefig(outputpath+'Time Travel Diagram Bubble {}.jpg'.format(Path(fname).stem))
+
+# %%
+# =============================================================================
+# buat grafik travel time vs distance bubble plot terpisah p dan s
+# =============================================================================
+plt.rcParams.update({'font.size': 14})
+from matplotlib import colors
+from matplotlib.colors import Colormap
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+
+# calculate slope and intercept
+slope, intercept = np.polyfit(wadati['dist_from_event'].astype(float),wadati['tp'].astype(float),1)
+
+for iter in ['p','s']:
+    #plot
+    fig, ax = plt.subplots(figsize = (5,5), dpi=1200)
+    if iter == 'p':
+        ax.scatter(wadati['dist_from_event'],wadati['tp'],color='blue',label="P-phase",edgecolors='black', s=1)
+    # ax.plot(wadati['dist_from_event'],slope*wadati['dist_from_event']+intercept,'r--')
+    # ax.plot(wadati['dist_from_event'],(slope*wadati['dist_from_event']+intercept)+(0.1*(slope*wadati['dist_from_event']+intercept)),'g--')
+    # ax.plot(wadati['dist_from_event'],(slope*wadati['dist_from_event']+intercept)-(0.1*(slope*wadati['dist_from_event']+intercept)),'g--')
+    if iter == 's':
+        ax.scatter(wadati['dist_from_event'],wadati['ts'],color='red',label="S-phase",edgecolors='black', s=1)
+
+    ax.set_xlabel('Epicentral Distance (km)')
+    ax.set_ylabel('Travel Time (s)')
+    ax.set_xlim([-2,350])
+    ax.set_ylim([-2,80])
+    ax.legend(loc='upper left')
+    fig.set_figheight(5)
+    fig.set_figwidth(8)
+    fig.savefig(outputpath+'Time Travel Diagram Bubble {} {}.jpg'.format(iter,Path(fname).stem))
 # %%

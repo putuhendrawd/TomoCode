@@ -3,10 +3,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-path = 'G:\\My Drive\\Tomography\\300423\\'
-outputpath = 'G:\\My Drive\\Tomography\\300423\\'
-fname1 = ''
-fname2 = 'tomoDD.res'
+path = 'G:\\My Drive\\IUGG Seminar\\data\\data_poster\\reloc_ttdistfilter\\tes-250\\'
+outputpath = path
+fname1 = 'hypoDD_before_filter.res' #before
+fname2 = 'hypoDD.res' #after
 
 def data(fname):
 	try:
@@ -21,7 +21,7 @@ def data(fname):
 		df.drop(0, inplace = True)
 		df.reset_index(drop = True, inplace=True)
 
-		df = df[df['C1'] == df['C2']]
+		# df = df[df['C1'] == df['C2']]
 		df = df[df['RES'] != '************']
 		df['RES'] = pd.to_numeric(df['RES'])
 		df['RES'] = df['RES'].div(1000)
@@ -52,7 +52,7 @@ ax.set_xticks(np.arange(-6,7,1))
 ax.set_ylabel('Number of Observations')
 ax.set_title('RMS Residual Sumatera',y=1.03)
 ax.legend()
-fig.savefig(outputpath+'RMS Sumatera.jpg' ,bbox_inches = 'tight')
+fig.savefig(outputpath+'RMS Combine.jpg' ,bbox_inches = 'tight')
 # fig.close()
 
 # %% up and down
@@ -77,10 +77,12 @@ if not df2.empty:
     ax[1].text(0.02,0.75,f"max: {max:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)
     ax[1].text(0.02,0.65,f"med: {med:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)	
     ax[1].legend()
-plt.setp(ax, xlim=[-6,7], ylim=[0,150000])
+plt.yscale("log")
+plt.setp(ax, xlim=[-6,7], ylim=[0,1000000])
 fig.supxlabel('RMS Residual (s)', ha='center')
 fig.supylabel('Number of Observations', va='center', x=-.01)
 fig.suptitle('RMS Residual',y=0.95)
 fig.savefig(outputpath+'RMS Split.jpg' ,bbox_inches = 'tight')
 print(f"==save complete on {outputpath}")
 # %%
+

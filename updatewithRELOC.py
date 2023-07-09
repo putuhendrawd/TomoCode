@@ -12,8 +12,8 @@ from localfunction import *
 from tqdm import trange
 
 
-path="G:\\My Drive\\Tomography\\020523\\update_parameter_reloc\\"
-fname= "phase_sul_2022_8P_wadatifilter.dat"
+path="G:\\My Drive\\Tomography\\230623\\reloc_update_with_final_real\\"
+fname= "phase_sul_2022_8P_wadatifilter_sta-rms5.dat"
 relocname = "tomoDD.reloc"
 df=readabsolute(path+fname)
 relocdf = pd.read_csv(path+relocname, delim_whitespace=True, index_col=False, header=None,\
@@ -67,3 +67,4 @@ tempdata.reset_index(inplace = True, drop = True)
 #output df
 df2dat(tempdata,evnum = 1, path = path, fname=f"relocupdate_"+Path(fname).name)
 print(f"total iter = {i}")
+readeventphase(path+f"relocupdate_"+Path(fname).name)

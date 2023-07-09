@@ -125,6 +125,10 @@ for i in readl:
 print(f"\n========== Finish Reading {fname} ==========")
 fin.close()
 
+# add rms value
+result_vp.loc['RMS'] = residual
+result_vs.loc['RMS'] = residual
+
 #export
 result_vp.to_csv(path+f'{Path(fname).stem}_vp.csv',index="depth")
 result_vs.to_csv(path+f'{Path(fname).stem}_vs.csv',index="depth")
