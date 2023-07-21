@@ -2,10 +2,11 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import ticker
 
 path = 'G:\\My Drive\\IUGG Seminar\\data\\data_poster\\reloc_ttdistfilter\\tes-250\\'
 outputpath = path
-fname1 = 'hypoDD_before_filter.res' #before
+fname1 = 'hypoDD_before.res' #before
 fname2 = 'hypoDD.res' #after
 
 def data(fname):
@@ -57,7 +58,7 @@ fig.savefig(outputpath+'RMS Combine.jpg' ,bbox_inches = 'tight')
 
 # %% up and down
 print("==run up and down plot")
-bins_ = np.arange(-9.5,10.5,1)
+bins_ = np.arange(-9.5,10.5,0.5)
 fig, ax = plt.subplots(nrows= 2,ncols=1, sharex = True, sharey = True, dpi = 1200)
 if not df1.empty:
 	max = round(df1["RES"].max(),3)
@@ -78,11 +79,14 @@ if not df2.empty:
     ax[1].text(0.02,0.65,f"med: {med:>6}", size = "small", family= "monospace", transform=ax[1].transAxes)	
     ax[1].legend()
 plt.yscale("log")
-plt.setp(ax, xlim=[-6,7], ylim=[0,1000000])
-fig.supxlabel('RMS Residual (s)', ha='center')
-fig.supylabel('Number of Observations', va='center', x=-.01)
-fig.suptitle('RMS Residual',y=0.95)
-fig.savefig(outputpath+'RMS Split.jpg' ,bbox_inches = 'tight')
+# ax[0].yaxis.set_major_formatter(ticker.FuncFormatter(lambda x,pos: format(x/1000,'1.0f')+'K'))
+# ax[1].yaxis.set_major_formatter(ticker.FuncFormatter(lambda x,pos: format(x/1000,'1.0f')+'K'))
+
+plt.setp(ax, xlim=[-6,7], ylim=[0,500000])
+fig.supxlabel('Residual Time (s)', ha='center')
+fig.supylabel('Frequency', va='center', x=-.01)
+fig.suptitle('Residual',y=0.95)
+fig.savefig(outputpath+'RMS Split log.jpg' ,bbox_inches = 'tight')
 print(f"==save complete on {outputpath}")
 # %%
 

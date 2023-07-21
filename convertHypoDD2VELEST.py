@@ -17,10 +17,10 @@ from pathlib import Path
 #maxlat = 3
 
 #### SET THE FOLDER FOR WRITING OUTPUT FILES ################
-outdir = 'G:\\My Drive\\Tomography\\110523\\velest-sum-input\\'
+outdir = 'G:\\My Drive\\Tomography\\110723\\data-fase-indoburma-11072023-convert\\'
 
 #### SEARCH INPUT FILE FOR GIVEN FOLDER PATH ################
-sfiles = [outdir+'arrivals_sum_8P_wadatifilter_8P_150-10D_10PnS.dat']
+sfiles = [outdir+'phase-indoburma-3-fixed_filter5sta_plusehb_filter_sta_rms_stasiunfilter.dat']
 
 #### READ EACH FILE #########################################
 first = True

@@ -20,9 +20,9 @@ pd.options.mode.chained_assignment = None
 # selected station, phase, total station report, event rms value, magnitude value
 # =============================================================================
 
-path = 'G:\\My Drive\\Tomography\\250523\\output-RelocOnly-sul-runVelMod15052023_WadatiRelocFilterDamp500-25052023\\'
-fname = 'relocupdate_phase_sul_2022_8P_wadatifilter_sta-rms5.dat'
-staname = 'selected_sta_sul.txt'
+path = 'G:\\My Drive\\Tomography\\110723\\data-fase-indoburma-11072023-convert\\'
+fname = 'phase-indoburma-3-fixed_filter5sta_plusehb_filter_sta_rms.dat'
+staname = 'sta-usul-2-filter.txt'
 
 # baca data stasiun ==============================================
 stafile = pd.read_csv(path+staname, delim_whitespace = True,names = [i for i in range(12)])
@@ -90,7 +90,7 @@ for a in trange(len(idx)):
     
     #seleksi data berdasarkan jumlah laporan stasiun
     # if (len(tempdf) >= 1): #isi batas jumlah laporan untuk semua jenis fasa
-    if (len(tempdf[tempdf[3] == 'P']) >= 6): #isi batas jumlah laporan hanya P yang dihitung
+    if (len(tempdf[tempdf[3] == 'P']) >= 1): #isi batas jumlah laporan hanya P yang dihitung
         tempdf[2] = pd.to_numeric(df[2])
         tempdf[2] = tempdf[2].map(lambda x: '%2.1f' % x)
         tempdata = pd.concat([tempdata,tempdf])
@@ -104,9 +104,9 @@ df.sort_index(inplace = True)
 df.reset_index(inplace = True, drop = True)
 
 #output df
-df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_6P.dat')
+df2dat(df,evnum = 1, path = path, fname=Path(fname).stem+'_stasiunfilter.dat')
 print("== data filter")
-readeventphase(path+Path(fname).stem+'_6P.dat')
+readeventphase(path+Path(fname).stem+'_stasiunfilter.dat')
 
   #%%
 # ==================================================================

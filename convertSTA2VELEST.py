@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 from localfunction import *
 from pathlib import Path
 
-path = "G:\\My Drive\\Tomography\\110523\\velest-sum-input\\"
-inname = "sta_select_sum2_09052023.txt"
+path = "G:\\My Drive\\Tomography\\110723\\data-fase-indoburma-11072023\\"
+inname = "sta-usul-2-filter.txt"
 
 fin = open(path+inname) 
 baris = fin.readlines()
