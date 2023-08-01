@@ -11,8 +11,8 @@ from matplotlib.ticker import MultipleLocator, FormatStrFormatter, AutoMinorLoca
 from matplotlib.lines import Line2D
 from localfunction import *
 
-path = "G:\\My Drive\\Tomography\\120523\\velest-sum-110523\\"
-fname ="model_sum_arrivals_sum_8P_wadatifilter_8P_150-10D_10PnS_110523_vp.csv"
+path = "G:\\My Drive\\Tomography\\260723\\"
+fname ="model_indoburma_250723_vs.csv"
 # input from mod
 df = pd.read_csv(path+fname)
 depth = df['depth'][:-1].astype('float').to_list()
@@ -122,12 +122,12 @@ else:
     custom_lines = [Line2D([0], [0], color='black', linestyle='--', lw=1),
                     Line2D([0], [0], color='grey', lw=1),
                     Line2D([0], [0], color='blue', lw=1)]
-    ax.legend(custom_lines, ["initial", "iteration(s)", "final"],prop={'size': 8})
+    ax.legend(custom_lines, ["initial", "iteration(s)", "final"],prop={'size': 8}, loc='lower left')
 
 
 
 #image parameter
-ax.set_xlim([5,8.5])
+ax.set_xlim([3,6])
 ax.set_ylim([0,150])
 ax.xaxis.set_minor_locator(AutoMinorLocator())
 ax.xaxis.set_label_position('top') 
