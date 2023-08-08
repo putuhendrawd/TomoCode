@@ -79,6 +79,7 @@ for i, file in enumerate(files):
     print(f'success convert {Path(file).name}')
 # end of data cleaning and output
 
+print(f'program convert finish')
 # # check the shortest file length
 # for i,file in enumerate(files):
 #     with open(file, 'r') as f:
