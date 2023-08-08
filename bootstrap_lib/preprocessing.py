@@ -80,21 +80,3 @@ for i, file in enumerate(files):
 # end of data cleaning and output
 
 print(f'program convert finish')
-# # check the shortest file length
-# for i,file in enumerate(files):
-#     with open(file, 'r') as f:
-#         lines = len(f.readlines())
-#         if i == 0:
-#             min_length = lines
-#             min_length_file = Path(file).name
-#         else:
-#             if lines < min_length:
-#                 min_length = lines
-#                 min_length_file = Path(file).name
-#             else:
-#                 pass
-# print(f'minimum file length of {min_length} in {min_length_file} found')
-
-# # filter all data by using shortest file
-# # read the shortest file
-# base_file = np.loadtxt(path+min_length_file, usecols=(0,1,2,3))

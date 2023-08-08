@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
 from mpl_toolkits.basemap import Basemap
 
-path = "G:\\My Drive\\Tomography\\040823\\bootstrp-result-sul-13042023-04082023\\"
+path = "G:\\My Drive\\Tomography\\080823\\btstrp-sul-13042023-08082023\\"
 N = 50 #Number of Realization/Jumlah bootstrap sample
-M = 5000 #>= ID event terakhir
+M = 10421 #>= ID event terakhir
 hypo = np.loadtxt(path+'tomo0.reloc', usecols=(0,1,2,3))
 id = np.array([int(l)-1 for l in hypo[:,0]])
 hx = hypo[:,2]
@@ -57,27 +57,27 @@ for mm in id:
     lambda_, v = np.linalg.eig(cov)
     lambda2 = np.sqrt(lambda_)
     theta =np.rad2deg(np.arccos(v[0, 0]))
-   
+
     tempx = lambda2[0] * 111.11
     tempy = lambda2[1] * 111.11
     tempz = (lambdaz1[1] + lambdaz2[1])*0.5
 
     relative_error.write(str(tempx)+'\t'+str(tempy)+'\t'+str(tempz)+'\n')
 
-    ax.scatter(np.mean(x), np.mean(y), 0.5, edgecolors="blue", facecolor=None)
     ell = Ellipse(xy=(np.mean(x), np.mean(y)),
-                      width=lambda2[0]*1.96*2, height=lambda2[1]*1.96*2,
-                      angle=theta)
+                    width=lambda2[0]*2*2, height=lambda2[1]*2*2,
+                    angle=theta)
 
     ell.set_facecolor('none')
-    ell.set_edgecolor('b')
+    ell.set_edgecolor('k')
     ell.set_linewidth(0.5)
     ax.add_artist(ell)
+    ax.scatter(np.mean(x), np.mean(y), 0.5, edgecolors="blue", facecolor=None)
 
 
     #print(np.mean(x), np.mean(y),tempx,tempy,theta)
-    lebar=lambda2[0]*1.96*2*111.11
-    tinggi=lambda2[1]*1.96*2*111.11
+    # lebar=lambda2[0]*1.96*2*111.11
+    # tinggi=lambda2[1]*1.96*2*111.11
     #print(np.mean(x), np.mean(y),lebar,tinggi)
 
     ll += 1
@@ -92,18 +92,17 @@ lon_min=118.0
 lon_max=127.0
 lat_min=-7
 lat_max=5
-interval=0.5
+interval=1
 ax.set_xlim(lon_min, lon_max)
 ax.set_ylim(lat_min, lat_max)
 m = Basemap(llcrnrlat=lat_min,urcrnrlat=lat_max,\
             llcrnrlon=lon_min,urcrnrlon=lon_max,lat_ts=interval,resolution='h', ax=ax)
 m.drawcoastlines(linewidth=0.5)
-m.fillcontinents(color='none',lake_color='none')
+m.fillcontinents(color='lightgray',lake_color='white')
 m.drawmapboundary(fill_color='white')
 m.drawparallels(np.arange(lat_min,lat_max ,interval),labels=[1,0,0,0], linewidth=0.0)
-m.drawmeridians(np.arange(lon_min,lon_max),labels=[0,0,0,1], linewidth=0.0)
+m.drawmeridians(np.arange(lon_min,lon_max ,interval),labels=[0,0,0,1], linewidth=0.0)
 # fig.savefig(path+'output/Top_View_bootstrap1.png', dpi=300, bbox_inches='tight')
 # fig.savefig('output/Top_View_bootstrap1.eps', dpi=2000, bbox_inches='tight')
 
 plt.show()
-
