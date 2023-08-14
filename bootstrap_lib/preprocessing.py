@@ -17,7 +17,7 @@ import os
 
 
 # configuration 
-path = 'G:\\My Drive\\Tomography\\040823\\bootstrp-result-sul-13042023-04082023\\'
+path = 'G:\\My Drive\\Tomography\\080823\\btstrp-sul-13042023-08082023\\'
 # end of configuration
 
 # argument parser
