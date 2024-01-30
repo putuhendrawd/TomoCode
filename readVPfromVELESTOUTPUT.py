@@ -8,15 +8,15 @@ import pandas as pd
 from pathlib import Path
 from localfunction import *
 
-path = "G:\\My Drive\\Tomography\\220423\\tes-velest-sul-22042023\\"
+path = "G:\\My Drive\\Tomography\\170823\\velest-indoburma-16082023\\"
 input_path = "output\\"
-fname = "model_sulawesi.OUT"
+fname = "model_indoburma_160823.OUT"
 
 
 depth = []
 initial = []
 
-fin = open(path+'velocity_p.mod')
+fin = open(path+fname)
 #skip row 1 and 2
 readl = fin.readlines()
 #read

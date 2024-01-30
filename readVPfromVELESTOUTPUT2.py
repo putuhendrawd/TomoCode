@@ -8,8 +8,8 @@ import pandas as pd
 from pathlib import Path
 from localfunction import *
 
-path = "G:\\My Drive\\Tomography\\260723\\"
-fname = "model_indoburma_250723.txt"
+path = "G:\\My Drive\\Tomography\\180823\\velest-indoburma-17082023\\"
+fname = "model_indoburma_160823_damp25.OUT"
 
 # init
 depth = []

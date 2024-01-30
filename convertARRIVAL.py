@@ -20,8 +20,8 @@ def ctime(param):
     return(dt.strptime(param,"%H:%M:%S.%f"))
     
 # import path and data
-path = "G:\\My Drive\\IUGG Seminar\\data\\data_poster\\"
-arrival_fname = "arrivals.txt"
+path = "G:/My Drive/Tomography/121223/"
+arrival_fname = "arrivals-cile.txt"
 station_fname = "etc/indonesia_station.txt"
 output_type = "pha" #stead (STEAD Dataset CSV) or pha (hypodd-phase)
 
@@ -29,9 +29,11 @@ output_type = "pha" #stead (STEAD Dataset CSV) or pha (hypodd-phase)
 if os.path.isfile(path+Path(arrival_fname).stem+".csv") and output_type == "stead":
     print(f"output file exist! \nplease delete {path+Path(arrival_fname).stem+'.csv'}")
     exit()
+    # return print("aborting!")
 elif os.path.isfile(path+Path(arrival_fname).stem+".dat") and output_type == "pha":
     print(f"output file exist! \nplease delete {path+Path(arrival_fname).stem+'.dat'}")
     exit()
+    # return print("aborting!")
 
 # read station
 sta_dict = pd.read_csv(station_fname, sep="\t",names=['station','lat','lon','elevation']).set_index('station').to_dict('index')
@@ -39,8 +41,7 @@ sta_dict = pd.read_csv(station_fname, sep="\t",names=['station','lat','lon','ele
 # define dataframe columns for STEAD format
 if output_type == "stead":
     # adding s_travel_sec 
-    df = pd.DataFrame(columns= [
-                'network_code',
+    columns_ = ['network_code',
                 'receiver_code',
                 'receiver_type',
                 'receiver_latitude',
@@ -76,7 +77,8 @@ if output_type == "stead":
                 'coda_end_sample',
                 'trace_start_time',
                 'trace_category',
-                'trace_name'])
+                'trace_name']
+    df = pd.DataFrame(columns= columns_)
     df.to_csv(path+Path(arrival_fname).stem+".csv",mode='a', header=True, index=False)
 # define outputfile for pha format
 elif output_type == "pha":
@@ -119,7 +121,9 @@ for i, line in enumerate(lines):
     # skip header
     if "for 1 event:" in line.lower():
         continue
-    
+    # accomodate missing pick
+    if "missing pick" in line.lower() or "##" in line.lower():
+        continue
     # init trigger
     if "event:" in line.lower():
         trigger_d = change_trigger(trigger_d,"event")
@@ -167,7 +171,7 @@ for i, line in enumerate(lines):
             if "fixed" in line.lower():
                 depth_uncertainty_km_ = 0
             else:
-                depth_uncertainty_km_ = line.split()[-2]
+                depth_uncertainty_km_ = line.split()[4]
         elif "azimuthal gap" in line.lower():
             azgap_ = line.split()[2]
         elif "residual rms" in line.lower():
@@ -332,11 +336,12 @@ for i, line in enumerate(lines):
         #save data stead
         if output_type == "stead":
             df = df.replace('',np.nan).groupby('receiver_code', as_index=False).first().fillna('')
-            df.to_csv(path+Path(arrival_fname).stem+".csv",mode='a', header=False, index=False)
+            df[columns_].to_csv(path+Path(arrival_fname).stem+".csv",mode='a', header=False, index=False)
             # pruge df
             df = df[0:0]
         #save data pha
         else:
+            df = df[~df['year'].isna()]
             df.reset_index(inplace = True, drop = True)
             df2dat(df,evnum = 0, path = path, fname=Path(arrival_fname).stem+'.dat', mode = 'a', verbose=False)
             # pruge df

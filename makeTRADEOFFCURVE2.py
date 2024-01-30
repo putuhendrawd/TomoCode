@@ -19,8 +19,8 @@ import statistics
 
 #initializaion
 df = pd.DataFrame([],columns=['model_var','data_var','damp'])
-damp = [10,30,50,70,100,120,150,180,220,260,300,400,500]
-parent = 'G:\\My Drive\\Tomography\\240523\\output-trdoff-sul-runVelMod15052023_WadatiRelocFilterDamp220-22052023'
+damp = [10,20,30,40,60,100,150,200,300,500]
+parent = 'G:\\My Drive\\Tomography\\160124\\autoSmoth-sul-damp100-15012024'
 varvariable = 'weighted' # 'absolute' or 'weighted'
 #read 
 with open(parent+'\\MOD') as modf:
@@ -30,10 +30,14 @@ with open(parent+'\\MOD') as modf:
     lendepth=int(mod[3])
 
 for z in damp:
-    path = parent+'\\Output_Files_damp_{}'.format(z)
-    # path = parent
+    #model 1
+    # path = parent+'\\Output_Files_damp_{}'.format(z)
+    # filevp = path+f'\\Vp_model.dat'
+    #model 2
+    path = parent
+    filevp = path+f'\\Vp_model-{z}.dat'
+    
     #load data
-    filevp = path+f'\\Vp_model.dat'
     datavp = np.loadtxt(filevp)
     varperlayer=[]
     for i in range(lendepth):

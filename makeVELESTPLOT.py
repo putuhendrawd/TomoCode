@@ -11,8 +11,8 @@ from matplotlib.ticker import MultipleLocator, FormatStrFormatter, AutoMinorLoca
 from matplotlib.lines import Line2D
 from localfunction import *
 
-path = "G:\\My Drive\\Tomography\\260723\\"
-fname ="model_indoburma_250723_vs.csv"
+path = "G:\\My Drive\\Tomography\\180823\\velest-indoburma-17082023\\"
+fname ="model_indoburma_160823_damp25_vp.csv"
 # input from mod
 df = pd.read_csv(path+fname)
 depth = df['depth'][:-1].astype('float').to_list()
@@ -127,8 +127,8 @@ else:
 
 
 #image parameter
-ax.set_xlim([3,6])
-ax.set_ylim([0,150])
+ax.set_xlim([5.5,10])
+ax.set_ylim([0,250])
 ax.xaxis.set_minor_locator(AutoMinorLocator())
 ax.xaxis.set_label_position('top') 
 ax.xaxis.set_tick_params(top=True, direction='in',which = 'both')

@@ -17,10 +17,10 @@ from localfunction import *
 from sklearn.metrics import r2_score
 pd.options.mode.chained_assignment = None
 
-path = "G:\\My Drive\\IUGG Seminar\\data\\data_poster\\"
+path = "G:\\My Drive\\Tomography\\280823\\data-fase-indoburma-11072023\\"
 outputpath = path
-fname = 'arrivals_ttdistfilter.dat'
-staname = 'indonesia_station_temporary_cianjur.txt'
+fname = 'phase-indoburma-3-fixed_filter5sta_plusehb_filter_sta_rms_stasiunfilter.dat'
+staname = 'sta-usul-2-filter.txt'
 
 #%%
 # =============================================================================
@@ -147,11 +147,11 @@ df.to_csv(outputpath+f'temppha_{Path(fname).stem}.txt',sep = '\t', index = None)
 # del(tempdf,tp,tstp,i,dist,a,bar)
 
 #cleaning wadati
-# wadati = wadati[wadati['tp'] > 0]
-# wadati = wadati[wadati['tp'] < 400]
+wadati = wadati[wadati['tp'] > 0]
+wadati = wadati[wadati['tp'] < 500]
 wadati = wadati[wadati['dist_from_event'] != '#NA']
-# wadati = wadati[wadati['ts-tp']>0]
-# wadati = wadati[wadati['ts-tp']<180]
+wadati = wadati[wadati['ts-tp']>0]
+wadati = wadati[wadati['ts-tp']<350]
 
 #output wadati file
 wadati.to_csv(outputpath+f'tempwadati_{Path(fname).stem}.txt',sep = '\t', index = None)
@@ -196,8 +196,8 @@ fig, ax = plt.subplots(figsize = (5,5), dpi=1200)
 ax.set_xlabel('tp (s)')
 ax.set_ylabel('ts-tp (s)')
 #ax.set_title('Wadati Diagram')
-ax.set_xlim([0,40])
-ax.set_ylim([-2,30])
+ax.set_xlim([0,500])
+ax.set_ylim([-2,350])
 #plot scatter data
 ax.scatter(wadati['tp'],wadati['ts-tp'])
 #sort data for antibacktracking plot
@@ -211,9 +211,9 @@ ax.plot(wadatis['tp'],predict(wadatis['tp']),'r--')
 # ax.plot(wadatis['tp'],predictup(wadatis['tp']),'r-')
 # ax.plot(wadatis['tp'],predictdown(wadatis['tp']),'r-')
 #add additional legend data
-ax.text(27, 5, 'y = {:.4f}x{:+.4f}'.format(slope,intercept), fontsize=14)
-ax.text(27, 3, 'Vp/Vs = {:.4f}'.format(slope+1), fontsize=14)
-ax.text(27, 1, f'R$^2$ = {r2:.3f}', fontsize=14)
+ax.text(300, 100, 'y = {:.4f}x{:+.4f}'.format(slope,intercept), fontsize=14)
+ax.text(300, 75, 'Vp/Vs = {:.4f}'.format(slope+1), fontsize=14)
+ax.text(300, 50, f'R$^2$ = {r2:.3f}', fontsize=14)
 #add-on
 fig.set_figheight(5)
 fig.set_figwidth(10)
@@ -235,8 +235,8 @@ ts_ax = ax.hist2d(wadati['dist_from_event'],wadati['ts'],bins=[100,40],norm=colo
 
 ax.set_xlabel('Epicentral Distance (km)')
 ax.set_ylabel('Travel Time (s)')
-ax.set_xlim([-2,1000])
-ax.set_ylim([-2,250])
+ax.set_xlim([-2,4000])
+ax.set_ylim([-2,800])
 fig.set_figheight(5)
 fig.set_figwidth(10)
 cbax1 = inset_axes(ax, width="30%", height="3%", loc=2,bbox_to_anchor=(0.05, 0, 1, 1),bbox_transform=ax.transAxes)
@@ -261,17 +261,21 @@ slope, intercept = np.polyfit(wadati['dist_from_event'].astype(float),wadati['tp
 
 #plot
 fig, ax = plt.subplots(figsize = (5,5), dpi=1200)
-ax.scatter(wadati['dist_from_event'],wadati['tp'],color='blue',label="P-phase",edgecolors='black')
+ax.scatter(wadati['dist_from_event'],wadati['tp'],color='blue',label="P-phase",edgecolors='black',s=1)
 # ax.plot(wadati['dist_from_event'],slope*wadati['dist_from_event']+intercept,'r--')
 # ax.plot(wadati['dist_from_event'],(slope*wadati['dist_from_event']+intercept)+(0.1*(slope*wadati['dist_from_event']+intercept)),'g--')
 # ax.plot(wadati['dist_from_event'],(slope*wadati['dist_from_event']+intercept)-(0.1*(slope*wadati['dist_from_event']+intercept)),'g--')
-ax.scatter(wadati['dist_from_event'],wadati['ts'],color='red',label="S-phase",edgecolors='black')
+ax.scatter(wadati['dist_from_event'],wadati['ts'],color='red',label="S-phase",edgecolors='black',s=1)
 
 ax.set_xlabel('Epicentral Distance (km)')
 ax.set_ylabel('Travel Time (s)')
-ax.set_xlim([-2,200])
-ax.set_ylim([-2,80])
-ax.legend()
+ax.set_xlim([-2,4000])
+ax.set_ylim([-2,800])
+
+# ax.legend()
+ax.text(wadati['dist_from_event'].max()+50, wadati['tp'].max(), f'P', fontsize=20)
+ax.text(wadati['dist_from_event'].max()+50, wadati['ts'].max(), f'S', fontsize=20)
+
 fig.set_figheight(5)
 fig.set_figwidth(10)
 fig.savefig(outputpath+'Time Travel Diagram Bubble {}.jpg'.format(Path(fname).stem))
